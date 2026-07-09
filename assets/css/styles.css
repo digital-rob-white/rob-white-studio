@@ -154,6 +154,11 @@ h1 {
   text-transform: uppercase;
 }
 
+.hero h1 {
+  font-size: clamp(3.5rem, 8vw, 10rem);
+  overflow-wrap: break-word;
+}
+
 h2 {
   max-width: 880px;
   margin-bottom: 0;
@@ -503,6 +508,12 @@ h3 {
 
   .journal-sidebar {
     position: static;
+  }
+}
+
+@media (max-width: 1180px) {
+  .hero.section-grid {
+    grid-template-columns: 1fr;
   }
 }
 
