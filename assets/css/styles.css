@@ -155,7 +155,7 @@ h1 {
 }
 
 .hero h1 {
-  font-size: clamp(3.5rem, 8vw, 10rem);
+  font-size: clamp(3.5rem, 6.5vw, 7rem);
   overflow-wrap: break-word;
 }
 
