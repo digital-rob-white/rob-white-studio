@@ -8,6 +8,7 @@
       name="description"
       content="Rob White Studio is an independent artist studio for artwork, design, craftsmanship, framing, printing, CNC fabrication, and specialty projects."
     >
+    <link rel="icon" href="assets/images/favicon/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/styles.css">
   </head>
   <body>
@@ -46,7 +47,7 @@
         </div>
       </section>
 
-      <section class="intro-band">
+      <section class="intro-band color-band color-band-ink">
         <p>
           Rob White Studio brings more than 25 years of artwork, design, and
           craftsmanship into one working practice. The studio moves between
@@ -58,18 +59,18 @@
       <section class="section-grid ruled-section" id="about">
         <div>
           <p class="eyebrow">About</p>
-          <h2>A studio built around making.</h2>
+          <h2>A working studio for art, objects, and custom production.</h2>
         </div>
         <div class="body-copy">
           <p>
-            The work is independent, material-led, and precise. Projects can
-            begin as an artwork, a practical studio need, a fabrication problem,
-            or a custom object that requires judgment across several disciplines.
+            The practice is independent, material-led, and precise. Projects can
+            begin as an artwork, a studio problem, a fabrication challenge, or a
+            custom object that needs an eye for proportion, structure, and finish.
           </p>
           <p>
-            Version 0.2 of this site is intentionally simple: a public studio
-            presence now, with a structure that can grow into project archives,
-            estimating tools, client workflows, and studio management later.
+            This site is the public front door for the studio now, with a
+            structure that can grow into project archives, estimates, client
+            workflows, and studio management tools over time.
           </p>
         </div>
       </section>
@@ -82,25 +83,49 @@
 
         <div class="work-grid">
           <article class="work-card">
-            <div class="work-image work-image-one" aria-hidden="true"></div>
+            <figure class="work-image work-image-one" data-fallback="Painting image placeholder">
+              <img src="assets/images/artwork/painting-01.jpg" alt="Original painting by Rob White Studio">
+            </figure>
             <p class="eyebrow">Painting</p>
             <h3>Original Works</h3>
             <p>Compositions developed through surface, restraint, gesture, and studio process.</p>
           </article>
 
           <article class="work-card">
-            <div class="work-image work-image-two" aria-hidden="true"></div>
+            <figure class="work-image work-image-two" data-fallback="Sculpture image placeholder">
+              <img src="assets/images/artwork/sculpture-01.jpg" alt="Sculpture or dimensional work by Rob White Studio">
+            </figure>
             <p class="eyebrow">Object</p>
             <h3>Sculpture</h3>
             <p>Dimensional work informed by construction, material behavior, and finish.</p>
           </article>
 
           <article class="work-card">
-            <div class="work-image work-image-three" aria-hidden="true"></div>
+            <figure class="work-image work-image-three" data-fallback="Process image placeholder">
+              <img src="assets/images/artwork/process-01.jpg" alt="Studio process and material documentation">
+            </figure>
             <p class="eyebrow">Studio</p>
             <h3>Process</h3>
             <p>Documentation of tests, assemblies, notes, tools, and evolving bodies of work.</p>
           </article>
+        </div>
+
+        <div class="photo-note">
+          <p class="eyebrow">Photo Uploads</p>
+          <h3>How to add artwork photos</h3>
+          <p>
+            Export web-sized images, add them to <code>assets/images/artwork/</code>,
+            and point the artwork cards to those filenames. A static site can
+            preview a selected image, but permanent browser uploads need a
+            backend or a service such as a CMS, GitHub upload flow, or cloud storage.
+          </p>
+          <label class="upload-preview">
+            <span>Preview an image locally</span>
+            <input type="file" accept="image/*" data-image-preview>
+          </label>
+          <div class="preview-frame" data-preview-frame>
+            <span>Select an image to preview before adding it to the repo.</span>
+          </div>
         </div>
       </section>
 
@@ -144,7 +169,7 @@
         </div>
       </section>
 
-      <section class="section-grid ruled-section" id="journal-preview">
+      <section class="section-grid ruled-section color-band color-band-blue" id="journal-preview">
         <div>
           <p class="eyebrow">Journal</p>
           <h2>Notes from the studio floor.</h2>
@@ -166,6 +191,10 @@
         <p class="eyebrow">Contact</p>
         <h2>Discuss artwork, framing, printing, fabrication, or a specialty project.</h2>
         <a class="button-link" href="mailto:rob@robwhitestudio.com">rob@robwhitestudio.com</a>
+        <div class="social-links" aria-label="Studio links">
+          <a href="https://www.instagram.com/robwhitestudio/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.etsy.com/shop/robwhitestudio" target="_blank" rel="noopener">Etsy</a>
+        </div>
       </section>
     </main>
 

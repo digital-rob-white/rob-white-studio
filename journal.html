@@ -8,6 +8,7 @@
       name="description"
       content="Studio notes, project documentation, artwork process, materials, and business development from Rob White Studio."
     >
+    <link rel="icon" href="assets/images/favicon/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/styles.css">
   </head>
   <body>
@@ -32,9 +33,9 @@
     </header>
 
     <main id="main">
-      <section class="journal-hero">
+      <section class="journal-hero color-band color-band-ochre">
         <p class="eyebrow">Journal</p>
-        <h1>Studio notes, process records, materials, and the business of building the practice.</h1>
+        <h1>Studio notes, process records, material tests, and the business of building the practice.</h1>
       </section>
 
       <section class="journal-layout ruled-section">
@@ -48,8 +49,21 @@
         </aside>
 
         <div class="journal-list">
-          <article class="journal-entry" id="studio-notes">
-            <p class="meta">Studio Notes / Version 0.2</p>
+          <div class="journal-tools" aria-label="Journal filters">
+            <p class="eyebrow">Visibility</p>
+            <button type="button" class="filter-button is-active" data-journal-filter="all">All</button>
+            <button type="button" class="filter-button" data-journal-filter="public">Public</button>
+            <button type="button" class="filter-button" data-journal-filter="internal">Internal</button>
+          </div>
+
+          <p class="internal-note">
+            Internal entries are only visually filtered on this static site. Do
+            not publish private client details, pricing, passwords, or sensitive
+            notes here until the site has real authentication.
+          </p>
+
+          <article class="journal-entry" id="studio-notes" data-visibility="public">
+            <p class="meta">Public / Studio Notes / Version 0.3</p>
             <h2>Establishing the studio website</h2>
             <p>
               The first public version gives Rob White Studio a clear home:
@@ -57,11 +71,11 @@
               structure is intentionally plain so it can become a deeper archive
               and management platform without being rebuilt from scratch.
             </p>
-            <span class="entry-status">Draft structure</span>
+            <span class="entry-status entry-status-public">Public</span>
           </article>
 
-          <article class="journal-entry" id="project-documentation">
-            <p class="meta">Project Documentation</p>
+          <article class="journal-entry" id="project-documentation" data-visibility="internal">
+            <p class="meta">Internal / Project Documentation</p>
             <h2>Documenting estimates, builds, and completed work</h2>
             <p>
               Future entries can record client briefs, measurements, materials,
@@ -69,40 +83,40 @@
               creates a practical record for repeat projects and a polished
               archive for selected public work.
             </p>
-            <span class="entry-status">Draft structure</span>
+            <span class="entry-status entry-status-internal">Internal draft</span>
           </article>
 
-          <article class="journal-entry" id="artwork-process">
-            <p class="meta">Artwork Process</p>
+          <article class="journal-entry" id="artwork-process" data-visibility="public">
+            <p class="meta">Public / Artwork Process</p>
             <h2>From material tests to finished work</h2>
             <p>
               Process notes can track painting studies, sculptural assemblies,
               surface experiments, failed tests, revisions, and decisions that
               shape the finished work.
             </p>
-            <span class="entry-status">Draft structure</span>
+            <span class="entry-status entry-status-public">Public</span>
           </article>
 
-          <article class="journal-entry" id="materials">
-            <p class="meta">Materials</p>
+          <article class="journal-entry" id="materials" data-visibility="internal">
+            <p class="meta">Internal / Materials</p>
             <h2>Wood, canvas, ink, substrate, hardware</h2>
             <p>
               The materials section can become a working reference for hardwood
               stock, finishes, print media, canvas, fasteners, machine settings,
               and supplier notes.
             </p>
-            <span class="entry-status">Draft structure</span>
+            <span class="entry-status entry-status-internal">Internal draft</span>
           </article>
 
-          <article class="journal-entry" id="business-development">
-            <p class="meta">Business Development</p>
+          <article class="journal-entry" id="business-development" data-visibility="internal">
+            <p class="meta">Internal / Business Development</p>
             <h2>Growing the studio system</h2>
             <p>
               Business notes can hold plans for pricing, estimating, CRM,
               scheduling, production workflows, content strategy, and the future
               studio management platform.
             </p>
-            <span class="entry-status">Draft structure</span>
+            <span class="entry-status entry-status-internal">Internal draft</span>
           </article>
         </div>
       </section>
