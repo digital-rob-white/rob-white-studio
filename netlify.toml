@@ -1,0 +1,6 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  ASTRO_TELEMETRY_DISABLED = "1"

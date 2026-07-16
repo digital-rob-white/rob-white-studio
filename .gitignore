@@ -1,3 +1,9 @@
 work/
 outputs/
 .DS_Store
+node_modules/
+.pnpm-store/
+dist/
+.astro/
+.env
+.env.*

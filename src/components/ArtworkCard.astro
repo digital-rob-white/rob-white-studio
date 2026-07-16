@@ -1,0 +1,12 @@
+---
+const { imageClass, imageSrc, imageAlt, fallback, eyebrow, title, text } = Astro.props;
+---
+
+<article class="work-card">
+  <figure class={`work-image ${imageClass}`} data-fallback={fallback}>
+    <img src={imageSrc} alt={imageAlt} />
+  </figure>
+  <p class="eyebrow">{eyebrow}</p>
+  <h3>{title}</h3>
+  <p>{text}</p>
+</article>

@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArtworkCard from "../components/ArtworkCard.astro";
+
+const artworkCards = [
+  {
+    imageClass: "work-image-one",
+    imageSrc: "/assets/images/artwork/painting-01.jpg",
+    imageAlt: "Original painting by Rob White Studio",
+    fallback: "Painting image placeholder",
+    eyebrow: "Painting",
+    title: "Original Works",
+    text: "Compositions developed through surface, restraint, gesture, and studio process."
+  },
+  {
+    imageClass: "work-image-two",
+    imageSrc: "/assets/images/artwork/sculpture-01.jpg",
+    imageAlt: "Sculpture or dimensional work by Rob White Studio",
+    fallback: "Sculpture image placeholder",
+    eyebrow: "Object",
+    title: "Sculpture",
+    text: "Dimensional work informed by construction, material behavior, and finish."
+  },
+  {
+    imageClass: "work-image-three",
+    imageSrc: "/assets/images/artwork/process-01.jpg",
+    imageAlt: "Studio process and material documentation",
+    fallback: "Process image placeholder",
+    eyebrow: "Studio",
+    title: "Process",
+    text: "Documentation of tests, assemblies, notes, tools, and evolving bodies of work."
+  }
+];
+---
+
+<BaseLayout activePage="home">
+  <section class="hero section-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Independent artist studio</p>
+      <h1>Artwork, design, and fabrication shaped by hand, material, and time.</h1>
+    </div>
+    <div class="hero-panel" aria-label="Studio capabilities">
+      <div class="panel-line">Original paintings</div>
+      <div class="panel-line">Sculpture and object work</div>
+      <div class="panel-line">Custom hardwood framing</div>
+      <div class="panel-line">Roland VG-540 printing</div>
+      <div class="panel-line">CNC fabrication</div>
+    </div>
+  </section>
+
+  <section class="intro-band color-band color-band-ink">
+    <p>
+      Rob White Studio brings more than 25 years of artwork, design, and
+      craftsmanship into one working practice. The studio moves between
+      painting, sculpture, framing, printing, CNC work, and specialty builds
+      with the same attention to proportion, surface, structure, and finish.
+    </p>
+  </section>
+
+  <section class="section-grid ruled-section" id="about">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2>A working studio for art, objects, and custom production.</h2>
+    </div>
+    <div class="body-copy">
+      <p>
+        The practice is independent, material-led, and precise. Projects can
+        begin as an artwork, a studio problem, a fabrication challenge, or a
+        custom object that needs an eye for proportion, structure, and finish.
+      </p>
+      <p>
+        This site is the public front door for the studio now, with a structure
+        that can grow into project archives, estimates, client workflows, and
+        studio management tools over time.
+      </p>
+    </div>
+  </section>
+
+  <section class="ruled-section" id="artwork">
+    <div class="section-heading">
+      <p class="eyebrow">Artwork</p>
+      <h2>Paintings, sculpture, and material investigations.</h2>
+    </div>
+
+    <div class="work-grid">
+      {artworkCards.map((card) => <ArtworkCard {...card} />)}
+    </div>
+
+    <div class="photo-note">
+      <p class="eyebrow">Photo Uploads</p>
+      <h3>How to add artwork photos</h3>
+      <p>
+        Export web-sized images, add them to <code>assets/images/artwork/</code>,
+        and point the artwork cards to those filenames. A static site can
+        preview a selected image, but permanent browser uploads need a backend
+        or a service such as a CMS, GitHub upload flow, or cloud storage.
+      </p>
+      <label class="upload-preview">
+        <span>Preview an image locally</span>
+        <input type="file" accept="image/*" data-image-preview />
+      </label>
+      <div class="preview-frame" data-preview-frame>
+        <span>Select an image to preview before adding it to the repo.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ruled-section" id="services">
+    <div class="section-heading">
+      <p class="eyebrow">Services</p>
+      <h2>Studio capabilities for artwork, objects, and custom production.</h2>
+    </div>
+
+    <div class="service-list">
+      <article>
+        <span>01</span>
+        <h3>Original Paintings</h3>
+        <p>Commissioned and available works, with attention to scale, surface, and placement.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Sculpture</h3>
+        <p>Objects, dimensional studies, display pieces, and material-driven custom work.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Custom Hardwood Framing</h3>
+        <p>Handcrafted frames, canvas stretching, finishing, and artwork presentation.</p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>Roland VG-540 Printing</h3>
+        <p>Large-format print production for studio, artwork, signage, and specialty surfaces.</p>
+      </article>
+      <article>
+        <span>05</span>
+        <h3>CNC Fabrication</h3>
+        <p>Cutting, routing, prototyping, jigs, panels, and precise repeatable components.</p>
+      </article>
+      <article>
+        <span>06</span>
+        <h3>Specialty Projects</h3>
+        <p>Hybrid jobs that combine design, fabrication, finishing, installation, and problem solving.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-grid ruled-section color-band color-band-blue" id="journal-preview">
+    <div>
+      <p class="eyebrow">Journal</p>
+      <h2>Notes from the studio floor.</h2>
+    </div>
+    <div class="journal-preview">
+      <article>
+        <p class="meta">Studio Notes</p>
+        <h3>Building the public studio archive</h3>
+        <p>
+          A place for process notes, project documentation, materials, pricing
+          systems, and business development as the platform grows.
+        </p>
+      </article>
+      <a class="text-link" href="/journal">Read the journal</a>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <p class="eyebrow">Contact</p>
+    <h2>Discuss artwork, framing, printing, fabrication, or a specialty project.</h2>
+    <a class="button-link" href="mailto:rob@robwhitestudio.com">rob@robwhitestudio.com</a>
+    <div class="social-links" aria-label="Studio links">
+      <a href="https://www.instagram.com/robwhitestudio/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.etsy.com/shop/robwhitestudio" target="_blank" rel="noopener">Etsy</a>
+    </div>
+  </section>
+</BaseLayout>

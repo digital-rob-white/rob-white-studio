@@ -1,0 +1,32 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+const {
+  title = "Rob White Studio",
+  description = "Rob White Studio is an independent artist studio for artwork, design, craftsmanship, framing, printing, CNC fabrication, and specialty projects.",
+  activePage = "home",
+  footerLabel = "Artwork / Design / Craftsmanship"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/assets/images/favicon/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header activePage={activePage} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer label={footerLabel} />
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+</html>

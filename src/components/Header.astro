@@ -1,0 +1,29 @@
+---
+const { activePage = "home" } = Astro.props;
+
+const navItems = [
+  { href: "/", label: "Home", key: "home" },
+  { href: "/#artwork", label: "Artwork", key: "artwork" },
+  { href: "/#services", label: "Services", key: "services" },
+  { href: "/journal", label: "Journal", key: "journal" },
+  { href: "/#contact", label: "Contact", key: "contact" }
+];
+---
+
+<header class="site-header" data-site-header>
+  <a class="brand-mark" href="/" aria-label="Rob White Studio home">
+    <img src="/assets/images/rob-white-studio-logo.png" alt="Rob White Studio" />
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+    <span>Menu</span>
+  </button>
+
+  <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+    {navItems.map((item) => (
+      <a href={item.href} aria-current={activePage === item.key ? "page" : undefined}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>

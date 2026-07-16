@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const description = "Studio notes, project documentation, artwork process, materials, and business development from Rob White Studio.";
+---
+
+<BaseLayout title="Journal | Rob White Studio" description={description} activePage="journal" footerLabel="Journal / Process / Archive">
+  <section class="journal-hero color-band color-band-ochre">
+    <p class="eyebrow">Journal</p>
+    <h1>Studio notes, process records, material tests, and the business of building the practice.</h1>
+  </section>
+
+  <section class="journal-layout ruled-section">
+    <aside class="journal-sidebar" aria-label="Journal categories">
+      <p class="eyebrow">Categories</p>
+      <a href="#studio-notes">Studio Notes</a>
+      <a href="#project-documentation">Project Documentation</a>
+      <a href="#artwork-process">Artwork Process</a>
+      <a href="#materials">Materials</a>
+      <a href="#business-development">Business Development</a>
+    </aside>
+
+    <div class="journal-list">
+      <div class="journal-tools" aria-label="Journal filters">
+        <p class="eyebrow">Visibility</p>
+        <button type="button" class="filter-button is-active" data-journal-filter="all">All</button>
+        <button type="button" class="filter-button" data-journal-filter="public">Public</button>
+        <button type="button" class="filter-button" data-journal-filter="internal">Internal</button>
+      </div>
+
+      <p class="internal-note">
+        Internal entries are only visually filtered on this static site. Do not
+        publish private client details, pricing, passwords, or sensitive notes
+        here until the site has real authentication.
+      </p>
+
+      <article class="journal-entry" id="studio-notes" data-visibility="public">
+        <p class="meta">Public / Studio Notes / Version 0.3</p>
+        <h2>Establishing the studio website</h2>
+        <p>
+          The first public version gives Rob White Studio a clear home: one
+          place for artwork, services, contact, and ongoing notes. The
+          structure is intentionally plain so it can become a deeper archive
+          and management platform without being rebuilt from scratch.
+        </p>
+        <span class="entry-status entry-status-public">Public</span>
+      </article>
+
+      <article class="journal-entry" id="project-documentation" data-visibility="internal">
+        <p class="meta">Internal / Project Documentation</p>
+        <h2>Documenting estimates, builds, and completed work</h2>
+        <p>
+          Future entries can record client briefs, measurements, materials,
+          fabrication steps, install notes, invoices, and final images. This
+          creates a practical record for repeat projects and a polished archive
+          for selected public work.
+        </p>
+        <span class="entry-status entry-status-internal">Internal draft</span>
+      </article>
+
+      <article class="journal-entry" id="artwork-process" data-visibility="public">
+        <p class="meta">Public / Artwork Process</p>
+        <h2>From material tests to finished work</h2>
+        <p>
+          Process notes can track painting studies, sculptural assemblies,
+          surface experiments, failed tests, revisions, and decisions that
+          shape the finished work.
+        </p>
+        <span class="entry-status entry-status-public">Public</span>
+      </article>
+
+      <article class="journal-entry" id="materials" data-visibility="internal">
+        <p class="meta">Internal / Materials</p>
+        <h2>Wood, canvas, ink, substrate, hardware</h2>
+        <p>
+          The materials section can become a working reference for hardwood
+          stock, finishes, print media, canvas, fasteners, machine settings,
+          and supplier notes.
+        </p>
+        <span class="entry-status entry-status-internal">Internal draft</span>
+      </article>
+
+      <article class="journal-entry" id="business-development" data-visibility="internal">
+        <p class="meta">Internal / Business Development</p>
+        <h2>Growing the studio system</h2>
+        <p>
+          Business notes can hold plans for pricing, estimating, CRM,
+          scheduling, production workflows, content strategy, and the future
+          studio management platform.
+        </p>
+        <span class="entry-status entry-status-internal">Internal draft</span>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
