@@ -50,6 +50,15 @@ Notes:
 
 Goal: migrate the existing static website into Astro without redesigning it.
 
+Status: complete.
+
+Completed:
+
+- July 16, 2026: Astro migration deployed to Netlify.
+- `robwhitestudio.com` now serves the Astro build.
+- Netlify is the production host for the public website.
+- GitHub Pages is no longer the production host for `robwhitestudio.com`.
+
 Scope:
 
 - Create an Astro project structure.
@@ -248,11 +257,11 @@ Potential future work:
 
 ## Immediate Next Tasks
 
-1. Create `docs/app-architecture.md`.
-2. Create `docs/supabase-schema.sql`.
-3. Decide whether the Astro migration happens before or after the first schema draft.
-4. Keep current public site stable while platform work begins in parallel.
+1. Add Supabase environment scaffolding.
+2. Add Supabase client/server helpers.
+3. Build the first `/studio/login` and `/studio` shell.
+4. Keep public site stable while Studio platform work begins in parallel.
 
 Recommended next step:
 
-- Create `docs/app-architecture.md` before writing code for Astro or Supabase.
+- Build Supabase scaffolding and the first private Studio shell.

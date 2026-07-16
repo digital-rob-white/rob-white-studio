@@ -20,6 +20,19 @@ The long-term architecture should keep a clear separation between:
 
 This separation is correct and should guide future implementation decisions.
 
+### Deployment Milestone
+
+July 16, 2026: Astro migration deployed to Netlify;
+`robwhitestudio.com` now serves the Astro build.
+
+The current production delivery chain is:
+
+- Cloudflare DNS
+- Netlify hosting/builds
+- Astro static output
+
+GitHub Pages is no longer the production host for `robwhitestudio.com`.
+
 ## Requested Improvements
 
 ### 1. Projects
