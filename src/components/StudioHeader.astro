@@ -1,0 +1,14 @@
+---
+const { activePage = "journal" } = Astro.props;
+---
+
+<header class="studio-header">
+  <nav class="studio-nav" aria-label="Studio navigation">
+    <a class="studio-brand" href="/studio/journal">
+      <img src="/assets/images/rob-white-studio-logo.png" alt="Rob White Studio" />
+      <span>Studio</span>
+    </a>
+    <a href="/studio/journal" aria-current={activePage === "journal" ? "page" : undefined}>Journal</a>
+    <button type="button" class="studio-text-button" data-studio-signout>Sign out</button>
+  </nav>
+</header>

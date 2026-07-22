@@ -1,0 +1,13 @@
+---
+import JournalForm from "../../../components/JournalForm.astro";
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+---
+
+<StudioLayout title="Edit Journal Entry | Rob White Studio">
+  <div class="studio-narrow">
+    <header class="studio-page-heading">
+      <div><p class="eyebrow">Journal</p><h1>Edit entry</h1><p class="studio-lede">Refine the record without losing its original dates.</p></div>
+    </header>
+    <section class="studio-form-card"><JournalForm mode="edit" /></section>
+  </div>
+</StudioLayout>

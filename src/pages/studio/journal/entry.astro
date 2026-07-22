@@ -1,0 +1,43 @@
+---
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+import { VISIBILITIES } from "../../../lib/journal";
+---
+
+<StudioLayout title="Journal Entry | Rob White Studio">
+  <a class="studio-back-link" href="/studio/journal">← Back to Journal</a>
+  <p class="studio-loading" data-entry-loading>Opening entry…</p>
+  <div class="studio-alert" data-studio-error role="alert" hidden></div>
+  <article data-entry-content hidden>
+    <header class="studio-entry-header">
+      <div class="studio-meta-row">
+        <span data-entry-type></span><span data-entry-visibility></span>
+        <span data-entry-pinned hidden>◆ Pinned</span><span data-entry-follow hidden>○ Follow-up needed</span>
+      </div>
+      <h1 data-entry-title></h1>
+      <div class="studio-meta-row"><span data-entry-created></span><span data-entry-updated hidden></span></div>
+      <div class="studio-entry-actions">
+        <a class="studio-button" data-action-edit href="/studio/journal/edit">Edit</a>
+        <button class="studio-button studio-button-quiet" data-action-pin type="button">Pin</button>
+        <button class="studio-button studio-button-quiet" data-action-follow type="button">Mark for follow-up</button>
+        <div class="studio-visibility-action">
+          <label for="entry-visibility-action">Visibility</label>
+          <select id="entry-visibility-action" data-action-visibility>
+            {VISIBILITIES.map(([value, label]) => <option value={value}>{label}</option>)}
+          </select>
+          <button class="studio-button studio-button-quiet" data-action-change-visibility type="button">Change</button>
+        </div>
+        <button class="studio-button studio-button-danger" data-action-delete type="button">Delete</button>
+      </div>
+    </header>
+    <div class="studio-entry-layout">
+      <div>
+        <div class="studio-entry-body" data-entry-body></div>
+        <div class="studio-gallery" data-entry-gallery></div>
+      </div>
+      <aside class="studio-entry-sidebar"><dl data-entry-details></dl></aside>
+    </div>
+  </article>
+  <script>
+    import "../../../scripts/journal-entry";
+  </script>
+</StudioLayout>

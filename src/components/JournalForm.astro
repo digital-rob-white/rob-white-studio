@@ -1,0 +1,87 @@
+---
+import { ENTRY_TYPES, VISIBILITIES } from "../lib/journal";
+const { mode = "new" } = Astro.props;
+---
+
+<p class="studio-loading" data-form-loading>Opening the entry form…</p>
+<div class="studio-alert" data-studio-error role="alert" hidden></div>
+<form class="studio-form" data-journal-form data-mode={mode} hidden>
+  <div class="studio-field">
+    <label for="title">Title</label>
+    <input id="title" name="title" required maxlength="160" autocomplete="off" placeholder="What should you remember?" />
+    <p class="studio-field-error" data-field-error="title" hidden></p>
+  </div>
+
+  <div class="studio-field">
+    <label for="body">Entry</label>
+    <textarea id="body" name="body" required placeholder="Capture the useful part now. Details can come later."></textarea>
+    <p class="studio-field-error" data-field-error="body" hidden></p>
+  </div>
+
+  <div class="studio-field">
+    <label for="photos">Photos</label>
+    <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+    <p class="studio-hint">JPEG, PNG, WebP, or GIF. Up to 10 MB each.</p>
+    <p class="studio-field-error" data-field-error="photos" hidden></p>
+  </div>
+  <div class="studio-photo-grid" data-photo-previews></div>
+  <div class="studio-photo-grid" data-existing-images></div>
+
+  <div class="studio-form-row">
+    <div class="studio-field">
+      <label for="visibility">Visibility</label>
+      <select id="visibility" name="visibility">
+        {VISIBILITIES.map(([value, label]) => <option value={value} selected={value === "internal"}>{label}</option>)}
+      </select>
+    </div>
+    <div class="studio-field">
+      <label for="entry_type">Entry type</label>
+      <select id="entry_type" name="entry_type">
+        {ENTRY_TYPES.map(([value, label]) => <option value={value} selected={value === "note"}>{label}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <details class="studio-details">
+    <summary>Additional details <span>— optional</span></summary>
+    <div class="studio-form-stack">
+      <div class="studio-form-row">
+        <div class="studio-field">
+          <label for="tags">Tags</label>
+          <input id="tags" name="tags" placeholder="botanical print, finish test" />
+          <p class="studio-hint">Separate with commas.</p>
+        </div>
+        <div class="studio-field">
+          <label for="materials">Materials</label>
+          <input id="materials" name="materials" placeholder="white oak, clear film" />
+          <p class="studio-hint">Separate with commas.</p>
+        </div>
+      </div>
+      <div class="studio-field">
+        <label for="location">Location</label>
+        <input id="location" name="location" placeholder="Studio, installation site…" />
+      </div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="project_reference">Project reference</label><input id="project_reference" name="project_reference" /></div>
+        <div class="studio-field"><label for="artwork_reference">Artwork reference</label><input id="artwork_reference" name="artwork_reference" /></div>
+      </div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="client_reference">Client reference</label><input id="client_reference" name="client_reference" /></div>
+        <div class="studio-field"><label for="collector_reference">Collector reference</label><input id="collector_reference" name="collector_reference" /></div>
+      </div>
+      <div class="studio-check-row">
+        <label class="studio-check"><input type="checkbox" name="follow_up_needed" /> Follow-up needed</label>
+        <label class="studio-check"><input type="checkbox" name="is_pinned" /> Pin as important</label>
+      </div>
+    </div>
+  </details>
+
+  <div class="studio-form-actions">
+    <a class="studio-button studio-button-quiet" data-form-cancel href="/studio/journal">Cancel</a>
+    <button class="studio-button" type="submit">Save entry</button>
+  </div>
+</form>
+
+<script>
+  import "../scripts/journal-form";
+</script>

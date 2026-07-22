@@ -160,6 +160,8 @@ Acceptance criteria:
 
 Goal: make the private platform useful for daily studio records.
 
+Journal v0.1 integration status: implemented on `codex/journal-integration`; Supabase and Netlify environment setup plus Deploy Preview verification remain before production release.
+
 Scope:
 
 - Contacts CRUD.
