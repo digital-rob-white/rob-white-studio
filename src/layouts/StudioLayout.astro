@@ -1,0 +1,29 @@
+---
+import StudioHeader from "../components/StudioHeader.astro";
+import "../styles/global.css";
+
+const {
+  title = "Studio | Rob White Studio",
+  description = "Private Rob White Studio tools.",
+  activePage = "journal"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/assets/images/favicon/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="studio-body">
+    <a class="skip-link" href="#studio-main">Skip to content</a>
+    <StudioHeader activePage={activePage} />
+    <main id="studio-main" class="studio-main">
+      <slot />
+    </main>
+  </body>
+</html>

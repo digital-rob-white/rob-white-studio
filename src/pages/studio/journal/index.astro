@@ -1,0 +1,58 @@
+---
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+import { ENTRY_TYPES, VISIBILITIES } from "../../../lib/journal";
+---
+
+<StudioLayout title="Journal | Rob White Studio">
+  <header class="studio-page-heading">
+    <div>
+      <p class="eyebrow">Studio working memory</p>
+      <h1>Journal</h1>
+      <p class="studio-lede">A searchable record of studio work, ideas, decisions, and lessons.</p>
+    </div>
+    <a class="studio-button" href="/studio/journal/new">New Entry</a>
+  </header>
+
+  <section class="studio-filter-panel" aria-label="Journal filters">
+    <div class="studio-field studio-search-field">
+      <label for="journal-search">Search</label>
+      <input id="journal-search" type="search" data-filter-search placeholder="Search entries, tags, materials, references…" />
+    </div>
+    <div class="studio-field">
+      <label for="journal-visibility">Visibility</label>
+      <select id="journal-visibility" data-filter-visibility>
+        <option value="all">All visibility</option>
+        {VISIBILITIES.map(([value, label]) => <option value={value}>{label}</option>)}
+      </select>
+    </div>
+    <div class="studio-field">
+      <label for="journal-type">Entry type</label>
+      <select id="journal-type" data-filter-type>
+        <option value="all">All types</option>
+        {ENTRY_TYPES.map(([value, label]) => <option value={value}>{label}</option>)}
+      </select>
+    </div>
+    <div class="studio-field">
+      <label for="journal-status">Status</label>
+      <select id="journal-status" data-filter-status>
+        <option value="all">All entries</option>
+        <option value="follow_up">Follow-up needed</option>
+        <option value="pinned">Pinned</option>
+      </select>
+    </div>
+    <button class="studio-button studio-button-quiet" type="button" data-filter-clear>Clear</button>
+  </section>
+
+  <div class="studio-alert" data-studio-error role="alert" hidden></div>
+  <p class="studio-loading" data-journal-loading>Opening the Journal…</p>
+  <section class="studio-empty" data-journal-empty hidden>
+    <h2>No matching entries</h2>
+    <p>Capture the first useful note, or adjust the search and filters.</p>
+    <a class="studio-button" href="/studio/journal/new">Create an entry</a>
+  </section>
+  <div class="studio-entry-list" data-journal-list></div>
+
+  <script>
+    import "../../../scripts/journal-index";
+  </script>
+</StudioLayout>

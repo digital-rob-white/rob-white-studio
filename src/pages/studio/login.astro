@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Studio Login | Rob White Studio" description="Private studio login." footerLabel="Private Studio">
+  <section class="studio-login-section">
+    <div class="studio-login-card">
+      <p class="eyebrow">Private studio</p>
+      <h1>Studio login</h1>
+      <p>Sign in with the owner account configured in Supabase.</p>
+      <div class="studio-alert" data-studio-error role="alert" hidden></div>
+      <form class="studio-form-stack" data-login-form>
+        <div class="studio-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="username" required autofocus />
+        </div>
+        <div class="studio-field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <button class="studio-button" type="submit">Open studio</button>
+      </form>
+    </div>
+  </section>
+  <script>
+    import "../../scripts/studio-login";
+  </script>
+</BaseLayout>

@@ -306,12 +306,26 @@ create table if not exists public.journal_entries (
   title text not null,
   slug text unique,
   visibility public.journal_visibility not null default 'internal',
+  entry_type text not null default 'note'
+    check (entry_type in ('note', 'idea', 'process', 'material', 'decision', 'problem', 'lesson', 'pricing', 'client_feedback')),
   category public.journal_category not null default 'studio_notes',
   status public.publish_status not null default 'draft',
   excerpt text,
-  body text,
+  body text not null default '',
+  tags text[] not null default '{}',
+  materials_list text[] not null default '{}',
+  location text,
+  follow_up_needed boolean not null default false,
+  follow_up_completed_at timestamptz,
+  is_pinned boolean not null default false,
   project_id uuid references public.projects(id) on delete set null,
+  project_reference text,
   artwork_id uuid references public.artworks(id) on delete set null,
+  artwork_reference text,
+  client_id uuid references public.contacts(id) on delete set null,
+  client_reference text,
+  collector_id uuid references public.contacts(id) on delete set null,
+  collector_reference text,
   published_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -327,6 +341,11 @@ create index if not exists journal_entries_visibility_status_idx on public.journ
 create index if not exists journal_entries_category_idx on public.journal_entries(category);
 create index if not exists journal_entries_project_id_idx on public.journal_entries(project_id);
 create index if not exists journal_entries_artwork_id_idx on public.journal_entries(artwork_id);
+create index if not exists journal_entries_entry_type_idx on public.journal_entries(entry_type);
+create index if not exists journal_entries_pinned_created_idx on public.journal_entries(is_pinned, created_at desc);
+create index if not exists journal_entries_follow_up_idx on public.journal_entries(follow_up_needed) where follow_up_needed = true;
+create index if not exists journal_entries_tags_idx on public.journal_entries using gin(tags);
+create index if not exists journal_entries_materials_list_idx on public.journal_entries using gin(materials_list);
 
 -- ---------------------------------------------------------------------------
 -- Services and materials
@@ -518,11 +537,11 @@ create index if not exists tasks_status_idx on public.tasks(status);
 -- Storage buckets
 -- ---------------------------------------------------------------------------
 
-insert into storage.buckets (id, name, public)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values
-  ('public-artwork', 'public-artwork', true),
-  ('studio-private', 'studio-private', false),
-  ('estimate-pdfs', 'estimate-pdfs', false)
+  ('public-artwork', 'public-artwork', true, 10485760, array['image/jpeg', 'image/png', 'image/webp', 'image/gif']),
+  ('studio-private', 'studio-private', false, 10485760, array['image/jpeg', 'image/png', 'image/webp', 'image/gif']),
+  ('estimate-pdfs', 'estimate-pdfs', false, 20971520, array['application/pdf'])
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------------------
