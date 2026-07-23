@@ -11,6 +11,7 @@ const entryType = document.querySelector<HTMLSelectElement>("[data-filter-type]"
 const status = document.querySelector<HTMLSelectElement>("[data-filter-status]");
 const clear = document.querySelector<HTMLButtonElement>("[data-filter-clear]");
 let entries: JournalEntry[] = [];
+let renderRevision = 0;
 
 function dateLabel(value: string): string {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
@@ -77,10 +78,12 @@ async function renderCard(entry: JournalEntry): Promise<HTMLElement> {
 
 async function render(): Promise<void> {
   if (!list || !empty) return;
-  list.replaceChildren();
+  const revision = ++renderRevision;
   const filtered = entries.filter(matches);
+  const cards = await Promise.all(filtered.map(renderCard));
+  if (revision !== renderRevision) return;
+  list.replaceChildren(...cards);
   empty.hidden = filtered.length > 0;
-  for (const entry of filtered) list.append(await renderCard(entry));
 }
 
 async function initJournalIndex(): Promise<void> {
