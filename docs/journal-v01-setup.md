@@ -17,6 +17,8 @@ Then create the owner account:
 
 The first authenticated Studio request creates the corresponding `public.users` profile if it is missing.
 
+To make Journal actions appear in the Studio Feed, apply `docs/supabase-studio-feed-v01.sql` after the Journal migration.
+
 ## Environment variables
 
 Use the project URL and publishable/anon key from Supabase Dashboard → Project Settings → API:
@@ -33,6 +35,7 @@ In Netlify, add them under **Project configuration → Environment variables**, 
 ## Routes
 
 - `/studio/login`
+- `/studio` (Studio Feed)
 - `/studio/journal`
 - `/studio/journal/new`
 - `/studio/journal/entry?id=…`

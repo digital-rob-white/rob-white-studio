@@ -111,6 +111,7 @@ Future private routes:
 Private app responsibilities:
 
 - Authenticate studio users.
+- Orient the owner with a chronological Studio Feed at `/studio`.
 - Protect internal data.
 - Manage contacts, projects, artwork, journal entries, services, materials,
   estimates, uploaded files, and operational notes.
@@ -199,6 +200,7 @@ Supabase should provide:
 
 Initial database areas:
 
+- Studio activities
 - Contacts
 - Projects
 - Artwork

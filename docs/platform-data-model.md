@@ -38,6 +38,32 @@ The private app should support day-to-day business needs:
 
 ## Core Entities
 
+### Studio Activity
+
+Represents an automatically generated, chronological record of meaningful work inside the private Studio.
+
+Fields:
+
+- `id`
+- `activity_type`: extensible text identifier such as `journal_created`
+- `title`
+- `description`
+- `object_type`
+- `object_id`
+- `object_label`
+- `destination`
+- `thumbnail_asset_id`
+- `created_at`
+- `created_by`
+- `metadata`: JSON for event-specific context
+
+Rules:
+
+- Users never create Feed activity manually.
+- Supported modules create activity through database triggers or equivalent server-side producers.
+- Feed records remain private and are protected by row-level security.
+- Activity types are not a database enum so later modules can add events without refactoring the table.
+
 ### User
 
 Represents people who can log in to the private studio app.
