@@ -1,3 +1,54 @@
 ---
-return Astro.redirect("/studio/journal");
+import StudioLayout from "../../layouts/StudioLayout.astro";
+import { ACTIVITY_FILTERS } from "../../lib/studio-feed";
 ---
+
+<StudioLayout
+  title="Studio Feed | Rob White Studio"
+  description="The private working history of Rob White Studio."
+  activePage="feed"
+>
+  <header class="studio-page-heading studio-feed-heading">
+    <div>
+      <p class="eyebrow">The studio, today</p>
+      <h1>Studio Feed</h1>
+      <p class="studio-lede">A quiet, chronological record of what changed and what was completed.</p>
+    </div>
+    <a class="studio-button" href="/studio/journal/new">New Journal Entry</a>
+  </header>
+
+  <section class="studio-feed-tools" aria-label="Activity search and filters">
+    <div class="studio-field studio-feed-search">
+      <label for="studio-feed-search">Search activity</label>
+      <input id="studio-feed-search" type="search" data-feed-search placeholder="Search titles, work, and activity…" />
+    </div>
+    <div class="studio-feed-filters" role="group" aria-label="Filter Studio activity">
+      {ACTIVITY_FILTERS.map(([value, label], index) => (
+        <button
+          class:list={["studio-feed-filter", { "is-active": index === 0 }]}
+          type="button"
+          data-feed-filter={value}
+          aria-pressed={index === 0 ? "true" : "false"}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <div class="studio-alert" data-studio-error role="alert" hidden></div>
+  <p class="studio-loading" data-feed-loading>Opening the Studio…</p>
+  <section class="studio-empty" data-feed-empty hidden>
+    <h2 data-feed-empty-title>Nothing has happened yet.</h2>
+    <p data-feed-empty-copy>As you work inside the Studio, important activity will appear here.</p>
+    <a class="studio-button" href="/studio/journal/new">Create Journal Entry</a>
+  </section>
+  <div class="studio-feed-list" data-feed-list></div>
+  <div class="studio-feed-more">
+    <button class="studio-button studio-button-quiet" type="button" data-feed-more hidden>Load More</button>
+  </div>
+
+  <script>
+    import "../../scripts/studio-feed";
+  </script>
+</StudioLayout>

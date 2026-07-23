@@ -8,7 +8,7 @@ async function initLogin() {
     const supabase = getSupabase();
     const { data } = await supabase.auth.getSession();
     if (data.session) {
-      window.location.replace("/studio/journal");
+      window.location.replace("/studio");
       return;
     }
 
@@ -29,7 +29,7 @@ async function initLogin() {
         return;
       }
       const requested = new URLSearchParams(window.location.search).get("returnTo");
-      window.location.assign(requested?.startsWith("/studio/") ? requested : "/studio/journal");
+      window.location.assign(requested?.startsWith("/studio/") ? requested : "/studio");
     });
   } catch (error) {
     showStudioError(error);
