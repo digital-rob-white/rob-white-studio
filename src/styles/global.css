@@ -1230,6 +1230,10 @@ a.studio-feed-card:focus {
   text-align: center;
 }
 
+.studio-feed-more [hidden] {
+  display: none;
+}
+
 .studio-form-card {
   border: 2px solid var(--line);
   background: var(--white-paint);
