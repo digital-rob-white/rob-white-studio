@@ -73,7 +73,9 @@ export function activityMatches(activity: StudioActivity, query: string, filter:
       || activity.activity_type.endsWith("_approved")
       || activity.activity_type.endsWith("_paid");
   }
-  if (filter === "follow_ups") return activity.activity_type.includes("follow_up");
+  if (filter === "follow_ups") {
+    return activity.activity_type.includes("follow_up") || activity.metadata.follow_up_needed === true;
+  }
   if (filter === "system") return activity.object_type === "system" || activity.activity_type === "system_note";
   if (filter === "journal") return activity.object_type === "journal_entry";
   if (filter === "projects") return activity.object_type === "project";

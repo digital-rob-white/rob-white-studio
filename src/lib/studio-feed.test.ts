@@ -28,6 +28,19 @@ describe("Studio Feed", () => {
     expect(activityMatches(activity, "progress", "artwork")).toBe(false);
   });
 
+  it("includes marked and completed entries in the Follow-ups filter", () => {
+    expect(activityMatches({
+      ...activity,
+      activity_type: "journal_updated",
+      metadata: { follow_up_needed: true }
+    }, "", "follow_ups")).toBe(true);
+    expect(activityMatches({
+      ...activity,
+      activity_type: "follow_up_completed",
+      metadata: { follow_up_needed: false }
+    }, "", "follow_ups")).toBe(true);
+  });
+
   it("groups dates relative to the local calendar", () => {
     const now = new Date(2026, 6, 23, 9, 0);
     expect(activityDateGroup(new Date(2026, 6, 23, 8, 0).toISOString(), now)).toBe("Today");
