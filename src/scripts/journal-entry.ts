@@ -83,7 +83,23 @@ function renderEntry(): void {
   addDefinition("Materials", entry.materials_list.join(" · "));
   addDefinition("Location", entry.location);
   addDefinition("Project", entry.project_reference);
-  addDefinition("Artwork", entry.artwork_reference);
+  if (entry.artwork_id) {
+    const sidebar = document.querySelector<HTMLElement>(".studio-entry-sidebar dl");
+    if (sidebar) {
+      const group = document.createElement("div");
+      const term = document.createElement("dt");
+      const description = document.createElement("dd");
+      const link = document.createElement("a");
+      term.textContent = "Artwork";
+      link.href = `/studio/artwork/entry?id=${encodeURIComponent(entry.artwork_id)}`;
+      link.textContent = entry.artwork_reference || "Open related artwork";
+      description.append(link);
+      group.append(term, description);
+      sidebar.append(group);
+    }
+  } else {
+    addDefinition("Artwork", entry.artwork_reference);
+  }
   addDefinition("Client", entry.client_reference);
   addDefinition("Collector", entry.collector_reference);
   if (entry.follow_up_completed_at) addDefinition("Follow-up completed", dateTime(entry.follow_up_completed_at));
@@ -101,6 +117,10 @@ async function initEntry(): Promise<void> {
     const { data, error } = await client.from("journal_entries").select("*, file_assets(*)").eq("id", id).single();
     if (error) throw error;
     entry = data as JournalEntry;
+    if (entry.artwork_id) {
+      const { data: relatedArtwork } = await client.from("artworks").select("title").eq("id", entry.artwork_id).maybeSingle();
+      if (relatedArtwork?.title) entry.artwork_reference = relatedArtwork.title;
+    }
     const uploadError = new URLSearchParams(window.location.search).get("uploadError");
     if (uploadError) showStudioError(new Error(`The entry was saved, but one or more photos failed: ${uploadError}`));
     renderEntry();

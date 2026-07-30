@@ -63,7 +63,12 @@ const { mode = "new" } = Astro.props;
       </div>
       <div class="studio-form-row">
         <div class="studio-field"><label for="project_reference">Project reference</label><input id="project_reference" name="project_reference" /></div>
-        <div class="studio-field"><label for="artwork_reference">Artwork reference</label><input id="artwork_reference" name="artwork_reference" /></div>
+        <div class="studio-field">
+          <label for="artwork_id">Related artwork</label>
+          <select id="artwork_id" name="artwork_id" data-artwork-selector>
+            <option value="">No related artwork</option>
+          </select>
+        </div>
       </div>
       <div class="studio-form-row">
         <div class="studio-field"><label for="client_reference">Client reference</label><input id="client_reference" name="client_reference" /></div>

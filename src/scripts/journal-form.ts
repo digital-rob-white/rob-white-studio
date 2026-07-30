@@ -100,7 +100,7 @@ function fillEntry(entry: JournalEntry): void {
   setField("materials", entry.materials_list.join(", "));
   setField("location", entry.location);
   setField("project_reference", entry.project_reference);
-  setField("artwork_reference", entry.artwork_reference);
+  setField("artwork_id", entry.artwork_id);
   setField("client_reference", entry.client_reference);
   setField("collector_reference", entry.collector_reference);
   setField("follow_up_needed", entry.follow_up_needed);
@@ -169,7 +169,8 @@ function entryPayload(values: FormData) {
     materials_list: splitTerms(String(values.get("materials") || "")),
     location: String(values.get("location") || "").trim() || null,
     project_reference: String(values.get("project_reference") || "").trim() || null,
-    artwork_reference: String(values.get("artwork_reference") || "").trim() || null,
+    artwork_id: String(values.get("artwork_id") || "").trim() || null,
+    artwork_reference: null,
     client_reference: String(values.get("client_reference") || "").trim() || null,
     collector_reference: String(values.get("collector_reference") || "").trim() || null,
     follow_up_needed: followUpNeeded,
@@ -184,6 +185,18 @@ async function initJournalForm(): Promise<void> {
   if (!form || !submit) return;
   try {
     const { client, user } = await requireStudioUser();
+    const { data: artworkOptions, error: artworkError } = await client
+      .from("artworks")
+      .select("id,title,inventory_number")
+      .order("title");
+    if (artworkError) throw artworkError;
+    const artworkSelector = document.querySelector<HTMLSelectElement>("[data-artwork-selector]");
+    (artworkOptions || []).forEach((artwork) => {
+      const option = document.createElement("option");
+      option.value = artwork.id;
+      option.textContent = artwork.inventory_number ? `${artwork.title} · ${artwork.inventory_number}` : artwork.title;
+      artworkSelector?.append(option);
+    });
     if (formMode === "edit") {
       const id = new URLSearchParams(window.location.search).get("id");
       if (!id) throw new Error("No Journal entry was selected.");
@@ -195,6 +208,9 @@ async function initJournalForm(): Promise<void> {
       await renderExistingAssets();
       const cancel = document.querySelector<HTMLAnchorElement>("[data-form-cancel]");
       if (cancel) cancel.href = `/studio/journal/entry?id=${encodeURIComponent(id)}`;
+    } else {
+      const relatedArtworkId = new URLSearchParams(window.location.search).get("artworkId");
+      if (relatedArtworkId) setField("artwork_id", relatedArtworkId);
     }
     document.querySelector<HTMLElement>("[data-form-loading]")?.setAttribute("hidden", "");
     form.hidden = false;

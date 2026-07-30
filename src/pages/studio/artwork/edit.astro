@@ -1,0 +1,9 @@
+---
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+import ArtworkForm from "../../../components/ArtworkForm.astro";
+---
+<StudioLayout title="Edit Artwork | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" data-artwork-back href="/studio/artwork">← Back to Artwork</a>
+  <header class="studio-page-heading"><div><p class="eyebrow">Artwork</p><h1>Edit record</h1><p class="studio-lede">Refine the record while retaining its pricing history.</p></div></header>
+  <section class="studio-form-card"><ArtworkForm mode="edit" /></section>
+</StudioLayout>

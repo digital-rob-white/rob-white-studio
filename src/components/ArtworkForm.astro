@@ -1,0 +1,95 @@
+---
+import { AVAILABILITY_STATUSES, PRODUCTION_STATUSES } from "../lib/artwork";
+const { mode = "new" } = Astro.props;
+---
+
+<form class="studio-form" data-artwork-form data-mode={mode}>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <div class="studio-form-row">
+    <div class="studio-field">
+      <label for="title">Title *</label>
+      <input id="title" name="title" required maxlength="180" />
+      <small data-field-error="title"></small>
+    </div>
+    <div class="studio-field">
+      <label for="inventory_number">Inventory number</label>
+      <input id="inventory_number" name="inventory_number" maxlength="80" />
+    </div>
+  </div>
+
+  <div class="studio-form-row studio-form-row-3">
+    <div class="studio-field">
+      <label for="year">Year</label>
+      <input id="year" name="year" type="number" min="1000" max="9999" />
+    </div>
+    <div class="studio-field">
+      <label for="artwork_type">Starter template</label>
+      <select id="artwork_type" name="artwork_type">
+        <option value="painting">Painting</option>
+        <option value="sculpture">Sculpture</option>
+        <option value="mixed_media">Mixed media</option>
+        <option value="furniture">Furniture / art object</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+    <div class="studio-field">
+      <label for="medium">Medium</label>
+      <input id="medium" name="medium" placeholder="Oil on canvas" />
+    </div>
+  </div>
+
+  <div class="studio-field">
+    <label for="materials_description">Materials description</label>
+    <textarea id="materials_description" name="materials_description" rows="3"></textarea>
+  </div>
+
+  <fieldset class="studio-fieldset">
+    <legend>Dimensions</legend>
+    <div class="studio-form-row studio-form-row-4">
+      <div class="studio-field"><label for="width">Width</label><input id="width" name="width" type="number" min="0" step="0.01" /></div>
+      <div class="studio-field"><label for="height">Height</label><input id="height" name="height" type="number" min="0" step="0.01" /></div>
+      <div class="studio-field"><label for="depth">Depth</label><input id="depth" name="depth" type="number" min="0" step="0.01" /></div>
+      <div class="studio-field"><label for="dimension_unit">Unit</label><select id="dimension_unit" name="dimension_unit"><option value="in">in</option><option value="cm">cm</option><option value="mm">mm</option></select></div>
+    </div>
+    <div class="studio-form-row">
+      <div class="studio-field"><label for="weight">Weight</label><input id="weight" name="weight" type="number" min="0" step="0.01" /></div>
+      <div class="studio-field"><label for="weight_unit">Weight unit</label><select id="weight_unit" name="weight_unit"><option value="lb">lb</option><option value="oz">oz</option><option value="kg">kg</option><option value="g">g</option></select></div>
+    </div>
+  </fieldset>
+
+  <div class="studio-form-row">
+    <div class="studio-field"><label for="collection_name">Collection or series</label><input id="collection_name" name="collection_name" /></div>
+    <div class="studio-field"><label for="location">Location</label><input id="location" name="location" /></div>
+  </div>
+
+  <div class="studio-form-row">
+    <div class="studio-field"><label for="production_status">Production status</label><select id="production_status" name="production_status">{PRODUCTION_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+    <div class="studio-field"><label for="availability">Availability</label><select id="availability" name="availability">{AVAILABILITY_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+  </div>
+
+  <div class="studio-form-row">
+    <div class="studio-field"><label for="date_started">Date started</label><input id="date_started" name="date_started" type="date" /></div>
+    <div class="studio-field"><label for="date_completed">Date completed</label><input id="date_completed" name="date_completed" type="date" /></div>
+  </div>
+
+  <div class="studio-field"><label for="description_public">Description / story</label><textarea id="description_public" name="description_public"></textarea></div>
+  <div class="studio-field"><label for="notes_private">Internal notes</label><textarea id="notes_private" name="notes_private"></textarea></div>
+
+  <fieldset class="studio-fieldset">
+    <legend>Images</legend>
+    <p class="studio-field-help">Upload JPEG, PNG, WebP, or GIF files up to 10 MB. On a new record, the first image becomes the primary image.</p>
+    <div class="studio-field">
+      <label for="artwork_images">Add images</label>
+      <input id="artwork_images" name="artwork_images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+    </div>
+  </fieldset>
+
+  <div class="studio-form-actions">
+    <a class="studio-button studio-button-quiet" href="/studio/artwork">Cancel</a>
+    <button class="studio-button" type="submit" data-submit>{mode === "edit" ? "Save Artwork" : "Create Artwork"}</button>
+  </div>
+</form>
+
+<script>
+  import "../scripts/artwork-form";
+</script>

@@ -10,6 +10,7 @@ const { activePage = "feed" } = Astro.props;
     </a>
     <a href="/studio" aria-current={activePage === "feed" ? "page" : undefined}>Studio Feed</a>
     <a href="/studio/journal" aria-current={activePage === "journal" ? "page" : undefined}>Journal</a>
+    <a href="/studio/artwork" aria-current={activePage === "artwork" ? "page" : undefined}>Artwork</a>
     <button type="button" class="studio-text-button" data-studio-signout>Sign out</button>
   </nav>
 </header>

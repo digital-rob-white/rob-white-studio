@@ -160,13 +160,15 @@ Acceptance criteria:
 
 Goal: make the private platform useful for daily studio records.
 
-Journal v0.1 integration status: implemented on `codex/journal-integration`; Supabase and Netlify environment setup plus Deploy Preview verification remain before production release.
+Journal v0.1 and Studio Feed v0.1 are implemented. Artwork v0.1 is implemented in the application and awaits applying `docs/supabase-artwork-v01.sql` plus authenticated Deploy Preview verification.
 
 Scope:
 
 - Contacts CRUD.
 - Projects CRUD.
 - Artwork CRUD.
+- Artwork images, artwork-owned material costs, separated studio labor, channel pricing scenarios, and retained price history.
+- Bidirectional Artwork–Journal relationships and intentional Artwork Feed activity.
 - Journal entries with visibility states.
 
 Priority details:
@@ -174,6 +176,7 @@ Priority details:
 - Projects should keep a primary `contact_id` for now.
 - Architecture should allow a future `project_contacts` join table.
 - Artwork should plan for structured dimensions.
+- Artwork money should remain integer cents; reusable purchases should allocate partial usage without overwriting manual allocations.
 - Journal visibility should support at least `public` and `internal`, with
   `unlisted` planned.
 
@@ -259,11 +262,11 @@ Potential future work:
 
 ## Immediate Next Tasks
 
-1. Add Supabase environment scaffolding.
-2. Add Supabase client/server helpers.
-3. Build the first `/studio/login` and `/studio` shell.
-4. Keep public site stable while Studio platform work begins in parallel.
+1. Apply `docs/supabase-artwork-v01.sql` to the Supabase project.
+2. Exercise the authenticated Artwork acceptance checklist in a Netlify Deploy Preview.
+3. Verify image uploads and cross-device persistence with the production Supabase project.
+4. Continue Core Records with Contacts and Projects after Artwork v0.1 is accepted.
 
 Recommended next step:
 
-- Build Supabase scaffolding and the first private Studio shell.
+- Apply the Artwork migration and complete the authenticated acceptance checklist in a Deploy Preview.
