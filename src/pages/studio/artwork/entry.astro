@@ -9,12 +9,16 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
   <p class="studio-loading" data-artwork-loading>Opening the artwork record…</p>
 
   <article data-artwork-detail hidden>
+    <p class="studio-success" data-financial-success aria-live="polite" hidden></p>
     <header class="artwork-detail-header">
       <div>
         <p class="eyebrow" data-artwork-inventory>Artwork</p>
         <h1 data-artwork-title></h1>
         <p class="studio-lede" data-artwork-subtitle></p>
-        <div class="studio-chip-row artwork-status-row"><span class="studio-chip" data-production-status></span><span class="studio-chip" data-availability></span></div>
+        <div class="studio-chip-row artwork-status-row">
+          <span class="artwork-status-badge artwork-production-badge" data-production-status></span>
+          <span class="artwork-status-badge artwork-availability-badge" data-availability></span>
+        </div>
       </div>
       <div class="artwork-detail-actions">
         <a class="studio-button" data-artwork-edit href="/studio/artwork/edit">Edit Artwork</a>
@@ -34,6 +38,11 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
       <div class="artwork-overview-grid">
         <div class="artwork-primary-image" data-primary-image><p>No primary image yet.</p></div>
         <div class="artwork-facts">
+          <section class="artwork-financial-snapshot" aria-labelledby="overview-financial-heading">
+            <p class="eyebrow">Developing financial picture</p>
+            <h2 id="overview-financial-heading">Cost & pricing snapshot</h2>
+            <div data-overview-financials></div>
+          </section>
           <dl data-artwork-facts></dl>
           <div class="artwork-story" data-artwork-story></div>
         </div>
@@ -42,6 +51,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
 
     <section class="artwork-panel" data-artwork-panel="images" hidden>
       <div class="artwork-section-heading"><div><p class="eyebrow">Images</p><h2>Visual record</h2></div><a class="studio-button studio-button-quiet" data-artwork-edit-images href="/studio/artwork/edit">Add Images</a></div>
+      <p class="studio-field-help">Captions and tags stay with each image for future listings, submissions, social posts, and studio documentation.</p>
       <div class="studio-gallery artwork-gallery" data-artwork-images></div>
       <p class="studio-empty artwork-inline-empty" data-artwork-images-empty hidden>No images have been added.</p>
     </section>
@@ -53,6 +63,18 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
     </section>
 
     <section class="artwork-panel" data-artwork-panel="costs" hidden>
+      <form class="target-price-panel" data-target-price-form>
+        <div>
+          <p class="eyebrow">Working price</p>
+          <h2>Target Artwork Price</h2>
+          <p>Compare the intended price with the artwork’s developing cash and labor costs. This does not replace retail or scenario pricing.</p>
+        </div>
+        <div class="studio-field">
+          <label for="target-artwork-price">Target artwork price</label>
+          <input id="target-artwork-price" name="target_price" inputmode="decimal" placeholder="$0.00" />
+        </div>
+        <button class="studio-button" type="submit">Update Target</button>
+      </form>
       <div class="cost-summary" data-cost-summary></div>
 
       <section class="artwork-work-section">
@@ -64,6 +86,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
           </div>
         </div>
         <form class="studio-inline-form" data-cost-form hidden>
+          <div class="studio-inline-form-heading"><div><p class="eyebrow" data-form-mode>Create</p><h3 data-form-title>Add Cost Entry</h3></div></div>
           <div class="studio-form-row studio-form-row-3">
             <div class="studio-field"><label for="cost-category">Category</label><select id="cost-category" name="category_id" required data-cost-category></select></div>
             <div class="studio-field"><label for="cost-item">Item or material</label><input id="cost-item" name="item_name" required /></div>
@@ -85,22 +108,30 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
             <div class="studio-field"><label for="manual-cost">Manual override</label><input id="manual-cost" name="manual_cost_override" inputmode="decimal" placeholder="Leave blank to calculate" /><small>A manual value is never overwritten.</small></div>
           </div>
           <div class="studio-field"><label for="cost-notes">Notes</label><textarea id="cost-notes" name="notes" rows="3"></textarea></div>
-          <div class="studio-form-actions"><button class="studio-button" type="submit">Save Cost</button></div>
+          <div class="studio-form-actions"><button class="studio-button studio-button-quiet" type="button" data-cancel-form>Cancel</button><button class="studio-button" type="submit">Add Cost Entry</button></div>
         </form>
+        <div class="artwork-compact-empty" data-cost-empty>
+          <p>No costs have been recorded yet. Saved categories are ready in the Add Cost Entry form.</p>
+          <button class="studio-button studio-button-quiet" type="button" data-open-cost>Add Cost Entry</button>
+        </div>
         <div class="artwork-cost-groups" data-cost-groups></div>
       </section>
 
       <section class="artwork-work-section">
         <div class="artwork-section-heading"><div><p class="eyebrow">Studio labor value</p><h2>Labor log</h2></div><button class="studio-button studio-button-quiet" type="button" data-toggle-form="labor">Add Labor</button></div>
         <form class="studio-inline-form" data-labor-form hidden>
+          <div class="studio-inline-form-heading"><div><p class="eyebrow" data-form-mode>Create</p><h3 data-form-title>Add Labor Entry</h3></div></div>
           <div class="studio-form-row studio-form-row-4">
             <div class="studio-field"><label for="labor-task">Task</label><input id="labor-task" name="task" required /></div>
             <div class="studio-field"><label for="labor-date">Date</label><input id="labor-date" name="entry_date" type="date" required /></div>
-            <div class="studio-field"><label for="labor-hours">Hours</label><input id="labor-hours" name="hours" type="number" min="0.01" step="0.25" required /></div>
+            <div class="studio-field"><label for="labor-hours">Whole hours</label><input id="labor-hours" name="whole_hours" type="number" min="0" step="1" value="0" required /></div>
+            <div class="studio-field"><label for="labor-quarter">Additional time</label><select id="labor-quarter" name="quarter_minutes"><option value="0">0 minutes</option><option value="15">1/4 hour</option><option value="30">1/2 hour</option><option value="45">3/4 hour</option></select></div>
+          </div>
+          <div class="studio-form-row">
             <div class="studio-field"><label for="labor-rate">Hourly value</label><input id="labor-rate" name="hourly_value" inputmode="decimal" required placeholder="$0.00" /></div>
           </div>
           <div class="studio-field"><label for="labor-notes">Notes</label><textarea id="labor-notes" name="notes" rows="3"></textarea></div>
-          <div class="studio-form-actions"><button class="studio-button" type="submit">Save Labor</button></div>
+          <div class="studio-form-actions"><button class="studio-button studio-button-quiet" type="button" data-cancel-form>Cancel</button><button class="studio-button" type="submit">Add Labor Entry</button></div>
         </form>
         <div class="artwork-record-list" data-labor-list></div>
       </section>
@@ -108,6 +139,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
       <section class="artwork-work-section">
         <div class="artwork-section-heading"><div><p class="eyebrow">Sales channels</p><h2>Pricing scenarios</h2></div><button class="studio-button studio-button-quiet" type="button" data-toggle-form="pricing">Add Scenario</button></div>
         <form class="studio-inline-form" data-pricing-form hidden>
+          <div class="studio-inline-form-heading"><div><p class="eyebrow" data-form-mode>Create</p><h3 data-form-title>Add Pricing Scenario</h3></div></div>
           <div class="studio-form-row studio-form-row-3">
             <div class="studio-field"><label for="scenario-name">Scenario</label><select id="scenario-name" name="scenario_name">{PRICING_SCENARIOS.map((name) => <option value={name}>{name}</option>)}</select></div>
             <div class="studio-field"><label for="listed-price">Listed sale price</label><input id="listed-price" name="listed_price" inputmode="decimal" required placeholder="$0.00" /></div>
@@ -124,7 +156,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
             <div class="studio-field"><label for="other-deductions">Other deductions</label><input id="other-deductions" name="other_deductions" inputmode="decimal" value="0" /></div>
             <div class="studio-field"><label for="pricing-notes">Notes</label><input id="pricing-notes" name="notes" /></div>
           </div>
-          <div class="studio-form-actions"><button class="studio-button" type="submit">Save Scenario</button></div>
+          <div class="studio-form-actions"><button class="studio-button studio-button-quiet" type="button" data-cancel-form>Cancel</button><button class="studio-button" type="submit">Add Pricing Scenario</button></div>
         </form>
         <div class="pricing-scenario-grid" data-pricing-list></div>
       </section>
@@ -132,6 +164,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
       <section class="artwork-work-section">
         <div class="artwork-section-heading"><div><p class="eyebrow">Retained decisions</p><h2>Price history</h2></div><button class="studio-button studio-button-quiet" type="button" data-toggle-form="history">Record Price</button></div>
         <form class="studio-inline-form" data-history-form hidden>
+          <div class="studio-inline-form-heading"><div><p class="eyebrow" data-form-mode>Create</p><h3 data-form-title>Record Price</h3></div></div>
           <div class="studio-form-row studio-form-row-4">
             <div class="studio-field"><label for="history-price">Price</label><input id="history-price" name="price" inputmode="decimal" required /></div>
             <div class="studio-field"><label for="history-type">Type / channel</label><input id="history-type" name="price_type" required placeholder="Studio retail" /></div>
@@ -139,7 +172,7 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
             <div class="studio-field"><label for="history-end">End date</label><input id="history-end" name="end_date" type="date" /></div>
           </div>
           <div class="studio-field"><label for="history-reason">Reason or note</label><input id="history-reason" name="reason" /></div>
-          <div class="studio-form-actions"><button class="studio-button" type="submit">Record Price</button></div>
+          <div class="studio-form-actions"><button class="studio-button studio-button-quiet" type="button" data-cancel-form>Cancel</button><button class="studio-button" type="submit">Record Price</button></div>
         </form>
         <div class="artwork-record-list" data-price-history></div>
       </section>

@@ -45,10 +45,11 @@ const { mode = "new" } = Astro.props;
 
   <fieldset class="studio-fieldset">
     <legend>Dimensions</legend>
+    <p class="studio-field-help" data-dimension-help>Enter inches as a whole number, fraction, or mixed number, such as 25 3/4. Values are saved to the nearest 1/16 inch.</p>
     <div class="studio-form-row studio-form-row-4">
-      <div class="studio-field"><label for="width">Width</label><input id="width" name="width" type="number" min="0" step="0.01" /></div>
-      <div class="studio-field"><label for="height">Height</label><input id="height" name="height" type="number" min="0" step="0.01" /></div>
-      <div class="studio-field"><label for="depth">Depth</label><input id="depth" name="depth" type="number" min="0" step="0.01" /></div>
+      <div class="studio-field"><label for="width">Width</label><input id="width" name="width" inputmode="decimal" placeholder="25 3/4" data-dimension /></div>
+      <div class="studio-field"><label for="height">Height</label><input id="height" name="height" inputmode="decimal" placeholder="37 1/4" data-dimension /></div>
+      <div class="studio-field"><label for="depth">Depth</label><input id="depth" name="depth" inputmode="decimal" placeholder="1 1/2" data-dimension /></div>
       <div class="studio-field"><label for="dimension_unit">Unit</label><select id="dimension_unit" name="dimension_unit"><option value="in">in</option><option value="cm">cm</option><option value="mm">mm</option></select></div>
     </div>
     <div class="studio-form-row">
@@ -68,8 +69,8 @@ const { mode = "new" } = Astro.props;
   </div>
 
   <div class="studio-form-row">
-    <div class="studio-field"><label for="date_started">Date started</label><input id="date_started" name="date_started" type="date" /></div>
-    <div class="studio-field"><label for="date_completed">Date completed</label><input id="date_completed" name="date_completed" type="date" /></div>
+    <div class="studio-field"><label for="date_started">Date started</label><div class="studio-date-control"><input id="date_started" name="date_started" type="date" /><button type="button" data-clear-date="date_started">Clear</button></div></div>
+    <div class="studio-field"><label for="date_completed">Date completed</label><div class="studio-date-control"><input id="date_completed" name="date_completed" type="date" /><button type="button" data-clear-date="date_completed">Clear</button></div></div>
   </div>
 
   <div class="studio-field"><label for="description_public">Description / story</label><textarea id="description_public" name="description_public"></textarea></div>
@@ -77,7 +78,7 @@ const { mode = "new" } = Astro.props;
 
   <fieldset class="studio-fieldset">
     <legend>Images</legend>
-    <p class="studio-field-help">Upload JPEG, PNG, WebP, or GIF files up to 10 MB. On a new record, the first image becomes the primary image.</p>
+    <p class="studio-field-help">Upload JPEG, PNG, WebP, or GIF files up to 10 MB. On a new record, the first image becomes the primary image. Captions, tags, and order can be edited from the saved artwork’s Images section.</p>
     <div class="studio-field">
       <label for="artwork_images">Add images</label>
       <input id="artwork_images" name="artwork_images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />

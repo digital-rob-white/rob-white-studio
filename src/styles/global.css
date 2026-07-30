@@ -990,6 +990,24 @@ code {
   border-color: var(--blue-cobalt);
 }
 
+.studio-date-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.studio-date-control button {
+  border: 2px solid var(--line);
+  border-left: 0;
+  background: var(--paper-deep);
+  padding: 0 13px;
+  color: var(--red-signal);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 .studio-alert {
   margin: 0 0 22px;
   border: 2px solid var(--red-signal);
@@ -998,6 +1016,20 @@ code {
   padding: 14px 16px;
   color: var(--red-signal);
   font-weight: 700;
+}
+
+.studio-success {
+  position: sticky;
+  top: 96px;
+  z-index: 10;
+  margin: 0 0 22px;
+  border: 2px solid var(--green-grass);
+  border-left-width: 10px;
+  background: var(--white-paint);
+  padding: 14px 16px;
+  color: var(--navy-ink);
+  font-weight: 900;
+  box-shadow: 5px 5px 0 var(--green-grass);
 }
 
 .studio-loading {
@@ -1611,6 +1643,31 @@ a.studio-feed-card:focus {
   gap: 10px;
 }
 
+.artwork-status-row {
+  margin-top: 14px;
+}
+
+.artwork-status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 2px solid var(--line);
+  padding: 6px 11px;
+  color: var(--navy-ink);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--navy-ink);
+}
+
+.artwork-production-badge {
+  background: var(--yellow-sun);
+}
+
+.artwork-availability-badge {
+  background: var(--green-grass);
+}
+
 .artwork-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -1693,6 +1750,42 @@ a.studio-feed-card:focus {
   margin: 0;
 }
 
+.artwork-financial-snapshot {
+  margin-bottom: 34px;
+  border: 2px solid var(--line);
+  background: var(--yellow-sun);
+  padding: 18px;
+  box-shadow: 7px 7px 0 var(--orange-verm);
+}
+
+.artwork-financial-snapshot h2 {
+  margin: 4px 0 16px;
+  font-size: clamp(1.45rem, 2.8vw, 2.4rem);
+}
+
+.artwork-financial-snapshot > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.artwork-financial-snapshot > div > div {
+  display: grid;
+  gap: 3px;
+  border-top: 1px solid rgba(25, 18, 49, 0.3);
+  padding: 10px 8px 10px 0;
+}
+
+.artwork-financial-snapshot span {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-financial-snapshot strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
 .artwork-story p {
   white-space: pre-wrap;
   font-family: Georgia, "Times New Roman", serif;
@@ -1719,6 +1812,88 @@ a.studio-feed-card:focus {
 
 .artwork-gallery {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.artwork-image-card {
+  display: grid;
+  align-content: start;
+  border: 2px solid var(--line);
+  background: var(--white-paint);
+}
+
+.artwork-image-card.is-primary {
+  box-shadow: 8px 8px 0 var(--green-grass);
+}
+
+.artwork-image-card > img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-bottom: 2px solid var(--line);
+  object-fit: cover;
+}
+
+.artwork-image-card-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--yellow-sun);
+  padding: 10px 12px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.artwork-image-metadata {
+  display: grid;
+  gap: 13px;
+  padding: 14px;
+}
+
+.artwork-image-metadata label {
+  display: grid;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-image-metadata input,
+.artwork-image-metadata select {
+  min-height: 44px;
+  border: 2px solid var(--line);
+  background: var(--white-paint);
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.artwork-image-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.target-price-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.45fr) auto;
+  gap: 22px;
+  align-items: end;
+  margin-bottom: 22px;
+  border: 2px solid var(--line);
+  background: var(--yellow-sun);
+  padding: clamp(18px, 3vw, 28px);
+  box-shadow: 8px 8px 0 var(--orange-verm);
+}
+
+.target-price-panel h2 {
+  margin: 3px 0 8px;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+}
+
+.target-price-panel p:last-child {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .cost-summary {
@@ -1771,6 +1946,39 @@ a.studio-feed-card:focus {
   box-shadow: 6px 6px 0 var(--ochre);
 }
 
+.studio-inline-form-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 13px;
+}
+
+.studio-inline-form-heading h3 {
+  margin: 3px 0 0;
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+}
+
+.artwork-compact-empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  border: 2px dashed var(--line);
+  background: rgba(253, 253, 251, 0.7);
+  padding: 20px;
+}
+
+.artwork-compact-empty[hidden] {
+  display: none;
+}
+
+.artwork-compact-empty p {
+  margin: 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
 .artwork-cost-groups,
 .artwork-record-list {
   display: grid;
@@ -1780,6 +1988,14 @@ a.studio-feed-card:focus {
 .artwork-cost-category {
   border: 2px solid var(--line);
   background: var(--white-paint);
+}
+
+.artwork-cost-category[draggable="true"] > header {
+  cursor: grab;
+}
+
+.artwork-cost-category.is-dragging {
+  opacity: 0.5;
 }
 
 .artwork-cost-category > header {
@@ -1919,6 +2135,14 @@ a.studio-feed-card:focus {
     grid-column: 1 / -1;
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .target-price-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .target-price-panel > div:first-child {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1974,6 +2198,15 @@ a.studio-feed-card:focus {
   .studio-form-row-4,
   .cost-summary {
     grid-template-columns: 1fr;
+  }
+
+  .target-price-panel,
+  .artwork-financial-snapshot > div {
+    grid-template-columns: 1fr;
+  }
+
+  .target-price-panel > div:first-child {
+    grid-column: auto;
   }
 
   .studio-search-field {
@@ -2052,5 +2285,13 @@ a.studio-feed-card:focus {
 
   .artwork-record-row {
     gap: 8px;
+  }
+
+  .artwork-compact-empty {
+    display: grid;
+  }
+
+  .artwork-image-actions .studio-button {
+    width: 100%;
   }
 }

@@ -160,7 +160,7 @@ Acceptance criteria:
 
 Goal: make the private platform useful for daily studio records.
 
-Journal v0.1 and Studio Feed v0.1 are implemented. Artwork v0.1 is implemented in the application and awaits applying `docs/supabase-artwork-v01.sql` plus authenticated Deploy Preview verification.
+Journal v0.1, Studio Feed v0.1, and Artwork v0.1 are live. Artwork v0.2 entry and costing refinements add clear create/edit states, fractional imperial dimensions, target pricing, quarter-hour labor, structured image metadata, compact cost categories, and brighter status badges.
 
 Scope:
 

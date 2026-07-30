@@ -31,6 +31,37 @@ export const PRICING_SCENARIOS = [
   "Custom"
 ] as const;
 
+export const IMAGE_TAGS = [
+  ["primary", "Primary"],
+  ["process", "Process"],
+  ["detail", "Detail"],
+  ["finished", "Finished"],
+  ["hardware", "Hardware"],
+  ["installation", "Installation"],
+  ["framing", "Framing"],
+  ["packaging", "Packaging"],
+  ["other", "Other"]
+] as const;
+
+export const INCH_FRACTIONS = [
+  [0, ""],
+  [1, "1/16"],
+  [2, "1/8"],
+  [3, "3/16"],
+  [4, "1/4"],
+  [5, "5/16"],
+  [6, "3/8"],
+  [7, "7/16"],
+  [8, "1/2"],
+  [9, "9/16"],
+  [10, "5/8"],
+  [11, "11/16"],
+  [12, "3/4"],
+  [13, "13/16"],
+  [14, "7/8"],
+  [15, "15/16"]
+] as const;
+
 export type Artwork = {
   id: string;
   owner_id: string | null;
@@ -55,6 +86,7 @@ export type Artwork = {
   description_public: string | null;
   notes_private: string | null;
   primary_image_id: string | null;
+  target_price_cents: number | null;
   current_retail_price_cents: number | null;
   sold_price_cents: number | null;
   sold_at: string | null;
@@ -86,6 +118,7 @@ export type LaborEntry = {
   task: string;
   entry_date: string;
   hours: number;
+  duration_minutes: number;
   hourly_value_cents: number;
   labor_total_cents: number;
   notes: string | null;
@@ -136,6 +169,46 @@ export function allocatedCost(input: {
 
 export function laborTotal(hours: number, hourlyValueCents: number): number {
   return Math.max(0, Math.round(hours * hourlyValueCents));
+}
+
+export function laborTotalMinutes(durationMinutes: number, hourlyValueCents: number): number {
+  return Math.max(0, Math.round((durationMinutes * hourlyValueCents) / 60));
+}
+
+export function normalizeInches(value: number): number {
+  return Math.max(0, Math.round(value * 16) / 16);
+}
+
+export function formatInches(value: number | null | undefined): string {
+  if (value == null || !Number.isFinite(value)) return "";
+  const sixteenths = Math.max(0, Math.round(value * 16));
+  const whole = Math.floor(sixteenths / 16);
+  const fraction = INCH_FRACTIONS[sixteenths % 16]?.[1] || "";
+  if (!whole && fraction) return fraction;
+  return fraction ? `${whole} ${fraction}` : String(whole);
+}
+
+export function parseInches(value: string): number | null {
+  const normalized = value.trim().replace(/["″]/g, "");
+  if (!normalized) return null;
+  const mixed = normalized.match(/^(\d+)?(?:\s+)?(\d+)\/(\d+)$/);
+  if (mixed) {
+    const whole = Number(mixed[1] || 0);
+    const numerator = Number(mixed[2]);
+    const denominator = Number(mixed[3]);
+    if (!denominator) return null;
+    return normalizeInches(whole + numerator / denominator);
+  }
+  const numeric = Number(normalized);
+  return Number.isFinite(numeric) && numeric >= 0 ? normalizeInches(numeric) : null;
+}
+
+export function formatLaborDuration(durationMinutes: number): string {
+  const safeMinutes = Math.max(0, Math.round(durationMinutes / 15) * 15);
+  const whole = Math.floor(safeMinutes / 60);
+  const fraction = ["", "1/4", "1/2", "3/4"][Math.floor((safeMinutes % 60) / 15)];
+  const amount = fraction ? `${whole ? `${whole} ` : ""}${fraction}` : String(whole);
+  return `${amount} ${safeMinutes === 60 ? "hour" : "hours"}`;
 }
 
 export function pricingOutcome(

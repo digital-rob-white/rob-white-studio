@@ -10,6 +10,14 @@ After the platform, Journal, and Studio Feed migrations, run:
 docs/supabase-artwork-v01.sql
 ```
 
+For the Artwork entry and costing refinements, then run:
+
+```text
+docs/supabase-artwork-v02-refinements.sql
+```
+
+The v0.2 migration adds an independent target artwork price, backfills labor as integer minutes in quarter-hour increments, and adds reusable image tags and display order. It is additive and retains existing Artwork records.
+
 The migration extends the existing `artworks` table instead of creating a duplicate cost-project record. Financial values are persisted as integer USD cents. Child records are protected by row-level security through their owning artwork.
 
 Existing artwork rows without an owner remain visible to authenticated Studio users for migration purposes. The next successful edit assigns the current user as owner. New records are always owner-scoped.
@@ -31,7 +39,7 @@ The old standalone calculator used browser storage, floating-point dollars, `qua
 - A reusable purchase is allocated as `purchase cost × (amount used ÷ purchase quantity)`.
 - A direct allocated cost can be entered when usage is not measurable.
 - A manual allocation always wins and is never silently recalculated.
-- Studio labor is logged separately as `hours × hourly value`; it is not called profit.
+- Studio labor is stored in integer minutes, entered in quarter-hour increments, and valued as `minutes ÷ 60 × hourly value`; it is not called profit.
 - Direct artwork-owned framing and fabrication categories replace recursive cost-sheet links.
 - Each pricing scenario removes commissions, fees, discounts, absorbed shipping, and other deductions before showing net proceeds.
 - Cash profit and fully costed profit are shown separately.
@@ -51,6 +59,10 @@ The old standalone calculator used browser storage, floating-point dollars, `qua
 9. Change production status, mark the work available, and add a cost; confirm meaningful Feed entries.
 10. Check the archive, detail workflow, costing forms, and pricing cards at desktop and phone widths.
 11. Cancel an artwork deletion, then confirm deletion warns that financial children will be removed and Journal entries detached.
+12. Confirm inch dimensions render as mixed fractions while metric dimensions remain decimal.
+13. Add and edit each repeating financial record; confirm successful saves close and clear the form without duplicates.
+14. Set a target artwork price and confirm the Overview and Cost Summary update.
+15. Caption, tag, reorder, and change the primary Artwork image.
 
 ## Deferred
 
