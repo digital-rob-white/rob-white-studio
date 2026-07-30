@@ -1,0 +1,27 @@
+---
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+import { AVAILABILITY_STATUSES, PRODUCTION_STATUSES } from "../../../lib/artwork";
+---
+
+<StudioLayout title="Artwork | Rob White Studio" activePage="artwork">
+  <header class="studio-page-heading">
+    <div><p class="eyebrow">Permanent studio records</p><h1>Artwork</h1><p class="studio-lede">Identity, process, investment, pricing, and history in one place.</p></div>
+    <a class="studio-button" href="/studio/artwork/new">New Artwork</a>
+  </header>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <section class="studio-filter-panel artwork-filter-panel" aria-label="Artwork filters">
+    <div class="studio-field studio-search-field"><label for="artwork-search">Search</label><input id="artwork-search" type="search" data-artwork-search placeholder="Title, inventory, medium, collection…" /></div>
+    <div class="studio-field"><label for="artwork-production">Production</label><select id="artwork-production" data-artwork-production><option value="">All</option>{PRODUCTION_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+    <div class="studio-field"><label for="artwork-availability">Availability</label><select id="artwork-availability" data-artwork-availability><option value="">All</option>{AVAILABILITY_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+    <div class="studio-field"><label for="artwork-collection">Collection</label><select id="artwork-collection" data-artwork-collection><option value="">All</option></select></div>
+    <div class="studio-field"><label for="artwork-medium">Medium</label><select id="artwork-medium" data-artwork-medium><option value="">All</option></select></div>
+    <div class="studio-field"><label for="artwork-sort">Sort</label><select id="artwork-sort" data-artwork-sort><option value="updated_desc">Recently updated</option><option value="title_asc">Title A–Z</option><option value="year_desc">Year newest</option><option value="price_desc">Retail price high</option><option value="cost_desc">Invested cost high</option></select></div>
+  </section>
+  <p class="studio-loading" data-artwork-loading>Opening the Artwork archive…</p>
+  <section class="studio-empty" data-artwork-empty hidden><h2>No artwork records yet.</h2><p>Create the first permanent studio record.</p><a class="studio-button" href="/studio/artwork/new">Create Artwork</a></section>
+  <div class="artwork-list" data-artwork-list></div>
+</StudioLayout>
+
+<script>
+  import "../../../scripts/artwork-index";
+</script>
