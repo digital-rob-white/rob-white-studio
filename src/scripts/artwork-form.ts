@@ -1,4 +1,4 @@
-import { ARTWORK_TEMPLATES, type Artwork, validateArtwork } from "../lib/artwork";
+import { ARTWORK_TEMPLATES, formatInches, parseInches, type Artwork, validateArtwork } from "../lib/artwork";
 import { safeFileName } from "../lib/journal";
 import { requireStudioUser, setupStudioSignOut, showStudioError } from "./supabase-client";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
@@ -20,6 +20,12 @@ function numeric(values: FormData, name: string): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function dimension(values: FormData, name: string): number | null {
+  const raw = value(values, name);
+  if (raw == null) return null;
+  return value(values, "dimension_unit") === "in" ? parseInches(raw) : numeric(values, name);
+}
+
 function payload(values: FormData, ownerId: string) {
   return {
     owner_id: ownerId,
@@ -29,9 +35,9 @@ function payload(values: FormData, ownerId: string) {
     artwork_type: value(values, "artwork_type") || "custom",
     medium: value(values, "medium"),
     materials_description: value(values, "materials_description"),
-    width: numeric(values, "width"),
-    height: numeric(values, "height"),
-    depth: numeric(values, "depth"),
+    width: dimension(values, "width"),
+    height: dimension(values, "height"),
+    depth: dimension(values, "depth"),
     dimension_unit: value(values, "dimension_unit") || "in",
     weight: numeric(values, "weight"),
     weight_unit: value(values, "weight_unit") || "lb",
@@ -54,6 +60,68 @@ function fill(artwork: Artwork): void {
       field.value = raw == null ? "" : String(raw);
     }
   });
+  if (artwork.dimension_unit === "in") {
+    form.querySelectorAll<HTMLInputElement>("[data-dimension]").forEach((field) => {
+      const raw = artwork[field.name as "width" | "height" | "depth"];
+      field.value = formatInches(raw);
+    });
+  }
+}
+
+function configureDimensionInputs(): void {
+  if (!form) return;
+  const unit = form.elements.namedItem("dimension_unit");
+  if (!(unit instanceof HTMLSelectElement)) return;
+  const fields = Array.from(form.querySelectorAll<HTMLInputElement>("[data-dimension]"));
+  const help = form.querySelector<HTMLElement>("[data-dimension-help]");
+  const update = (previousUnit?: string) => {
+    const inches = unit.value === "in";
+    fields.forEach((field) => {
+      if (previousUnit === "in" && !inches) {
+        const parsed = parseInches(field.value);
+        field.value = parsed == null ? "" : String(parsed);
+      } else if (inches && field.value) {
+        const parsed = Number(field.value);
+        if (Number.isFinite(parsed)) field.value = formatInches(parsed);
+      }
+      field.placeholder = inches ? "25 3/4" : "25.75";
+      field.setAttribute("aria-describedby", "dimension-entry-help");
+    });
+    if (help) {
+      help.id = "dimension-entry-help";
+      help.textContent = inches
+        ? "Enter inches as a whole number, fraction, or mixed number, such as 25 3/4. Values are saved to the nearest 1/16 inch."
+        : "Enter metric dimensions as decimal values.";
+    }
+  };
+  let previousUnit = unit.value;
+  unit.addEventListener("change", () => {
+    update(previousUnit);
+    previousUnit = unit.value;
+  });
+  fields.forEach((field) => {
+    field.addEventListener("blur", () => {
+      if (unit.value !== "in" || !field.value) return;
+      const parsed = parseInches(field.value);
+      if (parsed != null) field.value = formatInches(parsed);
+    });
+  });
+  update();
+}
+
+function configureDateInputs(): void {
+  if (!form) return;
+  form.querySelectorAll<HTMLInputElement>("input[type=date]").forEach((field) => {
+    field.addEventListener("click", () => {
+      if ("showPicker" in field) field.showPicker();
+    });
+  });
+  form.querySelectorAll<HTMLButtonElement>("[data-clear-date]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const field = form.elements.namedItem(button.dataset.clearDate || "");
+      if (field instanceof HTMLInputElement) field.value = "";
+    });
+  });
 }
 
 function clearErrors(): void {
@@ -64,6 +132,10 @@ function clearErrors(): void {
 async function uploadImages(client: SupabaseClient, user: User, artworkId: string): Promise<string[]> {
   const files = Array.from(fileInput?.files || []);
   const ids: string[] = [];
+  const { data: lastImage, error: orderError } = await client.from("file_assets")
+    .select("display_order").eq("artwork_id", artworkId).order("display_order", { ascending: false }).limit(1).maybeSingle();
+  if (orderError) throw orderError;
+  const firstDisplayOrder = lastImage ? Number(lastImage.display_order || 0) + 1 : 0;
   for (const [index, file] of files.entries()) {
     if (file.size > 10 * 1024 * 1024) throw new Error(`${file.name} is larger than 10 MB.`);
     const path = `${user.id}/artwork/${artworkId}/${Date.now()}-${index}-${safeFileName(file.name)}`;
@@ -78,6 +150,8 @@ async function uploadImages(client: SupabaseClient, user: User, artworkId: strin
       alt_text: existingArtwork?.title || String(new FormData(form!).get("title") || "Artwork"),
       visibility: "internal",
       artwork_id: artworkId,
+      image_tag: index === 0 && !existingArtwork?.primary_image_id ? "primary" : "finished",
+      display_order: firstDisplayOrder + index,
       uploaded_by: user.id
     }).select("id").single();
     if (error) {
@@ -111,6 +185,8 @@ async function init(): Promise<void> {
   if (!form || !submit) return;
   try {
     const { client, user } = await requireStudioUser();
+    configureDimensionInputs();
+    configureDateInputs();
     const id = new URLSearchParams(window.location.search).get("id");
     if (mode === "edit") {
       if (!id) throw new Error("No artwork was selected.");

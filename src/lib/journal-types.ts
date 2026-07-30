@@ -7,7 +7,10 @@ export type FileAsset = {
   file_size: number | null;
   alt_text: string | null;
   caption: string | null;
+  image_tag: string | null;
+  display_order: number;
   visibility: "public" | "internal";
+  artwork_id: string | null;
   journal_entry_id: string | null;
   created_at: string;
 };

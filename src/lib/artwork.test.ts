@@ -1,5 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { allocatedCost, dollarsToCents, laborTotal, pricingIndicator, pricingOutcome } from "./artwork";
+import {
+  allocatedCost,
+  dollarsToCents,
+  formatInches,
+  formatLaborDuration,
+  laborTotal,
+  laborTotalMinutes,
+  normalizeInches,
+  parseInches,
+  pricingIndicator,
+  pricingOutcome
+} from "./artwork";
 
 describe("Artwork costing", () => {
   it("allocates only the portion of a reusable purchase used", () => {
@@ -18,6 +29,29 @@ describe("Artwork costing", () => {
   it("rounds currency and labor safely to cents", () => {
     expect(dollarsToCents("19.999")).toBe(2000);
     expect(laborTotal(2.25, 3500)).toBe(7875);
+    expect(laborTotalMinutes(135, 3500)).toBe(7875);
+  });
+});
+
+describe("Artwork measurements", () => {
+  it("formats inch dimensions as mixed sixteenth-inch fractions", () => {
+    expect(formatInches(25.75)).toBe("25 3/4");
+    expect(formatInches(37.25)).toBe("37 1/4");
+    expect(formatInches(46.5)).toBe("46 1/2");
+    expect(formatInches(0.0625)).toBe("1/16");
+  });
+
+  it("parses mixed fractions and normalizes decimals to a sixteenth", () => {
+    expect(parseInches("25 3/4")).toBe(25.75);
+    expect(parseInches('37 1/4"')).toBe(37.25);
+    expect(normalizeInches(10.03)).toBe(10);
+  });
+
+  it("renders labor without decimal hours", () => {
+    expect(formatLaborDuration(75)).toBe("1 1/4 hours");
+    expect(formatLaborDuration(90)).toBe("1 1/2 hours");
+    expect(formatLaborDuration(105)).toBe("1 3/4 hours");
+    expect(formatLaborDuration(60)).toBe("1 hour");
   });
 });
 
