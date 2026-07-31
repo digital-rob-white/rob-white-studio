@@ -86,10 +86,18 @@ export function catalogPageCount(itemCount: number, layout: ArtworkCatalog["layo
 
 export function catalogDimensions(artwork: Artwork, override?: string | null): string {
   if (override?.trim()) return override.trim();
-  const values = [artwork.width, artwork.height, artwork.depth].filter((part) => part != null);
-  if (!values.length) return "";
-  const formatted = values.map((part) => artwork.dimension_unit === "in" ? formatInches(part) : String(part));
-  return `${formatted.join(" × ")}${artwork.dimension_unit === "in" ? "″" : ` ${artwork.dimension_unit}`}`;
+  const dimensions = [
+    ["H", artwork.height],
+    ["W", artwork.width],
+    ["D", artwork.depth]
+  ].filter((dimension): dimension is [string, NonNullable<typeof artwork.height>] => dimension[1] != null);
+  if (!dimensions.length) return "";
+  return dimensions.map(([label, value]) => {
+    const measurement = artwork.dimension_unit === "in"
+      ? `${formatInches(value)}″`
+      : `${value} ${artwork.dimension_unit}`;
+    return `${measurement} ${label}`;
+  }).join(" × ");
 }
 
 export function catalogFrame(item: CatalogItem, artwork: Artwork): string {

@@ -29,28 +29,54 @@ async function urlToDataUrl(url: string): Promise<{ data: string; width: number;
   const response = await fetch(url);
   if (!response.ok) throw new Error("An artwork image could not be prepared for export.");
   const blob = await response.blob();
-  const data = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-  const dimensions = await new Promise<{ width: number; height: number }>((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
-    image.onerror = reject;
-    image.src = data;
-  });
-  return { data, ...dimensions };
+  let source: CanvasImageSource;
+  let sourceWidth: number;
+  let sourceHeight: number;
+  let bitmap: ImageBitmap | null = null;
+
+  try {
+    bitmap = await createImageBitmap(blob, { imageOrientation: "from-image" });
+    source = bitmap;
+    sourceWidth = bitmap.width;
+    sourceHeight = bitmap.height;
+  } catch {
+    const objectUrl = URL.createObjectURL(blob);
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const element = new Image();
+      element.onload = () => resolve(element);
+      element.onerror = reject;
+      element.src = objectUrl;
+    });
+    URL.revokeObjectURL(objectUrl);
+    source = image;
+    sourceWidth = image.naturalWidth;
+    sourceHeight = image.naturalHeight;
+  }
+
+  const maximumDimension = 3200;
+  const scale = Math.min(1, maximumDimension / Math.max(sourceWidth, sourceHeight));
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("An artwork image could not be prepared for export.");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, width, height);
+  context.drawImage(source, 0, 0, width, height);
+  bitmap?.close();
+
+  return { data: canvas.toDataURL("image/jpeg", 0.94), width, height };
 }
 
-function itemText(item: CatalogItem): { title: string; details: string[]; price: string; caption: string } {
+function itemText(item: CatalogItem): { title: string; dimensions: string; details: string[]; price: string; caption: string } {
   const artwork = item.artwork!;
   const title = `${item.title_override || artwork.title}${item.year_override || artwork.year ? `, ${item.year_override || artwork.year}` : ""}`;
   return {
     title,
+    dimensions: catalogDimensions(artwork, item.dimensions_override),
     details: [
-      catalogDimensions(artwork, item.dimensions_override),
       item.materials_override || artwork.materials_description || artwork.medium || "",
       catalogFrame(item, artwork)
     ].filter(Boolean),
@@ -82,7 +108,7 @@ function renderPreview(): void {
     <div class="catalog-paper-grid">${chunk.map((item) => {
       const copy = itemText(item);
       return `<article><div class="catalog-paper-image">${item.imageUrl ? `<img src="${item.imageUrl}" alt="${escapeHtml(item.artwork?.title)}" />` : "<span>Image unavailable</span>"}</div>
-        <div class="catalog-paper-copy"><h3>${escapeHtml(copy.title)}</h3>${copy.details.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}${copy.caption ? `<p class="catalog-paper-caption">${escapeHtml(copy.caption)}</p>` : ""}${copy.price ? `<strong>${escapeHtml(copy.price)}</strong>` : ""}</div>
+        <div class="catalog-paper-copy"><h3>${escapeHtml(copy.title)}</h3>${copy.dimensions ? `<p class="catalog-paper-dimensions">${escapeHtml(copy.dimensions)}</p>` : ""}${copy.details.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}${copy.caption ? `<p class="catalog-paper-caption">${escapeHtml(copy.caption)}</p>` : ""}${copy.price ? `<strong>${escapeHtml(copy.price)}</strong>` : ""}</div>
       </article>`;
     }).join("")}</div>
     <footer><span>${pageIndex + 1} / ${pageTotal}</span><div>${contactLines().map((line, index) => index === 0 ? `<strong>${escapeHtml(line)}</strong>` : `<span>${escapeHtml(line)}</span>`).join("")}</div></footer>
@@ -93,20 +119,20 @@ function renderPreview(): void {
   }
 }
 
-function addContainedImage(doc: jsPDF, item: PreparedItem, x: number, y: number, width: number, height: number): void {
+function addContainedImage(doc: jsPDF, item: PreparedItem, x: number, y: number, width: number, height: number): number {
   if (!item.imageData || !item.naturalWidth || !item.naturalHeight) {
     doc.setDrawColor(220);
     doc.rect(x, y, width, height);
     doc.setTextColor(130);
     doc.setFontSize(8);
     doc.text("Image unavailable", x + width / 2, y + height / 2, { align: "center" });
-    return;
+    return height;
   }
   const ratio = Math.min(width / item.naturalWidth, height / item.naturalHeight);
   const renderedWidth = item.naturalWidth * ratio;
   const renderedHeight = item.naturalHeight * ratio;
-  const format = item.imageData.startsWith("data:image/png") ? "PNG" : item.imageData.startsWith("data:image/webp") ? "WEBP" : "JPEG";
-  doc.addImage(item.imageData, format, x + (width - renderedWidth) / 2, y + (height - renderedHeight) / 2, renderedWidth, renderedHeight, undefined, "MEDIUM");
+  doc.addImage(item.imageData, "JPEG", x, y, renderedWidth, renderedHeight, undefined, "MEDIUM");
+  return renderedHeight;
 }
 
 function addHeader(doc: jsPDF): number {
@@ -146,13 +172,20 @@ function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
 function addItem(doc: jsPDF, item: PreparedItem, x: number, y: number, width: number, height: number, large: boolean): void {
   const copy = itemText(item);
   const imageHeight = large ? height * 0.67 : height * 0.58;
-  addContainedImage(doc, item, x, y, width, imageHeight);
-  let textY = y + imageHeight + 0.14;
+  const renderedImageHeight = addContainedImage(doc, item, x, y, width, imageHeight);
+  let textY = y + renderedImageHeight + 0.14;
   doc.setTextColor(25);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(large ? 9 : 7.5);
   doc.text(doc.splitTextToSize(copy.title, width).slice(0, 2), x, textY);
   textY += large ? 0.28 : 0.22;
+  if (copy.dimensions) {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(large ? 7.8 : 6.8);
+    const wrapped = doc.splitTextToSize(copy.dimensions, width).slice(0, 2);
+    doc.text(wrapped, x, textY);
+    textY += wrapped.length * (large ? 0.14 : 0.11);
+  }
   doc.setFont("helvetica", "normal");
   doc.setFontSize(large ? 7 : 6.2);
   for (const line of copy.details) {

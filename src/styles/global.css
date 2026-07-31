@@ -284,7 +284,7 @@
 
 .catalog-paper-image {
   display: grid;
-  place-items: center;
+  place-items: start;
   min-height: 0;
   overflow: hidden;
   color: #777;
@@ -295,6 +295,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: left top;
 }
 
 .catalog-paper-copy {
@@ -305,6 +306,13 @@
 .catalog-paper-copy h3 {
   margin-bottom: 2%;
   font-size: clamp(.5rem, .95vw, .82rem);
+}
+
+.catalog-paper-dimensions {
+  margin-bottom: 1.5%;
+  font-size: 1.06em;
+  font-weight: 700;
+  letter-spacing: .01em;
 }
 
 .catalog-paper-caption {
