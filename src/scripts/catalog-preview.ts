@@ -155,14 +155,10 @@ function addHeader(doc: jsPDF): number {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(7.5);
   right.forEach((line, index) => doc.text(line, 10.45, 0.6 + index * 0.16, { align: "right" }));
-  doc.setDrawColor(222);
-  doc.line(0.55, 0.98, 10.45, 0.98);
   return 1.34;
 }
 
 function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
-  doc.setDrawColor(222);
-  doc.line(0.55, 7.78, 10.45, 7.78);
   doc.setTextColor(90);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(6.5);
