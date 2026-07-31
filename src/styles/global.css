@@ -237,7 +237,6 @@
   align-items: start;
   gap: 20px;
   padding-bottom: 1.2%;
-  border-bottom: 1px solid #d7d3cc;
 }
 
 .catalog-paper h2,
@@ -325,13 +324,17 @@
   justify-content: space-between;
   align-items: end;
   padding-top: 1%;
-  border-top: 1px solid #d7d3cc;
 }
 
 .catalog-paper footer div {
   display: grid;
   justify-items: end;
   line-height: 1.2;
+}
+
+.catalog-paper-logo {
+  width: clamp(3rem, 8.5%, 5.25rem);
+  height: auto;
 }
 
 @media (max-width: 760px) {
