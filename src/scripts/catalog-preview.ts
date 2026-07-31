@@ -152,7 +152,7 @@ function addHeader(doc: jsPDF): number {
   right.forEach((line, index) => doc.text(line, 10.45, 0.6 + index * 0.16, { align: "right" }));
   doc.setDrawColor(222);
   doc.line(0.55, 0.98, 10.45, 0.98);
-  return 1.14;
+  return 1.34;
 }
 
 function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
@@ -173,7 +173,7 @@ function addItem(doc: jsPDF, item: PreparedItem, x: number, y: number, width: nu
   const copy = itemText(item);
   const imageHeight = large ? height * 0.67 : height * 0.58;
   const renderedImageHeight = addContainedImage(doc, item, x, y, width, imageHeight);
-  let textY = y + renderedImageHeight + 0.14;
+  let textY = y + renderedImageHeight + 0.19;
   doc.setTextColor(25);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(large ? 9 : 7.5);
@@ -181,10 +181,10 @@ function addItem(doc: jsPDF, item: PreparedItem, x: number, y: number, width: nu
   textY += large ? 0.28 : 0.22;
   if (copy.dimensions) {
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(large ? 7.8 : 6.8);
-    const wrapped = doc.splitTextToSize(copy.dimensions, width).slice(0, 2);
+    doc.setFontSize(large ? 8.5 : 7.2);
+    const wrapped = doc.splitTextToSize(copy.dimensions, width).slice(0, 3);
     doc.text(wrapped, x, textY);
-    textY += wrapped.length * (large ? 0.14 : 0.11);
+    textY += wrapped.length * (large ? 0.16 : 0.13);
   }
   doc.setFont("helvetica", "normal");
   doc.setFontSize(large ? 7 : 6.2);

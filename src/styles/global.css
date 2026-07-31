@@ -269,7 +269,7 @@
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 2.5% 2%;
   min-height: 0;
-  padding: 2% 0;
+  padding: 3.25% 0 2%;
 }
 
 .catalog-paper-large .catalog-paper-grid {
@@ -299,7 +299,7 @@
 }
 
 .catalog-paper-copy {
-  padding-top: 4%;
+  padding-top: 5.5%;
   line-height: 1.25;
 }
 
@@ -309,8 +309,8 @@
 }
 
 .catalog-paper-dimensions {
-  margin-bottom: 1.5%;
-  font-size: 1.06em;
+  margin-bottom: 2%;
+  font-size: 1.1em;
   font-weight: 700;
   letter-spacing: .01em;
 }

@@ -15,7 +15,7 @@ const artwork = {
 
 describe("artwork catalogs", () => {
   it("formats canonical imperial dimensions", () => {
-    expect(catalogDimensions(artwork)).toBe("37 1/4″ H × 25 3/4″ W × 1 1/2″ D");
+    expect(catalogDimensions(artwork)).toBe("Height: 37 1/4 in | Width: 25 3/4 in | Depth: 1 1/2 in");
   });
 
   it("paginates deterministic presets", () => {
