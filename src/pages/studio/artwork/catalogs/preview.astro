@@ -1,0 +1,21 @@
+---
+import StudioLayout from "../../../../layouts/StudioLayout.astro";
+---
+
+<StudioLayout title="Catalog Preview | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" data-catalog-back href="/studio/artwork/catalogs">← Back to Catalog</a>
+  <header class="studio-page-heading catalog-preview-heading">
+    <div><p class="eyebrow">Landscape Letter PDF</p><h1 data-preview-title>Catalog Preview</h1><p class="studio-lede">Every outlined sheet below is one 11 × 8.5 inch page.</p></div>
+    <button class="studio-button" type="button" data-export-pdf disabled>Export PDF</button>
+  </header>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <p class="studio-success" data-export-success hidden aria-live="polite"></p>
+  <p class="studio-loading" data-preview-loading>Preparing high-resolution artwork images…</p>
+  <div class="catalog-preview-toolbar" data-preview-summary hidden></div>
+  <div class="catalog-preview-pages" data-preview-pages></div>
+</StudioLayout>
+
+<script>
+  import "../../../../scripts/catalog-preview";
+</script>
+

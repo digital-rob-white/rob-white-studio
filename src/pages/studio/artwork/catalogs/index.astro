@@ -1,0 +1,24 @@
+---
+import StudioLayout from "../../../../layouts/StudioLayout.astro";
+---
+
+<StudioLayout title="Artwork Catalogs | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" href="/studio/artwork">← Back to Artwork</a>
+  <header class="studio-page-heading">
+    <div><p class="eyebrow">Shareable selections</p><h1>Artwork Catalogs</h1><p class="studio-lede">Create polished, reusable artwork presentations from permanent studio records.</p></div>
+    <a class="studio-button" href="/studio/artwork/catalogs/new">New Catalog</a>
+  </header>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <section class="studio-filter-panel catalog-filter-panel">
+    <div class="studio-field studio-search-field"><label for="catalog-search">Search</label><input id="catalog-search" type="search" data-catalog-search placeholder="Catalog title or recipient…" /></div>
+    <div class="studio-field"><label for="catalog-sort">Sort</label><select id="catalog-sort" data-catalog-sort><option value="updated_desc">Recently updated</option><option value="name_asc">Name A–Z</option><option value="created_desc">Newest created</option></select></div>
+  </section>
+  <p class="studio-loading" data-catalog-loading>Opening the catalog archive…</p>
+  <section class="studio-empty" data-catalog-empty hidden><h2>No artwork catalogs yet.</h2><p>Build a first presentation from existing artwork records.</p><a class="studio-button" href="/studio/artwork/catalogs/new">Create Catalog</a></section>
+  <div class="catalog-list" data-catalog-list></div>
+</StudioLayout>
+
+<script>
+  import "../../../../scripts/catalog-index";
+</script>
+

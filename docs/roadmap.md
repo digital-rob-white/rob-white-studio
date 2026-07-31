@@ -160,7 +160,7 @@ Acceptance criteria:
 
 Goal: make the private platform useful for daily studio records.
 
-Journal v0.1, Studio Feed v0.1, and Artwork v0.1 are live. Artwork v0.2 entry and costing refinements add clear create/edit states, fractional imperial dimensions, target pricing, quarter-hour labor, structured image metadata, compact cost categories, and brighter status badges.
+Journal v0.1, Studio Feed v0.1, and Artwork v0.1 are live. Artwork v0.2 entry and costing refinements add clear create/edit states, fractional imperial dimensions, target pricing, quarter-hour labor, structured image metadata, compact cost categories, and brighter status badges. Artwork Catalogs v0.1 adds reusable catalog records, canonical artwork relationships, presentation overrides, price snapshots, deterministic landscape Letter previews and PDF export, and a centralized studio contact block.
 
 Scope:
 
@@ -169,6 +169,7 @@ Scope:
 - Artwork CRUD.
 - Artwork images, artwork-owned material costs, separated studio labor, channel pricing scenarios, and retained price history.
 - Bidirectional Artwork–Journal relationships and intentional Artwork Feed activity.
+- Artwork catalogs with bulk selection, ordering, two image-led layouts, price-display controls, duplication, and PDF export.
 - Journal entries with visibility states.
 
 Priority details:
@@ -262,11 +263,11 @@ Potential future work:
 
 ## Immediate Next Tasks
 
-1. Apply `docs/supabase-artwork-v01.sql` to the Supabase project.
-2. Exercise the authenticated Artwork acceptance checklist in a Netlify Deploy Preview.
-3. Verify image uploads and cross-device persistence with the production Supabase project.
-4. Continue Core Records with Contacts and Projects after Artwork v0.1 is accepted.
+1. Apply `docs/supabase-artwork-catalogs-v01.sql` to the Supabase project.
+2. Exercise the authenticated Artwork Catalogs checklist in a Netlify Deploy Preview with real artwork.
+3. Inspect a multi-page PDF for exact page size, image fitting, footer consistency, and mobile behavior.
+4. Continue Core Records with Contacts and Projects after Artwork Catalogs v0.1 is accepted.
 
 Recommended next step:
 
-- Apply the Artwork migration and complete the authenticated acceptance checklist in a Deploy Preview.
+- Apply the Artwork Catalogs migration and complete its authenticated acceptance checklist in a Deploy Preview.

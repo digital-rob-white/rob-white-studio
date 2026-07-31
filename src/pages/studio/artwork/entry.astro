@@ -21,10 +21,17 @@ import { PRICING_SCENARIOS } from "../../../lib/artwork";
         </div>
       </div>
       <div class="artwork-detail-actions">
+        <button class="studio-button studio-button-quiet" type="button" data-toggle-catalog-add>Add to Catalog</button>
         <a class="studio-button" data-artwork-edit href="/studio/artwork/edit">Edit Artwork</a>
         <button class="studio-button studio-button-danger" type="button" data-delete-artwork>Delete</button>
       </div>
     </header>
+
+    <form class="catalog-quick-add" data-catalog-quick-add hidden>
+      <div><p class="eyebrow">Artwork Catalogs</p><h2>Add this artwork</h2><p>Choose an existing catalog. The artwork record remains the source of truth.</p></div>
+      <div class="studio-field"><label for="quick-catalog">Catalog</label><select id="quick-catalog" name="catalog_id" required></select></div>
+      <div class="studio-form-actions"><button class="studio-button studio-button-quiet" type="button" data-cancel-catalog-add>Cancel</button><button class="studio-button" type="submit">Add to Catalog</button></div>
+    </form>
 
     <nav class="artwork-tabs" aria-label="Artwork sections">
       <button type="button" data-artwork-tab="overview" class="is-active">Overview</button>

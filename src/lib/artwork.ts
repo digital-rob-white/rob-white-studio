@@ -43,6 +43,13 @@ export const IMAGE_TAGS = [
   ["other", "Other"]
 ] as const;
 
+export const FRAME_STATUSES = [
+  ["framed", "Framed"],
+  ["unframed", "Unframed"],
+  ["frame_optional", "Frame optional"],
+  ["not_applicable", "Not applicable"]
+] as const;
+
 export const INCH_FRACTIONS = [
   [0, ""],
   [1, "1/16"],
@@ -71,6 +78,8 @@ export type Artwork = {
   artwork_type: string;
   medium: string | null;
   materials_description: string | null;
+  frame_status: string;
+  frame_description: string | null;
   width: number | null;
   height: number | null;
   depth: number | null;

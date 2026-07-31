@@ -1,0 +1,56 @@
+---
+import StudioLayout from "../../../../layouts/StudioLayout.astro";
+---
+
+<StudioLayout title="Artwork Catalog | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" href="/studio/artwork/catalogs">← Back to Catalogs</a>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <p class="studio-success" data-catalog-success hidden aria-live="polite"></p>
+  <p class="studio-loading" data-catalog-loading>Opening the catalog…</p>
+  <article data-catalog-detail hidden>
+    <header class="studio-page-heading catalog-entry-heading">
+      <div><p class="eyebrow">Artwork Catalog</p><h1 data-catalog-name></h1><p class="studio-lede" data-catalog-public-title></p><p data-catalog-meta></p></div>
+      <div class="artwork-detail-actions">
+        <a class="studio-button studio-button-quiet" data-catalog-edit>Edit Details</a>
+        <a class="studio-button" data-catalog-preview>Preview & Export</a>
+      </div>
+    </header>
+
+    <section class="catalog-add-panel">
+      <div class="artwork-section-heading"><div><p class="eyebrow">Artwork selection</p><h2>Add from the archive</h2></div></div>
+      <div class="studio-field"><label for="catalog-artwork-search">Find artwork</label><input id="catalog-artwork-search" type="search" data-artwork-search placeholder="Title, inventory, medium, collection…" /></div>
+      <div class="catalog-artwork-picker" data-artwork-picker></div>
+      <div class="studio-form-actions"><button class="studio-button" type="button" data-add-selected disabled>Add Selected Artwork</button></div>
+    </section>
+
+    <section class="catalog-editor-section">
+      <div class="artwork-section-heading"><div><p class="eyebrow">Presentation order</p><h2>Catalog artwork</h2><p>Drag items or use Move up and Move down. Overrides affect this catalog only.</p></div></div>
+      <div class="catalog-item-list" data-catalog-items></div>
+      <div class="studio-empty" data-catalog-items-empty hidden><h3>This catalog is ready for artwork.</h3><p>Select one or more records above to begin.</p></div>
+    </section>
+
+    <details class="catalog-settings-panel">
+      <summary>Studio contact block</summary>
+      <form class="studio-form" data-business-settings-form>
+        <p>These reusable details appear in the lower-right footer of every exported page.</p>
+        <div class="studio-form-row studio-form-row-3">
+          <div class="studio-field"><label for="studio_name">Studio name</label><input id="studio_name" name="studio_name" value="Rob White Studio" required /></div>
+          <div class="studio-field"><label for="owner_name">Artist name</label><input id="owner_name" name="owner_name" /></div>
+          <div class="studio-field"><label for="studio_phone">Phone</label><input id="studio_phone" name="phone" /></div>
+        </div>
+        <div class="studio-form-row studio-form-row-3">
+          <div class="studio-field"><label for="studio_email">Email</label><input id="studio_email" name="email" type="email" /></div>
+          <div class="studio-field"><label for="studio_website">Website</label><input id="studio_website" name="website" /></div>
+          <div class="studio-field"><label for="studio_instagram">Instagram</label><input id="studio_instagram" name="instagram" /></div>
+        </div>
+        <div class="studio-field"><label for="business_address">Business address</label><textarea id="business_address" name="business_address" rows="2"></textarea></div>
+        <div class="studio-form-actions"><button class="studio-button" type="submit">Save Studio Details</button></div>
+      </form>
+    </details>
+  </article>
+</StudioLayout>
+
+<script>
+  import "../../../../scripts/catalog-entry";
+</script>
+
