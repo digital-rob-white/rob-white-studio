@@ -35,6 +35,8 @@ function payload(values: FormData, ownerId: string) {
     artwork_type: value(values, "artwork_type") || "custom",
     medium: value(values, "medium"),
     materials_description: value(values, "materials_description"),
+    frame_status: value(values, "frame_status") || "not_applicable",
+    frame_description: value(values, "frame_description"),
     width: dimension(values, "width"),
     height: dimension(values, "height"),
     depth: dimension(values, "depth"),

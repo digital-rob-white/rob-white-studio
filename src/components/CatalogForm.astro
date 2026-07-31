@@ -1,0 +1,40 @@
+---
+import { CATALOG_LAYOUTS } from "../lib/catalogs";
+const { mode = "new" } = Astro.props;
+---
+
+<form class="studio-form catalog-details-form" data-catalog-form data-mode={mode}>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <div class="studio-form-row">
+    <div class="studio-field">
+      <label for="internal_name">Internal catalog name *</label>
+      <input id="internal_name" name="internal_name" required maxlength="180" placeholder="Spring gallery selection" />
+      <small>Used inside the Studio only.</small>
+    </div>
+    <div class="studio-field">
+      <label for="public_title">Public title *</label>
+      <input id="public_title" name="public_title" required maxlength="180" placeholder="Selected Paintings" />
+    </div>
+  </div>
+  <div class="studio-form-row studio-form-row-3">
+    <div class="studio-field"><label for="subtitle">Subtitle</label><input id="subtitle" name="subtitle" /></div>
+    <div class="studio-field"><label for="recipient_name">Prepared for</label><input id="recipient_name" name="recipient_name" /></div>
+    <div class="studio-field"><label for="display_date">Display date</label><input id="display_date" name="display_date" type="date" /></div>
+  </div>
+  <div class="studio-field"><label for="intro_text">Introduction</label><textarea id="intro_text" name="intro_text" rows="4"></textarea></div>
+  <div class="studio-form-row studio-form-row-3">
+    <div class="studio-field"><label for="layout_preset">Page layout</label><select id="layout_preset" name="layout_preset">{CATALOG_LAYOUTS.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+    <div class="studio-field"><label for="pricing_mode">Default pricing</label><select id="pricing_mode" name="pricing_mode"><option value="snapshot">Snapshot prices when added</option><option value="live">Always use current artwork prices</option></select></div>
+    <label class="studio-check-field"><input type="checkbox" name="show_header" checked /> Show title header</label>
+  </div>
+  <div class="studio-field"><label for="notes_private">Internal notes</label><textarea id="notes_private" name="notes_private" rows="3"></textarea></div>
+  <div class="studio-form-actions">
+    <a class="studio-button studio-button-quiet" data-catalog-cancel href="/studio/artwork/catalogs">Cancel</a>
+    <button class="studio-button" type="submit" data-submit>{mode === "edit" ? "Update Catalog" : "Create Catalog"}</button>
+  </div>
+</form>
+
+<script>
+  import "../scripts/catalog-form";
+</script>
+

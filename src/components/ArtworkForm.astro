@@ -1,5 +1,5 @@
 ---
-import { AVAILABILITY_STATUSES, PRODUCTION_STATUSES } from "../lib/artwork";
+import { AVAILABILITY_STATUSES, FRAME_STATUSES, PRODUCTION_STATUSES } from "../lib/artwork";
 const { mode = "new" } = Astro.props;
 ---
 
@@ -57,6 +57,17 @@ const { mode = "new" } = Astro.props;
       <div class="studio-field"><label for="weight_unit">Weight unit</label><select id="weight_unit" name="weight_unit"><option value="lb">lb</option><option value="oz">oz</option><option value="kg">kg</option><option value="g">g</option></select></div>
     </div>
   </fieldset>
+
+  <div class="studio-form-row">
+    <div class="studio-field">
+      <label for="frame_status">Frame status</label>
+      <select id="frame_status" name="frame_status">{FRAME_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select>
+    </div>
+    <div class="studio-field">
+      <label for="frame_description">Frame description</label>
+      <input id="frame_description" name="frame_description" placeholder="White oak float frame" />
+    </div>
+  </div>
 
   <div class="studio-form-row">
     <div class="studio-field"><label for="collection_name">Collection or series</label><input id="collection_name" name="collection_name" /></div>

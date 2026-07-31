@@ -737,6 +737,7 @@ function renderOverview(): void {
     addDefinition(facts, "Year", artwork.year);
     addDefinition(facts, "Medium", artwork.medium);
     addDefinition(facts, "Materials", artwork.materials_description);
+    addDefinition(facts, "Frame", artwork.frame_status === "not_applicable" ? null : [formatLabel(artwork.frame_status), artwork.frame_description].filter(Boolean).join(" · "));
     const dimensions = [artwork.width, artwork.height, artwork.depth]
       .filter((item) => item != null)
       .map((item) => artwork.dimension_unit === "in" ? formatInches(item) : String(item))
@@ -778,6 +779,49 @@ function wireTabs(): void {
     });
   });
   document.querySelector<HTMLButtonElement>("[data-open-cost]")?.addEventListener("click", () => openCreateForm("cost"));
+}
+
+async function wireCatalogQuickAdd(): Promise<void> {
+  const panel = document.querySelector<HTMLFormElement>("[data-catalog-quick-add]");
+  const select = panel?.querySelector<HTMLSelectElement>("[name=catalog_id]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-toggle-catalog-add]");
+  if (!panel || !select || !toggle) return;
+  const { data, error } = await client.from("artwork_catalogs").select("id,internal_name,pricing_mode").order("updated_at", { ascending: false });
+  if (error) {
+    toggle.hidden = true;
+    return;
+  }
+  select.innerHTML = data?.length
+    ? data.map((catalog) => `<option value="${catalog.id}" data-pricing="${catalog.pricing_mode}">${catalog.internal_name}</option>`).join("")
+    : `<option value="">No catalogs yet</option>`;
+  toggle.addEventListener("click", () => { panel.hidden = false; });
+  panel.querySelector<HTMLButtonElement>("[data-cancel-catalog-add]")?.addEventListener("click", () => { panel.hidden = true; });
+  panel.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const catalogId = select.value;
+    if (!catalogId) {
+      window.location.assign("/studio/artwork/catalogs/new");
+      return;
+    }
+    const { count } = await client.from("artwork_catalog_items").select("*", { count: "exact", head: true }).eq("catalog_id", catalogId);
+    const pricingMode = select.selectedOptions[0]?.dataset.pricing || "snapshot";
+    const { error: insertError } = await client.from("artwork_catalog_items").insert({
+      catalog_id: catalogId,
+      artwork_id: artwork.id,
+      display_order: count || 0,
+      selected_image_id: artwork.primary_image_id,
+      pricing_mode: pricingMode,
+      price_source: "current_retail",
+      snapshot_price_cents: artwork.current_retail_price_cents
+    });
+    if (insertError) {
+      if (insertError.code === "23505") showSuccess("This artwork is already in that catalog.");
+      else showStudioError(insertError);
+      return;
+    }
+    panel.hidden = true;
+    showSuccess("Artwork added to catalog.");
+  });
 }
 
 function openCreateForm(name: string): void {
@@ -1016,7 +1060,7 @@ async function init(): Promise<void> {
     renderOverview();
     wireTabs();
     wireForms();
-    await Promise.all([renderImages(), renderJournal(), renderActivity(), loadFinancials()]);
+    await Promise.all([renderImages(), renderJournal(), renderActivity(), loadFinancials(), wireCatalogQuickAdd()]);
     document.querySelector<HTMLButtonElement>("[data-delete-artwork]")?.addEventListener("click", async () => {
       if (!window.confirm(`Permanently delete “${artwork.title}” and all of its costs, labor, pricing scenarios, and price history? Related Journal entries will remain but be detached.`)) return;
       const { error: deleteError } = await client.from("artworks").delete().eq("id", artwork.id);

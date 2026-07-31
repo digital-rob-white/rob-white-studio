@@ -19,6 +19,7 @@ The public site works without backend variables. The private Journal requires a 
 3. If the platform foundation was applied previously, run `docs/supabase-journal-v01.sql` instead.
 4. Run `docs/supabase-studio-feed-v01.sql` to add the Studio Feed and its automatic Journal activity triggers.
 5. Run `docs/supabase-artwork-v01.sql` to add Artwork records, costing, labor, pricing, price history, Journal relationships, and Artwork activity.
+6. Run `docs/supabase-artwork-v02-refinements.sql`, then `docs/supabase-artwork-catalogs-v01.sql` to add refined Artwork entry fields and native catalog/PDF workflows.
 6. In Supabase Authentication, create the owner email/password user. There is no public sign-up screen.
 7. Add `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` locally and in Netlify.
 

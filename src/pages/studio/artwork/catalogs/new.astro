@@ -1,0 +1,11 @@
+---
+import StudioLayout from "../../../../layouts/StudioLayout.astro";
+import CatalogForm from "../../../../components/CatalogForm.astro";
+---
+
+<StudioLayout title="New Artwork Catalog | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" href="/studio/artwork/catalogs">← Back to Catalogs</a>
+  <header class="studio-page-heading"><div><p class="eyebrow">Artwork Catalogs</p><h1>New Catalog</h1><p class="studio-lede">Start with presentation details, then choose and arrange artwork.</p></div></header>
+  <CatalogForm mode="new" />
+</StudioLayout>
+
