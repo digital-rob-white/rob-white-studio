@@ -335,7 +335,7 @@
 }
 
 .catalog-paper-logo {
-  width: clamp(2.7rem, 7.5%, 4.7rem);
+  width: clamp(3rem, 8.5%, 5.25rem);
   height: auto;
 }
 

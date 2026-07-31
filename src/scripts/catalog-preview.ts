@@ -167,10 +167,10 @@ function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(6.5);
   doc.text(`${pageNumber} / ${total}`, 0.55, 8.0);
-  const logoBoxWidth = 0.78;
-  const logoBoxHeight = 0.56;
+  const logoBoxWidth = 0.88;
+  const logoBoxHeight = 0.66;
   const logoRight = 10.45;
-  const logoTop = 7.84;
+  const logoTop = 7.81;
   let logoLeft = logoRight;
   if (preparedLogo) {
     const ratio = Math.min(logoBoxWidth / preparedLogo.width, logoBoxHeight / preparedLogo.height);
