@@ -14,6 +14,7 @@ let client: SupabaseClient;
 let catalog: ArtworkCatalog;
 let settings: StudioBusinessSettings | null = null;
 let prepared: PreparedItem[] = [];
+let preparedLogo: { data: string; width: number; height: number } | null = null;
 
 function escapeHtml(value: unknown): string {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char] || char);
@@ -97,6 +98,10 @@ function contactLines(): string[] {
   ].filter(Boolean) as string[];
 }
 
+function secondaryContactLines(): string[] {
+  return contactLines().slice(1);
+}
+
 function renderPreview(): void {
   if (!pages) return;
   const perPage = catalogItemsPerPage(catalog.layout_preset);
@@ -111,7 +116,7 @@ function renderPreview(): void {
         <div class="catalog-paper-copy"><h3>${escapeHtml(copy.title)}</h3>${copy.dimensions ? `<p class="catalog-paper-dimensions">${escapeHtml(copy.dimensions)}</p>` : ""}${copy.details.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}${copy.caption ? `<p class="catalog-paper-caption">${escapeHtml(copy.caption)}</p>` : ""}${copy.price ? `<strong>${escapeHtml(copy.price)}</strong>` : ""}</div>
       </article>`;
     }).join("")}</div>
-    <footer><span>${pageIndex + 1} / ${pageTotal}</span><div>${contactLines().map((line, index) => index === 0 ? `<strong>${escapeHtml(line)}</strong>` : `<span>${escapeHtml(line)}</span>`).join("")}</div></footer>
+    <footer><span>${pageIndex + 1} / ${pageTotal}</span><div>${secondaryContactLines().map((line) => `<span>${escapeHtml(line)}</span>`).join("")}<img class="catalog-paper-logo" src="/assets/images/rob-white-studio-logo.png" alt="Rob White Studio" /></div></footer>
   </section>`).join("");
   if (summary) {
     summary.textContent = `${prepared.length} artwork${prepared.length === 1 ? "" : "s"} · ${pageTotal} page${pageTotal === 1 ? "" : "s"} · ${catalog.layout_preset === "compact_grid" ? "Compact grid" : "Large image grid"}`;
@@ -162,10 +167,22 @@ function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(6.5);
   doc.text(`${pageNumber} / ${total}`, 0.55, 8.0);
-  const lines = contactLines();
+  const logoBoxWidth = 0.78;
+  const logoBoxHeight = 0.56;
+  const logoRight = 10.45;
+  const logoTop = 7.84;
+  let logoLeft = logoRight;
+  if (preparedLogo) {
+    const ratio = Math.min(logoBoxWidth / preparedLogo.width, logoBoxHeight / preparedLogo.height);
+    const logoWidth = preparedLogo.width * ratio;
+    const logoHeight = preparedLogo.height * ratio;
+    logoLeft = logoRight - logoWidth;
+    doc.addImage(preparedLogo.data, "JPEG", logoLeft, logoTop, logoWidth, logoHeight, undefined, "MEDIUM");
+  }
+  const lines = secondaryContactLines();
   lines.forEach((line, index) => {
-    doc.setFont("helvetica", index === 0 ? "bold" : "normal");
-    doc.text(line, 10.45, 7.92 + index * 0.11, { align: "right" });
+    doc.setFont("helvetica", "normal");
+    doc.text(line, logoLeft - 0.12, 7.92 + index * 0.11, { align: "right" });
   });
 }
 
@@ -285,6 +302,7 @@ async function init(): Promise<void> {
       const converted = await urlToDataUrl(imageUrl);
       return { ...item, imageUrl, imageData: converted.data, naturalWidth: converted.width, naturalHeight: converted.height };
     }));
+    preparedLogo = await urlToDataUrl("/assets/images/rob-white-studio-logo.png").catch(() => null);
     document.querySelector<HTMLElement>("[data-preview-title]")!.textContent = catalog.public_title;
     document.querySelector<HTMLAnchorElement>("[data-catalog-back]")!.href = `/studio/artwork/catalogs/entry?id=${id}`;
     renderPreview();

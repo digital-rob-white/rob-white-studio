@@ -334,6 +334,11 @@
   line-height: 1.2;
 }
 
+.catalog-paper-logo {
+  width: clamp(2.7rem, 7.5%, 4.7rem);
+  height: auto;
+}
+
 @media (max-width: 760px) {
   .catalog-list-card,
   .catalog-editor-card,
