@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { catalogDimensions, catalogFrame, catalogItemsPerPage, catalogPageCount, catalogPrice, type ArtworkCatalog, type CatalogImage, type CatalogItem, type StudioBusinessSettings } from "../lib/catalogs";
+import { catalogDimensions, catalogFrame, catalogGrid, catalogItemsPerPage, catalogPageCount, catalogPageSize, catalogPrice, type ArtworkCatalog, type CatalogImage, type CatalogItem, type StudioBusinessSettings } from "../lib/catalogs";
 import { requireStudioUser, setupStudioSignOut, showStudioError } from "./supabase-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -104,10 +104,11 @@ function secondaryContactLines(): string[] {
 
 function renderPreview(): void {
   if (!pages) return;
-  const perPage = catalogItemsPerPage(catalog.layout_preset);
-  const pageTotal = catalogPageCount(prepared.length, catalog.layout_preset);
+  const orientation = catalog.page_orientation || "landscape";
+  const perPage = catalogItemsPerPage(catalog.layout_preset, orientation);
+  const pageTotal = catalogPageCount(prepared.length, catalog.layout_preset, orientation);
   const chunks = Array.from({ length: pageTotal }, (_, index) => prepared.slice(index * perPage, (index + 1) * perPage));
-  pages.innerHTML = chunks.map((chunk, pageIndex) => `<section class="catalog-paper ${catalog.layout_preset === "large_image_grid" ? "catalog-paper-large" : ""}">
+  pages.innerHTML = chunks.map((chunk, pageIndex) => `<section class="catalog-paper ${orientation === "portrait" ? "catalog-paper-portrait" : ""} ${catalog.layout_preset === "large_image_grid" ? "catalog-paper-large" : ""}">
     ${catalog.show_header ? `<header><div><h2>${escapeHtml(catalog.public_title)}</h2>${catalog.subtitle ? `<p>${escapeHtml(catalog.subtitle)}</p>` : ""}</div><div>${catalog.recipient_name ? `<p>Prepared for ${escapeHtml(catalog.recipient_name)}</p>` : ""}${catalog.display_date ? `<p>${new Date(`${catalog.display_date}T12:00:00`).toLocaleDateString()}</p>` : ""}</div></header>` : ""}
     ${pageIndex === 0 && catalog.intro_text ? `<p class="catalog-paper-intro">${escapeHtml(catalog.intro_text)}</p>` : ""}
     <div class="catalog-paper-grid">${chunk.map((item) => {
@@ -119,7 +120,7 @@ function renderPreview(): void {
     <footer><span>${pageIndex + 1} / ${pageTotal}</span><div>${secondaryContactLines().map((line) => `<span>${escapeHtml(line)}</span>`).join("")}<img class="catalog-paper-logo" src="/assets/images/rob-white-studio-logo.png" alt="Rob White Studio" /></div></footer>
   </section>`).join("");
   if (summary) {
-    summary.textContent = `${prepared.length} artwork${prepared.length === 1 ? "" : "s"} · ${pageTotal} page${pageTotal === 1 ? "" : "s"} · ${catalog.layout_preset === "compact_grid" ? "Compact grid" : "Large image grid"}`;
+    summary.textContent = `${prepared.length} artwork${prepared.length === 1 ? "" : "s"} · ${pageTotal} page${pageTotal === 1 ? "" : "s"} · ${orientation === "portrait" ? "Portrait" : "Landscape"} · ${catalog.layout_preset === "compact_grid" ? "Compact grid" : "Large image grid"}`;
     summary.hidden = false;
   }
 }
@@ -140,7 +141,7 @@ function addContainedImage(doc: jsPDF, item: PreparedItem, x: number, y: number,
   return renderedHeight;
 }
 
-function addHeader(doc: jsPDF): number {
+function addHeader(doc: jsPDF, pageWidth: number): number {
   if (!catalog.show_header) return 0.5;
   doc.setTextColor(24, 24, 24);
   doc.setFont("helvetica", "bold");
@@ -154,19 +155,19 @@ function addHeader(doc: jsPDF): number {
   const right = [catalog.recipient_name ? `Prepared for ${catalog.recipient_name}` : "", catalog.display_date ? new Date(`${catalog.display_date}T12:00:00`).toLocaleDateString() : ""].filter(Boolean);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(7.5);
-  right.forEach((line, index) => doc.text(line, 10.45, 0.6 + index * 0.16, { align: "right" }));
+  right.forEach((line, index) => doc.text(line, pageWidth - 0.55, 0.6 + index * 0.16, { align: "right" }));
   return 1.34;
 }
 
-function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
+function addFooter(doc: jsPDF, pageNumber: number, total: number, pageWidth: number, pageHeight: number): void {
   doc.setTextColor(90);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(6.5);
-  doc.text(`${pageNumber} / ${total}`, 0.55, 8.0);
+  doc.text(`${pageNumber} / ${total}`, 0.55, pageHeight - 0.5);
   const logoBoxWidth = 0.88;
   const logoBoxHeight = 0.66;
-  const logoRight = 10.45;
-  const logoTop = 7.81;
+  const logoRight = pageWidth - 0.55;
+  const logoTop = pageHeight - 0.69;
   let logoLeft = logoRight;
   if (preparedLogo) {
     const ratio = Math.min(logoBoxWidth / preparedLogo.width, logoBoxHeight / preparedLogo.height);
@@ -178,7 +179,7 @@ function addFooter(doc: jsPDF, pageNumber: number, total: number): void {
   const lines = secondaryContactLines();
   lines.forEach((line, index) => {
     doc.setFont("helvetica", "normal");
-    doc.text(line, logoLeft - 0.12, 7.92 + index * 0.11, { align: "right" });
+    doc.text(line, logoLeft - 0.12, pageHeight - 0.58 + index * 0.11, { align: "right" });
   });
 }
 
@@ -213,35 +214,36 @@ function addItem(doc: jsPDF, item: PreparedItem, x: number, y: number, width: nu
 }
 
 function createPdf(): jsPDF {
-  const doc = new jsPDF({ orientation: "landscape", unit: "in", format: "letter", compress: true });
-  const perPage = catalogItemsPerPage(catalog.layout_preset);
-  const total = catalogPageCount(prepared.length, catalog.layout_preset);
+  const orientation = catalog.page_orientation || "landscape";
+  const pageSize = catalogPageSize(orientation);
+  const doc = new jsPDF({ orientation, unit: "in", format: "letter", compress: true });
+  const perPage = catalogItemsPerPage(catalog.layout_preset, orientation);
+  const total = catalogPageCount(prepared.length, catalog.layout_preset, orientation);
   const large = catalog.layout_preset === "large_image_grid";
+  const grid = catalogGrid(catalog.layout_preset, orientation);
   for (let pageIndex = 0; pageIndex < total; pageIndex += 1) {
-    if (pageIndex) doc.addPage("letter", "landscape");
-    const contentTop = addHeader(doc);
+    if (pageIndex) doc.addPage("letter", orientation);
+    const contentTop = addHeader(doc, pageSize.width);
     const introHeight = pageIndex === 0 && catalog.intro_text ? 0.42 : 0;
     if (introHeight) {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);
       doc.setTextColor(70);
-      doc.text(doc.splitTextToSize(catalog.intro_text || "", 9.9).slice(0, 3), 0.55, contentTop);
+      doc.text(doc.splitTextToSize(catalog.intro_text || "", pageSize.width - 1.1).slice(0, 3), 0.55, contentTop);
     }
     const top = contentTop + introHeight;
-    const columns = large ? 2 : 4;
-    const rows = 2;
     const gapX = large ? 0.34 : 0.22;
     const gapY = 0.24;
-    const contentWidth = 9.9;
-    const contentHeight = 7.55 - top;
-    const cellWidth = (contentWidth - gapX * (columns - 1)) / columns;
-    const cellHeight = (contentHeight - gapY * (rows - 1)) / rows;
+    const contentWidth = pageSize.width - 1.1;
+    const contentHeight = pageSize.height - 0.95 - top;
+    const cellWidth = (contentWidth - gapX * (grid.columns - 1)) / grid.columns;
+    const cellHeight = (contentHeight - gapY * (grid.rows - 1)) / grid.rows;
     prepared.slice(pageIndex * perPage, (pageIndex + 1) * perPage).forEach((item, index) => {
-      const column = index % columns;
-      const row = Math.floor(index / columns);
+      const column = index % grid.columns;
+      const row = Math.floor(index / grid.columns);
       addItem(doc, item, 0.55 + column * (cellWidth + gapX), top + row * (cellHeight + gapY), cellWidth, cellHeight, large);
     });
-    addFooter(doc, pageIndex + 1, total);
+    addFooter(doc, pageIndex + 1, total, pageSize.width, pageSize.height);
   }
   return doc;
 }
@@ -299,7 +301,11 @@ async function init(): Promise<void> {
       return { ...item, imageUrl, imageData: converted.data, naturalWidth: converted.width, naturalHeight: converted.height };
     }));
     preparedLogo = await urlToDataUrl("/assets/images/rob-white-studio-logo.png").catch(() => null);
+    const orientation = catalog.page_orientation || "landscape";
+    const pageSize = catalogPageSize(orientation);
     document.querySelector<HTMLElement>("[data-preview-title]")!.textContent = catalog.public_title;
+    document.querySelector<HTMLElement>("[data-preview-format]")!.textContent = `${orientation === "portrait" ? "Portrait" : "Landscape"} Letter PDF`;
+    document.querySelector<HTMLElement>("[data-preview-size]")!.textContent = `Every outlined sheet below is one ${pageSize.width} × ${pageSize.height} inch page.`;
     document.querySelector<HTMLAnchorElement>("[data-catalog-back]")!.href = `/studio/artwork/catalogs/entry?id=${id}`;
     renderPreview();
     loading?.setAttribute("hidden", "");

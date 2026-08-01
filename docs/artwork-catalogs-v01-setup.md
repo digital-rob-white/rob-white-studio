@@ -15,6 +15,7 @@ The additive migration creates:
 - `artwork_catalogs` for catalog identity, layout, recipient, date, and export history.
 - `artwork_catalog_items` for ordering, image selection, presentation overrides, and price snapshots.
 - `studio_business_settings` for the reusable Rob White Studio contact block.
+- `duplicate_artwork_catalog` for an atomic, owner-scoped copy of a catalog and its ordered items.
 - Structured artwork frame status and frame description fields.
 - Owner-scoped row-level security and intentional Studio Feed activity.
 
@@ -24,7 +25,7 @@ Deleting a catalog cascades only its catalog items. Canonical Artwork and image 
 
 Catalog previews and PDFs are generated natively in the authenticated browser with jsPDF. The export:
 
-- uses exact US Letter landscape pages (`11 × 8.5` inches);
+- uses exact US Letter landscape (`11 × 8.5` inches) or portrait (`8.5 × 11` inches) pages;
 - loads original private Artwork images with short-lived signed URLs;
 - fits images proportionally without cropping;
 - uses deterministic compact-grid or large-image-grid pagination;
@@ -43,10 +44,10 @@ No third-party document service receives artwork data, and the historical catalo
 6. Confirm an override does not modify the canonical Artwork record.
 7. Switch between compact and large-image layouts.
 8. Preview a catalog with more than one page and confirm page boundaries.
-9. Export and inspect the PDF at exactly 11 × 8.5 inches.
+9. Export both orientations and inspect the PDFs at exactly 11 × 8.5 and 8.5 × 11 inches.
 10. Confirm artwork images are contained rather than cropped or stretched.
 11. Confirm the contact block appears at the lower right of every page.
 12. Confirm create, add, duplicate, and export activities appear in Studio Feed.
-13. Duplicate and delete a catalog, confirming Artwork and image records remain.
-14. Repeat key selection, editing, preview, and export workflows on mobile.
-
+13. Duplicate a catalog from both the archive and catalog editor. Confirm the copy opens in details edit mode with a `Copy of …` internal name, matching ordered items and overrides, no previous export date, and no later changes shared with the source.
+14. Delete a duplicated catalog, confirming Artwork and image records remain.
+15. Repeat key selection, editing, preview, and export workflows on mobile.

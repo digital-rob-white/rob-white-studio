@@ -12,6 +12,7 @@ import StudioLayout from "../../../../layouts/StudioLayout.astro";
       <div><p class="eyebrow">Artwork Catalog</p><h1 data-catalog-name></h1><p class="studio-lede" data-catalog-public-title></p><p data-catalog-meta></p></div>
       <div class="artwork-detail-actions">
         <a class="studio-button studio-button-quiet" data-catalog-edit>Edit Details</a>
+        <button class="studio-button studio-button-quiet" type="button" data-catalog-duplicate>Duplicate Catalog</button>
         <a class="studio-button" data-catalog-preview>Preview & Export</a>
       </div>
     </header>
@@ -53,4 +54,3 @@ import StudioLayout from "../../../../layouts/StudioLayout.astro";
 <script>
   import "../../../../scripts/catalog-entry";
 </script>
-

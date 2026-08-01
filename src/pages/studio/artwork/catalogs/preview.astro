@@ -5,7 +5,7 @@ import StudioLayout from "../../../../layouts/StudioLayout.astro";
 <StudioLayout title="Catalog Preview | Rob White Studio" activePage="artwork">
   <a class="studio-back-link" data-catalog-back href="/studio/artwork/catalogs">← Back to Catalog</a>
   <header class="studio-page-heading catalog-preview-heading">
-    <div><p class="eyebrow">Landscape Letter PDF</p><h1 data-preview-title>Catalog Preview</h1><p class="studio-lede">Every outlined sheet below is one 11 × 8.5 inch page.</p></div>
+    <div><p class="eyebrow" data-preview-format>Letter PDF</p><h1 data-preview-title>Catalog Preview</h1><p class="studio-lede" data-preview-size>Every outlined sheet below is one US Letter page.</p></div>
     <button class="studio-button" type="button" data-export-pdf disabled>Export PDF</button>
   </header>
   <p class="studio-alert" data-studio-error hidden></p>
@@ -18,4 +18,3 @@ import StudioLayout from "../../../../layouts/StudioLayout.astro";
 <script>
   import "../../../../scripts/catalog-preview";
 </script>
-

@@ -1,8 +1,13 @@
 import { formatInches, money, type Artwork } from "./artwork";
 
 export const CATALOG_LAYOUTS = [
-  ["compact_grid", "Compact grid · up to 8 artworks per page"],
+  ["compact_grid", "Compact grid · 8 landscape / 6 portrait per page"],
   ["large_image_grid", "Large image grid · up to 4 artworks per page"]
+] as const;
+
+export const CATALOG_PAGE_ORIENTATIONS = [
+  ["landscape", "Landscape · 11 × 8.5 in"],
+  ["portrait", "Portrait · 8.5 × 11 in"]
 ] as const;
 
 export const CATALOG_PRICE_SOURCES = [
@@ -26,6 +31,7 @@ export type ArtworkCatalog = {
   display_date: string | null;
   notes_private: string | null;
   layout_preset: "compact_grid" | "large_image_grid";
+  page_orientation: "landscape" | "portrait";
   pricing_mode: "snapshot" | "live";
   show_header: boolean;
   duplicated_from_catalog_id: string | null;
@@ -76,12 +82,22 @@ export type StudioBusinessSettings = {
   logo_asset_id: string | null;
 };
 
-export function catalogItemsPerPage(layout: ArtworkCatalog["layout_preset"]): number {
-  return layout === "large_image_grid" ? 4 : 8;
+export function catalogItemsPerPage(layout: ArtworkCatalog["layout_preset"], orientation: ArtworkCatalog["page_orientation"] = "landscape"): number {
+  if (layout === "large_image_grid") return 4;
+  return orientation === "portrait" ? 6 : 8;
 }
 
-export function catalogPageCount(itemCount: number, layout: ArtworkCatalog["layout_preset"]): number {
-  return Math.max(1, Math.ceil(itemCount / catalogItemsPerPage(layout)));
+export function catalogPageCount(itemCount: number, layout: ArtworkCatalog["layout_preset"], orientation: ArtworkCatalog["page_orientation"] = "landscape"): number {
+  return Math.max(1, Math.ceil(itemCount / catalogItemsPerPage(layout, orientation)));
+}
+
+export function catalogPageSize(orientation: ArtworkCatalog["page_orientation"]): { width: number; height: number } {
+  return orientation === "portrait" ? { width: 8.5, height: 11 } : { width: 11, height: 8.5 };
+}
+
+export function catalogGrid(layout: ArtworkCatalog["layout_preset"], orientation: ArtworkCatalog["page_orientation"]): { columns: number; rows: number } {
+  if (layout === "large_image_grid") return { columns: 2, rows: 2 };
+  return orientation === "portrait" ? { columns: 2, rows: 3 } : { columns: 4, rows: 2 };
 }
 
 export function catalogDimensions(artwork: Artwork, override?: string | null): string {
