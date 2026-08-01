@@ -1,4 +1,5 @@
 import { CATALOG_PRICE_SOURCES, canonicalPrice, catalogDimensions, catalogFrame, catalogItemWarnings, catalogPrice, type ArtworkCatalog, type CatalogImage, type CatalogItem, type StudioBusinessSettings } from "../lib/catalogs";
+import { duplicateArtworkCatalog } from "../lib/catalog-duplication";
 import { centsToInput, dollarsToCents, type Artwork } from "../lib/artwork";
 import { requireStudioUser, setupStudioSignOut, showStudioError } from "./supabase-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -12,6 +13,7 @@ const itemEmpty = document.querySelector<HTMLElement>("[data-catalog-items-empty
 const search = document.querySelector<HTMLInputElement>("[data-artwork-search]");
 const addSelected = document.querySelector<HTMLButtonElement>("[data-add-selected]");
 const settingsForm = document.querySelector<HTMLFormElement>("[data-business-settings-form]");
+const duplicateButton = document.querySelector<HTMLButtonElement>("[data-catalog-duplicate]");
 let client: SupabaseClient;
 let catalog: ArtworkCatalog;
 let artworks: Artwork[] = [];
@@ -214,6 +216,20 @@ async function addSelectedArtwork(): Promise<void> {
   }
 }
 
+async function duplicateCatalog(): Promise<void> {
+  if (!duplicateButton) return;
+  duplicateButton.disabled = true;
+  duplicateButton.textContent = "Duplicating…";
+  try {
+    const duplicateId = await duplicateArtworkCatalog(client, catalog.id);
+    location.assign(`/studio/artwork/catalogs/edit?id=${encodeURIComponent(duplicateId)}`);
+  } catch (error) {
+    showStudioError(error);
+    duplicateButton.disabled = false;
+    duplicateButton.textContent = "Duplicate Catalog";
+  }
+}
+
 async function loadItems(): Promise<void> {
   const { data, error } = await client.from("artwork_catalog_items").select("*, artwork:artworks(*, artwork_pricing_scenarios(scenario_name,listed_price_cents))").eq("catalog_id", catalog.id).order("display_order");
   if (error) throw error;
@@ -251,7 +267,7 @@ async function init(): Promise<void> {
     images = imageData as CatalogImage[];
     document.querySelector<HTMLElement>("[data-catalog-name]")!.textContent = catalog.internal_name;
     document.querySelector<HTMLElement>("[data-catalog-public-title]")!.textContent = catalog.public_title;
-    document.querySelector<HTMLElement>("[data-catalog-meta]")!.textContent = [catalog.layout_preset === "compact_grid" ? "Compact grid" : "Large image grid", catalog.recipient_name ? `Prepared for ${catalog.recipient_name}` : "", catalog.display_date ? new Date(`${catalog.display_date}T12:00:00`).toLocaleDateString() : ""].filter(Boolean).join(" · ");
+    document.querySelector<HTMLElement>("[data-catalog-meta]")!.textContent = [catalog.layout_preset === "compact_grid" ? "Compact grid" : "Large image grid", catalog.page_orientation === "portrait" ? "Portrait Letter" : "Landscape Letter", catalog.recipient_name ? `Prepared for ${catalog.recipient_name}` : "", catalog.display_date ? new Date(`${catalog.display_date}T12:00:00`).toLocaleDateString() : ""].filter(Boolean).join(" · ");
     document.querySelector<HTMLAnchorElement>("[data-catalog-edit]")!.href = `/studio/artwork/catalogs/edit?id=${id}`;
     document.querySelector<HTMLAnchorElement>("[data-catalog-preview]")!.href = `/studio/artwork/catalogs/preview?id=${id}`;
     fillSettings(settings as StudioBusinessSettings | null);
@@ -260,6 +276,7 @@ async function init(): Promise<void> {
     detail?.removeAttribute("hidden");
     search?.addEventListener("input", renderPicker);
     addSelected?.addEventListener("click", () => void addSelectedArtwork());
+    duplicateButton?.addEventListener("click", () => void duplicateCatalog());
     settingsForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
       const data = new FormData(settingsForm);

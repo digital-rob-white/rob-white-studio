@@ -32,6 +32,8 @@ create table if not exists public.artwork_catalogs (
   notes_private text,
   layout_preset text not null default 'compact_grid'
     check (layout_preset in ('compact_grid', 'large_image_grid')),
+  page_orientation text not null default 'landscape'
+    check (page_orientation in ('landscape', 'portrait')),
   pricing_mode text not null default 'snapshot'
     check (pricing_mode in ('snapshot', 'live')),
   show_header boolean not null default true,
@@ -40,6 +42,10 @@ create table if not exists public.artwork_catalogs (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.artwork_catalogs
+  add column if not exists page_orientation text not null default 'landscape'
+    check (page_orientation in ('landscape', 'portrait'));
 
 create table if not exists public.artwork_catalog_items (
   id uuid primary key default gen_random_uuid(),
@@ -124,6 +130,65 @@ with check (
   )
 );
 
+create or replace function public.duplicate_artwork_catalog(source_catalog_id uuid)
+returns uuid
+language plpgsql
+security invoker
+set search_path = public
+as $$
+declare
+  source_catalog public.artwork_catalogs%rowtype;
+  duplicate_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required';
+  end if;
+
+  select * into source_catalog
+  from public.artwork_catalogs
+  where id = source_catalog_id
+    and owner_id = auth.uid();
+
+  if not found then
+    raise exception 'Catalog not found';
+  end if;
+
+  insert into public.artwork_catalogs (
+    owner_id, internal_name, public_title, subtitle, recipient_name, intro_text,
+    display_date, notes_private, layout_preset, page_orientation, pricing_mode, show_header,
+    duplicated_from_catalog_id, latest_export_at
+  ) values (
+    auth.uid(), 'Copy of ' || source_catalog.internal_name, source_catalog.public_title,
+    source_catalog.subtitle, source_catalog.recipient_name, source_catalog.intro_text,
+    source_catalog.display_date, source_catalog.notes_private, source_catalog.layout_preset,
+    source_catalog.page_orientation, source_catalog.pricing_mode, source_catalog.show_header,
+    source_catalog.id, null
+  )
+  returning id into duplicate_id;
+
+  insert into public.artwork_catalog_items (
+    catalog_id, artwork_id, display_order, selected_image_id, title_override,
+    year_override, materials_override, dimensions_override, frame_status_override,
+    frame_description_override, price_source, pricing_mode, snapshot_price_cents,
+    custom_price_cents, caption
+  )
+  select
+    duplicate_id, artwork_id, display_order, selected_image_id, title_override,
+    year_override, materials_override, dimensions_override, frame_status_override,
+    frame_description_override, price_source, pricing_mode, snapshot_price_cents,
+    custom_price_cents, caption
+  from public.artwork_catalog_items
+  where catalog_id = source_catalog.id
+  order by display_order;
+
+  return duplicate_id;
+end;
+$$;
+
+revoke all on function public.duplicate_artwork_catalog(uuid) from public;
+revoke all on function public.duplicate_artwork_catalog(uuid) from anon;
+grant execute on function public.duplicate_artwork_catalog(uuid) to authenticated;
+
 create or replace function public.log_artwork_catalog_activity()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
@@ -154,6 +219,10 @@ begin
 end;
 $$;
 
+revoke all on function public.log_artwork_catalog_activity() from public;
+revoke all on function public.log_artwork_catalog_activity() from anon;
+revoke all on function public.log_artwork_catalog_activity() from authenticated;
+
 drop trigger if exists log_artwork_catalog_activity on public.artwork_catalogs;
 create trigger log_artwork_catalog_activity
 after insert or update on public.artwork_catalogs
@@ -182,6 +251,10 @@ begin
   return new;
 end;
 $$;
+
+revoke all on function public.log_artwork_catalog_item_activity() from public;
+revoke all on function public.log_artwork_catalog_item_activity() from anon;
+revoke all on function public.log_artwork_catalog_item_activity() from authenticated;
 
 drop trigger if exists log_artwork_catalog_item_activity on public.artwork_catalog_items;
 create trigger log_artwork_catalog_item_activity

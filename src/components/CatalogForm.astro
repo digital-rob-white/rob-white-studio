@@ -1,5 +1,5 @@
 ---
-import { CATALOG_LAYOUTS } from "../lib/catalogs";
+import { CATALOG_LAYOUTS, CATALOG_PAGE_ORIENTATIONS } from "../lib/catalogs";
 const { mode = "new" } = Astro.props;
 ---
 
@@ -24,9 +24,10 @@ const { mode = "new" } = Astro.props;
   <div class="studio-field"><label for="intro_text">Introduction</label><textarea id="intro_text" name="intro_text" rows="4"></textarea></div>
   <div class="studio-form-row studio-form-row-3">
     <div class="studio-field"><label for="layout_preset">Page layout</label><select id="layout_preset" name="layout_preset">{CATALOG_LAYOUTS.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+    <div class="studio-field"><label for="page_orientation">Page orientation</label><select id="page_orientation" name="page_orientation">{CATALOG_PAGE_ORIENTATIONS.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
     <div class="studio-field"><label for="pricing_mode">Default pricing</label><select id="pricing_mode" name="pricing_mode"><option value="snapshot">Snapshot prices when added</option><option value="live">Always use current artwork prices</option></select></div>
-    <label class="studio-check-field"><input type="checkbox" name="show_header" checked /> Show title header</label>
   </div>
+  <label class="studio-check-field"><input type="checkbox" name="show_header" checked /> Show title header</label>
   <div class="studio-field"><label for="notes_private">Internal notes</label><textarea id="notes_private" name="notes_private" rows="3"></textarea></div>
   <div class="studio-form-actions">
     <a class="studio-button studio-button-quiet" data-catalog-cancel href="/studio/artwork/catalogs">Cancel</a>
@@ -37,4 +38,3 @@ const { mode = "new" } = Astro.props;
 <script>
   import "../scripts/catalog-form";
 </script>
-

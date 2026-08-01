@@ -1,4 +1,5 @@
 import type { ArtworkCatalog } from "../lib/catalogs";
+import { duplicateArtworkCatalog } from "../lib/catalog-duplication";
 import { requireStudioUser, setupStudioSignOut, showStudioError } from "./supabase-client";
 
 const list = document.querySelector<HTMLElement>("[data-catalog-list]");
@@ -25,14 +26,14 @@ function render(): void {
         <a class="studio-button studio-button-quiet" href="/studio/artwork/catalogs/entry?id=${catalog.id}">Open</a>
         <a class="studio-button studio-button-quiet" href="/studio/artwork/catalogs/edit?id=${catalog.id}">Edit</a>
         <a class="studio-button studio-button-quiet" href="/studio/artwork/catalogs/preview?id=${catalog.id}">Preview</a>
-        <button class="studio-button studio-button-quiet" type="button" data-duplicate="${catalog.id}">Duplicate</button>
+        <button class="studio-button studio-button-quiet" type="button" data-duplicate="${catalog.id}">Duplicate Catalog</button>
         <button class="studio-text-button catalog-delete" type="button" data-delete="${catalog.id}">Delete</button>
       </div>
     </article>`;
   }).join("");
   empty?.toggleAttribute("hidden", catalogs.length > 0);
   list.querySelectorAll<HTMLButtonElement>("[data-delete]").forEach((button) => button.addEventListener("click", () => void deleteCatalog(button.dataset.delete || "")));
-  list.querySelectorAll<HTMLButtonElement>("[data-duplicate]").forEach((button) => button.addEventListener("click", () => void duplicateCatalog(button.dataset.duplicate || "")));
+  list.querySelectorAll<HTMLButtonElement>("[data-duplicate]").forEach((button) => button.addEventListener("click", () => void duplicateCatalog(button)));
 }
 
 async function deleteCatalog(id: string): Promise<void> {
@@ -44,53 +45,18 @@ async function deleteCatalog(id: string): Promise<void> {
   render();
 }
 
-async function duplicateCatalog(id: string): Promise<void> {
+async function duplicateCatalog(button: HTMLButtonElement): Promise<void> {
+  const id = button.dataset.duplicate || "";
+  button.disabled = true;
+  button.textContent = "Duplicating…";
   try {
-    const { client, user } = await requireStudioUser();
-    const source = catalogs.find((catalog) => catalog.id === id);
-    if (!source) return;
-    const copy = {
-      owner_id: user.id,
-      internal_name: `${source.internal_name} copy`,
-      public_title: source.public_title,
-      subtitle: source.subtitle,
-      recipient_name: source.recipient_name,
-      intro_text: source.intro_text,
-      display_date: source.display_date,
-      notes_private: source.notes_private,
-      layout_preset: source.layout_preset,
-      pricing_mode: source.pricing_mode,
-      show_header: source.show_header,
-      duplicated_from_catalog_id: source.id
-    };
-    const { data, error } = await client.from("artwork_catalogs").insert(copy).select("*").single();
-    if (error) throw error;
-    const { data: items, error: itemError } = await client.from("artwork_catalog_items").select("*").eq("catalog_id", id).order("display_order");
-    if (itemError) throw itemError;
-    if (items?.length) {
-      const rows = items.map((item) => ({
-        catalog_id: data.id,
-        artwork_id: item.artwork_id,
-        display_order: item.display_order,
-        selected_image_id: item.selected_image_id,
-        title_override: item.title_override,
-        year_override: item.year_override,
-        materials_override: item.materials_override,
-        dimensions_override: item.dimensions_override,
-        frame_status_override: item.frame_status_override,
-        frame_description_override: item.frame_description_override,
-        price_source: item.price_source,
-        pricing_mode: item.pricing_mode,
-        snapshot_price_cents: item.snapshot_price_cents,
-        custom_price_cents: item.custom_price_cents,
-        caption: item.caption
-      }));
-      const { error: insertError } = await client.from("artwork_catalog_items").insert(rows);
-      if (insertError) throw insertError;
-    }
-    location.assign(`/studio/artwork/catalogs/entry?id=${data.id}`);
+    const { client } = await requireStudioUser();
+    const duplicateId = await duplicateArtworkCatalog(client, id);
+    location.assign(`/studio/artwork/catalogs/edit?id=${encodeURIComponent(duplicateId)}`);
   } catch (error) {
     showStudioError(error);
+    button.disabled = false;
+    button.textContent = "Duplicate Catalog";
   }
 }
 

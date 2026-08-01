@@ -49,6 +49,7 @@ async function init(): Promise<void> {
           display_date: textValue(data, "display_date"),
           notes_private: textValue(data, "notes_private"),
           layout_preset: textValue(data, "layout_preset") || "compact_grid",
+          page_orientation: textValue(data, "page_orientation") || "landscape",
           pricing_mode: textValue(data, "pricing_mode") || "snapshot",
           show_header: data.get("show_header") === "on"
         };
@@ -75,4 +76,3 @@ async function init(): Promise<void> {
 }
 
 void init();
-
