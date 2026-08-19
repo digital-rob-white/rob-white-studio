@@ -1,0 +1,35 @@
+---
+type GlyphVariant = "color" | "mono";
+
+interface Props {
+  name: string;
+  label?: string;
+  size?: number;
+  variant?: GlyphVariant;
+  class?: string;
+  loading?: "eager" | "lazy";
+}
+
+const {
+  name,
+  label,
+  size = 24,
+  variant = size < 28 ? "mono" : "color",
+  class: className,
+  loading = "eager"
+} = Astro.props;
+
+const suffix = variant === "mono" ? "-mono" : "";
+const src = `/assets/rws-glyphs/svg/${variant}/rws-${name}${suffix}.svg`;
+---
+
+<img
+  class:list={["rws-glyph", `rws-glyph-${variant}`, className]}
+  src={src}
+  alt={label ?? ""}
+  aria-hidden={label ? undefined : "true"}
+  width={size}
+  height={size}
+  loading={loading}
+  decoding="async"
+/>

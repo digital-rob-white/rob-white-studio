@@ -1,0 +1,207 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RwsGlyph from "../../components/RwsGlyph.astro";
+
+const details = [
+  ["Year", "To be supplied"],
+  ["Materials", "To be supplied"],
+  ["Dimensions", "To be supplied"],
+  ["Presentation", "Framing details to be supplied"]
+];
+
+const practical = [
+  {
+    glyph: "shipping",
+    title: "Shipping and pickup",
+    copy: "Final shipping, local pickup, packaging, and delivery timing will be added with the real artwork record."
+  },
+  {
+    glyph: "framing",
+    title: "Framing and presentation",
+    copy: "Frame profile, finish, overall dimensions, and installation requirements will appear here when confirmed."
+  },
+  {
+    glyph: "artwork",
+    title: "Authenticity",
+    copy: "The finished page will describe the signed artwork, documentation, and any certificate included with purchase."
+  }
+];
+---
+
+<BaseLayout
+  title="Prototype Study | Rob White Studio"
+  description="A prototype of the Rob White Studio online artwork experience using clearly marked placeholder content."
+  activePage="artwork"
+  footerLabel="Artwork Experience Prototype"
+  robots="noindex, nofollow"
+>
+  <article class="artwork-experience">
+    <header class="artwork-encounter">
+      <div class="artwork-encounter-label">
+        <p class="eyebrow">Artwork experience prototype</p>
+        <p>Placeholder imagery and content</p>
+      </div>
+      <figure class="artwork-hero-figure">
+        <img
+          src="/assets/images/artwork/prototype/hero.svg"
+          alt="Placeholder indicating where the full artwork photograph will appear"
+          width="1600"
+          height="1200"
+          fetchpriority="high"
+        />
+      </figure>
+      <div class="artwork-title-block">
+        <div class="artwork-title-copy">
+          <RwsGlyph name="artwork" size={72} />
+          <p class="eyebrow">Rob White</p>
+          <h1>Prototype Study</h1>
+          <p class="artwork-year">Artwork title and year to be supplied</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="artwork-facts" aria-labelledby="artwork-details-heading">
+      <div>
+        <p class="eyebrow">The object</p>
+        <h2 id="artwork-details-heading">Essential details, without the product-page noise.</h2>
+      </div>
+      <div class="artwork-facts-panel">
+        <dl>
+          {details.map(([term, value]) => (
+            <div>
+              <dt>{term}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div class="artwork-acquire-panel">
+          <p class="artwork-availability">Availability and price to be supplied</p>
+          <a class="artwork-acquire-button" href="mailto:rob@robwhitestudio.com?subject=Prototype%20Study%20artwork%20inquiry">
+            Inquire about this artwork
+          </a>
+          <p class="artwork-prototype-note">This control demonstrates placement only. Final purchasing language and information will come from the artwork record.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="artwork-object-view" aria-labelledby="physical-heading">
+      <div class="artwork-section-intro">
+        <p class="eyebrow">Closer looking</p>
+        <h2 id="physical-heading">Restore the surface, edge, and physical scale.</h2>
+        <p>Each image slot has a specific job. Replace it with a photograph that answers the same visual question.</p>
+      </div>
+      <figure class="artwork-detail-figure artwork-figure-wide">
+        <img
+          src="/assets/images/artwork/prototype/detail.svg"
+          alt="Placeholder for an extreme close-up photograph of the artwork surface"
+          width="1600"
+          height="1000"
+          loading="lazy"
+        />
+        <figcaption>01 / Surface and material — replace with an extreme detail</figcaption>
+      </figure>
+      <div class="artwork-figure-pair">
+        <figure class="artwork-detail-figure artwork-figure-tall">
+          <img
+            src="/assets/images/artwork/prototype/edge.svg"
+            alt="Placeholder for a side photograph showing artwork depth, edge, or frame"
+            width="1200"
+            height="1500"
+            loading="lazy"
+          />
+          <figcaption>02 / Edge, depth, and frame</figcaption>
+        </figure>
+        <figure class="artwork-detail-figure artwork-figure-room">
+          <img
+            src="/assets/images/artwork/prototype/room.svg"
+            alt="Placeholder for a room photograph communicating the artwork's scale"
+            width="1600"
+            height="1000"
+            loading="lazy"
+          />
+          <figcaption>03 / Scale and placement in a room</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="artwork-story" aria-labelledby="story-heading">
+      <div>
+        <RwsGlyph name="journal" size={64} />
+        <p class="eyebrow">From Rob</p>
+        <h2 id="story-heading">The story belongs beside the work, not on top of it.</h2>
+      </div>
+      <div class="artwork-story-copy">
+        <p>
+          This is placeholder copy showing the intended pace and length of a personal artwork story. It should eventually be replaced by Rob’s own account of where the piece began, what changed while it was being made, and what he notices in it now.
+        </p>
+        <p>
+          The finished writing should feel like a few quiet minutes in the studio: direct, specific, and close to the making. It does not need to explain everything.
+        </p>
+      </div>
+    </section>
+
+    <section class="artwork-pause" aria-label="Visual pause">
+      <p>Some things should remain unresolved.</p>
+    </section>
+
+    <section class="artwork-process" aria-labelledby="process-heading">
+      <div class="artwork-process-copy">
+        <RwsGlyph name="journal" variant="mono" size={24} />
+        <p class="eyebrow">Studio process</p>
+        <h2 id="process-heading">One strong making moment.</h2>
+        <p>Replace this with a concise process note, sketch, in-progress photograph, material test, or Journal excerpt that makes the human hand visible.</p>
+      </div>
+      <figure class="artwork-detail-figure">
+        <img
+          src="/assets/images/artwork/prototype/process.svg"
+          alt="Placeholder for a photograph of the artwork being made in the studio"
+          width="1600"
+          height="1000"
+          loading="lazy"
+        />
+        <figcaption>04 / Studio process — one or two moments, not a documentary archive</figcaption>
+      </figure>
+    </section>
+
+    <section class="artwork-practical" aria-labelledby="practical-heading">
+      <div>
+        <p class="eyebrow">Practical information</p>
+        <h2 id="practical-heading">The questions that make buying feel clear.</h2>
+      </div>
+      <div class="artwork-practical-list">
+        {practical.map((item) => (
+          <details>
+            <summary>
+              <RwsGlyph name={item.glyph} variant="mono" size={24} />
+              <span>{item.title}</span>
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>{item.copy}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="artwork-continue" aria-labelledby="continue-heading">
+      <div class="artwork-continue-heading">
+        <div>
+          <RwsGlyph name="collections" size={56} />
+          <p class="eyebrow">Continue looking</p>
+          <h2 id="continue-heading">Related works will extend the exhibition.</h2>
+        </div>
+      </div>
+      <div class="artwork-related-grid">
+        <article>
+          <div class="artwork-related-placeholder artwork-related-one" aria-hidden="true"></div>
+          <p class="eyebrow">Related work 01</p>
+          <h3>Artwork title to come</h3>
+        </article>
+        <article>
+          <div class="artwork-related-placeholder artwork-related-two" aria-hidden="true"></div>
+          <p class="eyebrow">Related work 02</p>
+          <h3>Artwork title to come</h3>
+        </article>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

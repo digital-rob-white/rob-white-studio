@@ -1,0 +1,20 @@
+// RWS Glyphs — Inventory
+// Generated from the Rob White Studio glyph sheet. Do not hand-edit.
+export default function InventoryGlyph({ size = 48, title = "Inventory", ...props }) {
+  const titleId = "rws-inventory-title";
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      width={size}
+      height={size}
+      role={title ? "img" : "presentation"}
+      aria-labelledby={title ? titleId : undefined}
+      aria-hidden={title ? undefined : true}
+      {...props}
+    >
+      {title ? <title id={titleId}>{title}</title> : null}
+      <defs><filter id="inventory-grain" x="-12%" y="-12%" width="124%" height="124%" colorInterpolationFilters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.019" numOctaves="3" seed="101" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="paint"/><feTurbulence type="fractalNoise" baseFrequency="0.075" numOctaves="3" seed="106" result="mottle"/><feColorMatrix in="mottle" type="matrix" result="mottleA" values="0 0 0 0 0.10  0 0 0 0 0.09  0 0 0 0 0.08  0.30 0 0 0 -0.09"/><feComposite in="mottleA" in2="paint" operator="in" result="mottleIn"/><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="114" result="fine"/><feColorMatrix in="fine" type="matrix" result="dark" values="0 0 0 0 0.10  0 0 0 0 0.09  0 0 0 0 0.08  0.26 0 0 0 -0.09"/><feComposite in="dark" in2="paint" operator="in" result="darkIn"/><feTurbulence type="fractalNoise" baseFrequency="1.05" numOctaves="2" seed="130" result="fleck"/><feColorMatrix in="fleck" type="matrix" result="light" values="0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0 0.85  1.9 0 0 0 -1.45"/><feComposite in="light" in2="paint" operator="in" result="lightIn"/><feMerge><feMergeNode in="paint"/><feMergeNode in="mottleIn"/><feMergeNode in="darkIn"/><feMergeNode in="lightIn"/></feMerge></filter><clipPath id="inventory-clip"><path d="M36,10 L72,15 C86,26 89,58 79,79 C67,92 32,91 21,78 C10,60 16,24 36,10 Z"/></clipPath></defs><g filter="url(#inventory-grain)"><g clipPath="url(#inventory-clip)"><path d="M-6,-6 H106 V106 H-6 Z" fill="#E5DAC2"/><path d="M2,6 L98,4 L98,44 C62,58 32,38 2,50 Z" fill="#5C6B3C"/><path d="M48,98 L98,40 L98,98 Z" fill="#1D5875"/></g></g>
+    </svg>
+  );
+}

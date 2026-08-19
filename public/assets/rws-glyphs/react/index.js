@@ -1,0 +1,20 @@
+// RWS Glyphs — barrel file
+export { default as DashboardGlyph } from "./DashboardGlyph.jsx";
+export { default as ArtworkGlyph } from "./ArtworkGlyph.jsx";
+export { default as CollectionsGlyph } from "./CollectionsGlyph.jsx";
+export { default as PortfolioGlyph } from "./PortfolioGlyph.jsx";
+export { default as CollectorsGlyph } from "./CollectorsGlyph.jsx";
+export { default as ClientsGlyph } from "./ClientsGlyph.jsx";
+export { default as ProjectsGlyph } from "./ProjectsGlyph.jsx";
+export { default as EstimatesGlyph } from "./EstimatesGlyph.jsx";
+export { default as LaborGlyph } from "./LaborGlyph.jsx";
+export { default as FramingGlyph } from "./FramingGlyph.jsx";
+export { default as SignsGlyph } from "./SignsGlyph.jsx";
+export { default as RolandPrintingGlyph } from "./RolandPrintingGlyph.jsx";
+export { default as CncGlyph } from "./CncGlyph.jsx";
+export { default as ShippingGlyph } from "./ShippingGlyph.jsx";
+export { default as InventoryGlyph } from "./InventoryGlyph.jsx";
+export { default as InvoicesGlyph } from "./InvoicesGlyph.jsx";
+export { default as WebsiteGlyph } from "./WebsiteGlyph.jsx";
+export { default as SettingsGlyph } from "./SettingsGlyph.jsx";
+export { default as JournalGlyph } from "./JournalGlyph.jsx";

@@ -1,5 +1,5 @@
 ---
-const { imageClass, imageSrc, imageAlt, fallback, eyebrow, title, text } = Astro.props;
+const { imageClass, imageSrc, imageAlt, fallback, eyebrow, title, text, href } = Astro.props;
 ---
 
 <article class="work-card">
@@ -9,4 +9,5 @@ const { imageClass, imageSrc, imageAlt, fallback, eyebrow, title, text } = Astro
   <p class="eyebrow">{eyebrow}</p>
   <h3>{title}</h3>
   <p>{text}</p>
+  {href && <a class="work-card-link" href={href}>View artwork prototype</a>}
 </article>

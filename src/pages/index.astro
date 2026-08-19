@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArtworkCard from "../components/ArtworkCard.astro";
+import RwsGlyph from "../components/RwsGlyph.astro";
 
 const artworkCards = [
   {
@@ -10,7 +11,8 @@ const artworkCards = [
     fallback: "Painting image placeholder",
     eyebrow: "Painting",
     title: "Original Works",
-    text: "Compositions developed through surface, restraint, gesture, and studio process."
+    text: "Compositions developed through surface, restraint, gesture, and studio process.",
+    href: "/artwork/prototype-study"
   },
   {
     imageClass: "work-image-two",
@@ -77,9 +79,12 @@ const artworkCards = [
   </section>
 
   <section class="ruled-section" id="artwork">
-    <div class="section-heading">
-      <p class="eyebrow">Artwork</p>
-      <h2>Paintings, sculpture, and material investigations.</h2>
+    <div class="section-heading section-heading-glyph">
+      <div>
+        <RwsGlyph name="artwork" size={64} />
+        <p class="eyebrow">Artwork</p>
+        <h2>Paintings, sculpture, and material investigations.</h2>
+      </div>
     </div>
 
     <div class="work-grid">
@@ -146,9 +151,12 @@ const artworkCards = [
   </section>
 
   <section class="section-grid ruled-section color-band color-band-blue" id="journal-preview">
-    <div>
-      <p class="eyebrow">Journal</p>
-      <h2>Notes from the studio floor.</h2>
+    <div class="section-heading-glyph">
+      <div>
+        <RwsGlyph name="journal" size={64} />
+        <p class="eyebrow">Journal</p>
+        <h2>Notes from the studio floor.</h2>
+      </div>
     </div>
     <div class="journal-preview">
       <article>
