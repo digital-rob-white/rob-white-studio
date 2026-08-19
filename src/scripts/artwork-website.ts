@@ -292,16 +292,14 @@ function wireActions(): void {
     });
   });
   document.querySelector<HTMLButtonElement>("[data-preview-page]")?.addEventListener("click", async () => {
-    const previewWindow = window.open("", "_blank");
     try {
       const selectedStatus = form?.elements.namedItem("publication_status");
       const status = selectedStatus instanceof HTMLSelectElement && selectedStatus.value !== "published"
         ? selectedStatus.value : "ready_for_review";
       await save(status);
       const slug = publication?.slug || "preview";
-      if (previewWindow) previewWindow.location.href = `${artworkPublicUrl(slug)}?preview=${encodeURIComponent(artwork.id)}`;
+      window.location.assign(`${artworkPublicUrl(slug)}?preview=${encodeURIComponent(artwork.id)}`);
     } catch (error) {
-      previewWindow?.close();
       showStudioError(error);
     }
   });
