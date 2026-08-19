@@ -22,11 +22,15 @@ export async function requireStudioUser(): Promise<{ client: SupabaseClient; use
     window.location.replace(`/studio/login?returnTo=${encodeURIComponent(returnTo)}`);
     throw new Error("Authentication required");
   }
-  await supabase.from("users").upsert({
-    id: data.user.id,
-    email: data.user.email || `${data.user.id}@studio.local`,
-    display_name: data.user.user_metadata?.display_name || null
-  }, { onConflict: "id", ignoreDuplicates: true });
+  const { data: studioMember, error: membershipError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("id", data.user.id)
+    .maybeSingle();
+  if (membershipError || !studioMember) {
+    await supabase.auth.signOut();
+    throw new Error("This account is not authorized for the private Studio.");
+  }
   return { client: supabase, user: data.user };
 }
 
