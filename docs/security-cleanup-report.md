@@ -17,14 +17,15 @@ Supabase migration: `20260819173427 security_cleanup_v01`
 
 ## Still open
 
-- Supabase leaked-password protection is disabled. The available dashboard session was signed out, so this project-level setting could not be enabled. It requires a compatible paid plan.
-- Supabase password strength, redirect URL allowlist, and public-signup state still need a signed-in dashboard review.
+- Supabase Auth still allows public user signup even though the Studio has no public signup flow.
+- Supabase Auth still uses its default password requirements; raising them may require the existing Studio user to reset a password that no longer complies.
+- Supabase Auth's Site URL is `http://localhost:3000` and the redirect allowlist is empty. Production and Netlify preview URLs need to be configured before using email links or OAuth redirects.
 - GitHub branch protection, Actions default permissions, repository collaborators, environment secrets, and deployment-secret placement need a signed-in repository-settings review. The connected repository API did not expose those settings.
 - A credentialed browser smoke test of Studio login and all private modules remains outstanding. Database rollback tests covered Artwork, costs, labor, Journal, file records, Studio Feed triggers, and unauthorized-user isolation.
 
 ## Recommended
 
-- Enable leaked-password protection, require at least 12-character passwords, disable public sign-up, and keep production redirect URLs explicit.
+- Require at least 12-character passwords, disable public sign-up, and configure explicit production and Netlify preview redirect URLs.
 - Protect `main`: require pull requests, require the CI job, block force pushes/deletions, and restrict direct pushes.
 - Review and remove merged feature branches after confirming no deployment depends on them.
 - Add the foreign-key indexes reported by Supabase Performance Advisor after measuring current query patterns. Do not remove “unused” indexes yet; the database is new and has little usage history.
@@ -38,7 +39,8 @@ Supabase migration: `20260819173427 security_cleanup_v01`
 
 ## Verification
 
-- Supabase Security Advisor rerun: only leaked-password protection remains.
+- Supabase leaked-password protection enabled after the project moved to a paid plan.
+- Supabase Security Advisor rerun: no findings.
 - Supabase Performance Advisor rerun: informational unindexed-foreign-key and unused-index findings remain.
 - RLS/grant audit: no public tables without RLS, no broad `authenticated ... using (true)` policies, and no anonymous access to sampled private columns/tables.
 - Auth simulation: the enrolled Studio user is authorized; a non-member can read zero users, contacts, or private Journal rows.
