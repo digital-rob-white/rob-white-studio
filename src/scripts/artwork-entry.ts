@@ -760,6 +760,8 @@ function renderOverview(): void {
   document.querySelectorAll<HTMLAnchorElement>("[data-artwork-edit], [data-artwork-edit-images]").forEach((link) => {
     link.href = `/studio/artwork/edit?id=${encodeURIComponent(artwork.id)}`;
   });
+  const websiteLink = document.querySelector<HTMLAnchorElement>("[data-artwork-website]");
+  if (websiteLink) websiteLink.href = `/studio/artwork/website?id=${encodeURIComponent(artwork.id)}`;
   const journalLink = document.querySelector<HTMLAnchorElement>("[data-new-related-journal]");
   if (journalLink) journalLink.href = `/studio/journal/new?artworkId=${encodeURIComponent(artwork.id)}`;
   renderFinancialSnapshot();
