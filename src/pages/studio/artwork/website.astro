@@ -1,0 +1,105 @@
+---
+import StudioLayout from "../../../layouts/StudioLayout.astro";
+import { COMMERCE_ACTIONS, PUBLIC_AVAILABILITY, PUBLICATION_STATUSES } from "../../../lib/public-artwork";
+---
+
+<StudioLayout title="Artwork Website | Rob White Studio" activePage="artwork">
+  <a class="studio-back-link" data-artwork-back href="/studio/artwork">← Back to Artwork</a>
+  <p class="studio-alert" data-studio-error hidden></p>
+  <p class="studio-success" data-publishing-success hidden aria-live="polite"></p>
+  <p class="studio-loading" data-publishing-loading>Opening website settings…</p>
+
+  <form class="studio-form artwork-publishing-form" data-artwork-publishing hidden>
+    <header class="studio-page-heading artwork-publishing-heading">
+      <div>
+        <p class="eyebrow">Website publishing</p>
+        <h1 data-publishing-title>Artwork</h1>
+        <p class="studio-lede">Prepare, preview, and publish only the information intended for the public site.</p>
+      </div>
+      <div class="artwork-detail-actions">
+        <button class="studio-button studio-button-quiet" type="button" data-preview-page>Preview Public Page</button>
+        <a class="studio-button studio-button-quiet" data-live-page href="#" target="_blank" rel="noopener" hidden>Open Live Page</a>
+      </div>
+    </header>
+
+    <section class="publishing-safety-note">
+      <strong>Public boundary</strong>
+      <p>Only the fields and selected images on this screen reach the website. Costs, labor, private notes, collectors, contacts, and internal pricing never enter the public query.</p>
+    </section>
+
+    <fieldset class="studio-fieldset">
+      <legend>Publishing</legend>
+      <div class="studio-form-row studio-form-row-4">
+        <label class="studio-check-field"><input name="publish_to_website" type="checkbox" /> <span>Publish to Website</span></label>
+        <div class="studio-field"><label for="publication_status">Publication status</label><select id="publication_status" name="publication_status">{PUBLICATION_STATUSES.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+        <div class="studio-field"><label for="publication_date">Publication date</label><input id="publication_date" name="publication_date" type="date" /></div>
+        <div class="studio-field"><label for="display_order">Display priority</label><input id="display_order" name="display_order" type="number" min="0" step="1" value="0" /></div>
+      </div>
+      <div class="studio-form-row">
+        <label class="studio-check-field"><input name="featured" type="checkbox" /> <span>Featured artwork</span></label>
+        <div class="studio-field"><label for="slug">Stable URL slug *</label><div class="slug-control"><input id="slug" name="slug" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="sisyphus-one" /><button type="button" data-generate-slug>Generate</button></div><small>The slug stays independent from future title changes.</small></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="studio-fieldset">
+      <legend>Public identity</legend>
+      <div class="studio-form-row studio-form-row-3">
+        <div class="studio-field"><label for="public_title">Public title *</label><input id="public_title" name="public_title" maxlength="180" /></div>
+        <div class="studio-field"><label for="public_year">Year</label><input id="public_year" name="public_year" type="number" min="1000" max="9999" /></div>
+        <div class="studio-field"><label for="collection_name">Series / collection</label><input id="collection_name" name="collection_name" /></div>
+      </div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="public_medium">Medium / materials</label><input id="public_medium" name="public_medium" /></div>
+        <div class="studio-field"><label for="public_dimensions">Dimensions</label><input id="public_dimensions" name="public_dimensions" /></div>
+      </div>
+      <div class="studio-field"><label for="frame_presentation">Framed / unframed presentation</label><input id="frame_presentation" name="frame_presentation" /></div>
+    </fieldset>
+
+    <fieldset class="studio-fieldset">
+      <legend>Public story</legend>
+      <div class="studio-field"><label for="short_introduction">Short introduction</label><textarea id="short_introduction" name="short_introduction" rows="3"></textarea></div>
+      <div class="studio-field"><label for="artwork_story">Artwork story</label><textarea id="artwork_story" name="artwork_story" rows="8"></textarea></div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="process_notes">Process notes</label><textarea id="process_notes" name="process_notes" rows="5"></textarea></div>
+        <div class="studio-field"><label for="materials_story">Materials / craft story</label><textarea id="materials_story" name="materials_story" rows="5"></textarea></div>
+      </div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="pull_quote">Optional pull quote</label><textarea id="pull_quote" name="pull_quote" rows="3"></textarea></div>
+        <div class="studio-field"><label for="related_context">Related context / Journal material</label><textarea id="related_context" name="related_context" rows="3"></textarea></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="studio-fieldset">
+      <legend>Public imagery</legend>
+      <p class="studio-field-help">Choose exactly which Studio images may appear publicly, set their role and order, and add public captions. Private originals remain private; publishing creates controlled public copies.</p>
+      <div class="publishing-media-list" data-publishing-media></div>
+      <p class="studio-empty artwork-inline-empty" data-publishing-media-empty hidden>Add images to the Artwork record before publishing.</p>
+    </fieldset>
+
+    <fieldset class="studio-fieldset">
+      <legend>Commerce</legend>
+      <div class="studio-form-row studio-form-row-3">
+        <div class="studio-field"><label for="availability">Availability</label><select id="availability" name="availability">{PUBLIC_AVAILABILITY.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+        <div class="studio-field"><label for="retail_price">Retail price</label><input id="retail_price" name="retail_price" inputmode="decimal" placeholder="$0.00" /></div>
+        <div class="studio-field"><label for="commerce_action">Website action</label><select id="commerce_action" name="commerce_action">{COMMERCE_ACTIONS.map(([value, label]) => <option value={value}>{label}</option>)}</select></div>
+      </div>
+      <div class="studio-form-row">
+        <div class="studio-field"><label for="purchase_status">Purchase status / note</label><input id="purchase_status" name="purchase_status" placeholder="Available directly from the studio" /></div>
+        <div class="studio-field"><label for="shipping_status">Shipping status</label><input id="shipping_status" name="shipping_status" placeholder="Shipping quoted separately" /></div>
+      </div>
+      <label class="studio-check-field"><input name="local_pickup_available" type="checkbox" /> <span>Local pickup available</span></label>
+    </fieldset>
+
+    <div class="publishing-actions">
+      <button class="studio-button studio-button-quiet" type="button" data-save-status="draft">Save Draft</button>
+      <button class="studio-button studio-button-quiet" type="button" data-save-status="ready_for_review">Ready for Review</button>
+      <button class="studio-button" type="button" data-save-status="published">Publish</button>
+      <button class="studio-button studio-button-danger" type="button" data-save-status="hidden">Hide from Website</button>
+      <button class="studio-button studio-button-quiet" type="button" data-save-status="sold_archive">Sold / Archive</button>
+    </div>
+  </form>
+
+  <script>
+    import "../../../scripts/artwork-website";
+  </script>
+</StudioLayout>

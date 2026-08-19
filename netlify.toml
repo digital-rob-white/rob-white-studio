@@ -4,3 +4,8 @@
 
 [build.environment]
   ASTRO_TELEMETRY_DISABLED = "1"
+
+[[redirects]]
+  from = "/artwork/*"
+  to = "/artwork/index.html"
+  status = 200

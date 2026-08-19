@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Artwork | Rob White Studio"
+  description="An original artwork by Rob White Studio."
+  activePage="artwork"
+  footerLabel="Original Artwork / Rob White Studio"
+>
+  <article class="public-artwork-page" data-public-artwork hidden>
+    <header class="public-artwork-header">
+      <div>
+        <p class="eyebrow" data-public-collection>Original artwork</p>
+        <h1 data-public-title></h1>
+        <p class="public-artwork-intro" data-public-introduction hidden></p>
+      </div>
+      <dl class="public-artwork-facts" data-public-facts></dl>
+    </header>
+
+    <section class="public-artwork-gallery" aria-label="Artwork photographs" data-public-gallery></section>
+
+    <div class="public-artwork-narrative">
+      <section data-public-story-section hidden>
+        <p class="eyebrow">The work</p>
+        <div class="public-artwork-prose" data-public-story></div>
+      </section>
+      <blockquote data-public-quote hidden></blockquote>
+      <section data-public-process-section hidden>
+        <p class="eyebrow">Process</p>
+        <div class="public-artwork-prose" data-public-process></div>
+      </section>
+      <section data-public-materials-section hidden>
+        <p class="eyebrow">Materials & craft</p>
+        <div class="public-artwork-prose" data-public-materials></div>
+      </section>
+      <section data-public-context-section hidden>
+        <p class="eyebrow">Context</p>
+        <div class="public-artwork-prose" data-public-context></div>
+      </section>
+    </div>
+
+    <section class="public-artwork-commerce" data-public-commerce>
+      <div>
+        <p class="eyebrow">Availability</p>
+        <h2 data-public-availability></h2>
+        <p data-public-commerce-notes></p>
+      </div>
+      <div class="public-artwork-price" data-public-price hidden></div>
+      <a class="button-link" data-public-action href="mailto:rob@robwhitestudio.com" hidden></a>
+    </section>
+  </article>
+
+  <section class="public-artwork-state" data-public-loading>
+    <p class="eyebrow">Rob White Studio</p>
+    <h1>Opening artwork…</h1>
+  </section>
+  <section class="public-artwork-state" data-public-not-found hidden>
+    <p class="eyebrow">Artwork</p>
+    <h1>This work is not currently on view.</h1>
+    <a class="button-link" href="/#artwork">Return to artwork</a>
+  </section>
+  <p class="preview-ribbon" data-preview-ribbon hidden>Private preview — this page is not published</p>
+
+  <script>
+    import "../../scripts/public-artwork";
+  </script>
+</BaseLayout>
