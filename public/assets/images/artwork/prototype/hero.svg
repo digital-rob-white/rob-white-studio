@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Hero artwork photograph placeholder</title>
+  <desc id="desc">A neutral composition guide showing where the full artwork photograph will appear.</desc>
+  <rect width="1600" height="1200" fill="#E5DAC2"/>
+  <rect x="420" y="110" width="760" height="930" fill="#F2EDE3" stroke="#211F1C" stroke-width="10"/>
+  <path d="M425 585 760 115h415v310L885 760 610 1040H425Z" fill="#1D5875"/>
+  <path d="M425 790 745 555l440 170v315H425Z" fill="#5C6B3C"/>
+  <path d="m870 115 305 185v370L1015 525Z" fill="#C4402F"/>
+  <path d="m425 935 430-315 330 185v235H425Z" fill="#D79A24" opacity=".92"/>
+  <rect x="420" y="110" width="760" height="930" fill="none" stroke="#211F1C" stroke-width="10"/>
+  <rect x="24" y="1128" width="1552" height="48" fill="#211F1C"/>
+  <text x="800" y="1162" fill="#F2EDE3" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="3">PLACEHOLDER — REPLACE WITH FULL ARTWORK PHOTOGRAPH</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" role="img" aria-labelledby="title desc">
+  <title id="title">Artwork edge and depth placeholder</title>
+  <desc id="desc">A side-view composition guide indicating the location of an artwork edge or framing photograph.</desc>
+  <rect width="1200" height="1500" fill="#F2EDE3"/>
+  <path d="M230 170h430l210 165v975H440L230 1145Z" fill="#E5DAC2" stroke="#211F1C" stroke-width="10"/>
+  <path d="m660 170 210 165v975l-210-165Z" fill="#164A63" stroke="#211F1C" stroke-width="10"/>
+  <path d="M230 170h430v975H230Z" fill="#D79A24" stroke="#211F1C" stroke-width="10"/>
+  <path d="M230 645h430v500H230Z" fill="#5C6B3C"/>
+  <path d="m660 645 210 165v500l-210-165Z" fill="#C4402F"/>
+  <rect x="24" y="1428" width="1152" height="48" fill="#211F1C"/>
+  <text x="600" y="1462" fill="#F2EDE3" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" letter-spacing="2">PLACEHOLDER — EDGE / DEPTH / FRAME</text>
+</svg>

@@ -414,6 +414,12 @@ img {
   max-width: 100%;
 }
 
+.rws-glyph {
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 a {
   color: inherit;
 }
@@ -606,6 +612,18 @@ h3 {
   margin-bottom: clamp(28px, 5vw, 60px);
 }
 
+.section-heading-glyph {
+  display: block;
+}
+
+.section-heading-glyph .rws-glyph {
+  margin: 0 0 8px;
+}
+
+.section-heading-glyph > div {
+  min-width: 0;
+}
+
 .body-copy {
   max-width: 760px;
   color: var(--muted);
@@ -628,6 +646,21 @@ h3 {
 .work-card p:last-child {
   margin-bottom: 0;
   color: var(--muted);
+}
+
+.work-card-link {
+  display: inline-block;
+  margin-top: 18px;
+  border-bottom: 2px solid var(--color-cta);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.work-card-link:hover,
+.work-card-link:focus {
+  color: var(--color-cta);
 }
 
 .work-image {
@@ -722,6 +755,9 @@ code {
   position: absolute;
   inline-size: 1px;
   block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   opacity: 0;
   pointer-events: none;
 }
@@ -1126,8 +1162,25 @@ code {
     font-size: clamp(3.1rem, 18vw, 5.5rem);
   }
 
+  .hero h1 {
+    font-size: clamp(2.7rem, 12vw, 3.5rem);
+    overflow-wrap: anywhere;
+  }
+
   h2 {
     font-size: clamp(2rem, 12vw, 3.5rem);
+    overflow-wrap: anywhere;
+  }
+
+  .section-heading-glyph {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .section-heading-glyph .rws-glyph {
+    width: 48px;
+    height: 48px;
   }
 
   .panel-line {
@@ -2978,5 +3031,441 @@ a.studio-feed-card:focus {
 
   .publishing-actions .studio-button {
     width: 100%;
+  }
+}
+
+/* Public artwork experience ---------------------------------------------- */
+
+.artwork-experience {
+  --artwork-gutter: clamp(20px, 4vw, 64px);
+  background: #f2ede3;
+}
+
+.artwork-encounter {
+  position: relative;
+  display: grid;
+  min-height: calc(100svh - 118px);
+  padding: clamp(28px, 5vw, 72px) var(--artwork-gutter);
+  border-bottom: 1px solid rgba(33, 31, 28, 0.25);
+}
+
+.artwork-encounter-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-encounter-label p {
+  margin: 0;
+}
+
+.artwork-hero-figure {
+  display: grid;
+  place-items: center;
+  width: min(100%, 1080px);
+  margin: 0 auto;
+}
+
+.artwork-hero-figure img {
+  width: 100%;
+  height: auto;
+  max-height: min(68svh, 920px);
+  object-fit: contain;
+}
+
+.artwork-title-block {
+  display: block;
+  margin-top: clamp(26px, 4vw, 52px);
+}
+
+.artwork-title-block > div {
+  min-width: 0;
+}
+
+.artwork-title-copy > .rws-glyph {
+  margin: 0 0 8px;
+}
+
+.artwork-title-block h1 {
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 9rem);
+  line-height: 0.9;
+  overflow-wrap: anywhere;
+}
+
+.artwork-year {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+}
+
+.artwork-facts,
+.artwork-story,
+.artwork-process,
+.artwork-practical {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  gap: clamp(36px, 7vw, 120px);
+  padding: clamp(56px, 9vw, 140px) var(--artwork-gutter);
+  border-bottom: 1px solid rgba(33, 31, 28, 0.25);
+}
+
+.artwork-facts h2,
+.artwork-section-intro h2,
+.artwork-story h2,
+.artwork-process h2,
+.artwork-practical h2,
+.artwork-continue h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 5vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
+}
+
+.artwork-facts-panel dl {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.artwork-facts-panel dl div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.35fr) 1fr;
+  gap: 24px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--soft-line);
+}
+
+.artwork-facts-panel dt {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-facts-panel dd {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.artwork-acquire-panel {
+  margin-top: 36px;
+  border-left: 8px solid #c4402f;
+  background: #fffdf8;
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.artwork-availability {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 900;
+}
+
+.artwork-acquire-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  border: 2px solid var(--line);
+  background: #211f1c;
+  padding: 12px 18px;
+  color: #f2ede3;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.artwork-acquire-button:hover,
+.artwork-acquire-button:focus {
+  background: #c4402f;
+}
+
+.artwork-prototype-note {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.artwork-object-view {
+  padding: clamp(56px, 9vw, 140px) var(--artwork-gutter);
+  border-bottom: 1px solid rgba(33, 31, 28, 0.25);
+}
+
+.artwork-section-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: clamp(30px, 6vw, 90px);
+  margin-bottom: clamp(50px, 8vw, 120px);
+}
+
+.artwork-section-intro .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: -10px;
+}
+
+.artwork-section-intro p:last-child {
+  align-self: end;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.artwork-detail-figure {
+  margin: 0;
+}
+
+.artwork-detail-figure img {
+  width: 100%;
+  background: #e5dac2;
+}
+
+.artwork-detail-figure figcaption {
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-figure-wide {
+  width: calc(100% + (var(--artwork-gutter) * 2));
+  margin-left: calc(var(--artwork-gutter) * -1);
+}
+
+.artwork-figure-wide figcaption {
+  padding-left: var(--artwork-gutter);
+}
+
+.artwork-figure-pair {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+  align-items: end;
+  gap: clamp(24px, 5vw, 80px);
+  margin-top: clamp(70px, 11vw, 170px);
+}
+
+.artwork-figure-tall {
+  max-width: 520px;
+}
+
+.artwork-story {
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
+  background: #fffdf8;
+}
+
+.artwork-story > div:first-child .rws-glyph {
+  margin: 0 0 8px;
+}
+
+.artwork-story-copy {
+  align-self: end;
+  color: #514b45;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.12rem, 1.8vw, 1.5rem);
+  line-height: 1.55;
+}
+
+.artwork-pause {
+  display: grid;
+  place-items: center;
+  min-height: min(78svh, 900px);
+  padding: 80px var(--artwork-gutter);
+  background-color: #164a63;
+  background-image: url("/assets/rws-glyphs/patterns/rws-pattern-arc.svg");
+  background-size: min(52vw, 680px);
+  color: #f2ede3;
+  text-align: center;
+}
+
+.artwork-pause p {
+  max-width: 780px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 6vw, 7rem);
+  line-height: 1;
+}
+
+.artwork-process {
+  align-items: center;
+  background: #e5dac2;
+}
+
+.artwork-process-copy > .rws-glyph {
+  margin-bottom: 8px;
+}
+
+.artwork-process-copy > p:last-child {
+  max-width: 620px;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+}
+
+.artwork-practical-list {
+  border-top: 1px solid var(--line);
+}
+
+.artwork-practical-list details {
+  border-bottom: 1px solid var(--line);
+}
+
+.artwork-practical-list summary {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 68px;
+  cursor: pointer;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.artwork-practical-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.artwork-practical-list details[open] summary span:last-child {
+  transform: rotate(45deg);
+}
+
+.artwork-practical-list details p {
+  max-width: 680px;
+  margin: 0;
+  padding: 0 38px 26px;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.artwork-continue {
+  padding: clamp(56px, 9vw, 140px) var(--artwork-gutter);
+}
+
+.artwork-continue-heading {
+  margin-bottom: clamp(42px, 7vw, 90px);
+}
+
+.artwork-continue-heading .rws-glyph {
+  margin: 0 0 8px;
+}
+
+.artwork-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 4vw, 60px);
+}
+
+.artwork-related-placeholder {
+  aspect-ratio: 4 / 3;
+  margin-bottom: 18px;
+  border: 2px solid var(--line);
+  background-color: #e5dac2;
+  background-size: cover;
+}
+
+.artwork-related-one {
+  background-image: url("/assets/rws-glyphs/patterns/rws-pattern-facets.svg");
+}
+
+.artwork-related-two {
+  background-image: url("/assets/rws-glyphs/patterns/rws-pattern-stripes.svg");
+}
+
+.artwork-related-grid h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 3vw, 3.2rem);
+  font-weight: 400;
+  text-transform: none;
+}
+
+@media (max-width: 980px) {
+  .artwork-facts,
+  .artwork-story,
+  .artwork-process,
+  .artwork-practical,
+  .artwork-section-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-story {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-story-copy {
+    grid-column: auto;
+  }
+
+  .artwork-figure-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-figure-tall {
+    width: min(74%, 520px);
+  }
+}
+
+@media (max-width: 620px) {
+  .artwork-encounter {
+    min-height: auto;
+  }
+
+  .artwork-encounter-label {
+    display: grid;
+    gap: 4px;
+  }
+
+  .artwork-title-block {
+    display: block;
+  }
+
+  .artwork-title-block h1 {
+    font-size: clamp(2.7rem, 12vw, 3.5rem);
+    overflow-wrap: normal;
+  }
+
+  .artwork-title-copy > .rws-glyph {
+    width: 48px;
+    height: 48px;
+  }
+
+  .artwork-facts-panel dl div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .artwork-story {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-story-copy {
+    grid-column: auto;
+  }
+
+  .artwork-figure-tall {
+    width: 84%;
+  }
+
+  .artwork-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-continue-heading {
+    display: block;
+  }
+
+  .artwork-pause {
+    min-height: 58svh;
+    background-size: 105vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Studio process photograph placeholder</title>
+  <desc id="desc">A top-down studio-table composition guide showing where a process photograph will appear.</desc>
+  <rect width="1600" height="1000" fill="#5C6B3C"/>
+  <path d="M0 130h1600M0 500h1600M0 850h1600" stroke="#211F1C" stroke-width="8" opacity=".25"/>
+  <rect x="140" y="120" width="720" height="600" fill="#F2EDE3" stroke="#211F1C" stroke-width="10" transform="rotate(-4 500 420)"/>
+  <path d="m210 620 270-390 320 350Z" fill="#1D5875"/>
+  <path d="m380 690 210-360 250 330Z" fill="#C4402F" opacity=".9"/>
+  <rect x="1030" y="120" width="130" height="660" rx="20" fill="#D79A24" stroke="#211F1C" stroke-width="10" transform="rotate(7 1095 450)"/>
+  <circle cx="1290" cy="330" r="140" fill="#E5DAC2" stroke="#211F1C" stroke-width="10"/>
+  <circle cx="1290" cy="330" r="82" fill="#164A63"/>
+  <path d="M980 820h420" stroke="#211F1C" stroke-width="28" stroke-linecap="round"/>
+  <rect x="24" y="928" width="1552" height="48" fill="#211F1C"/>
+  <text x="800" y="962" fill="#F2EDE3" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="3">PLACEHOLDER — REPLACE WITH STUDIO PROCESS PHOTOGRAPH</text>
+</svg>

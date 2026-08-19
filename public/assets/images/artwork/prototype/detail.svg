@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Artwork surface detail placeholder</title>
+  <desc id="desc">A bold cropped composition indicating the location of an extreme surface-detail photograph.</desc>
+  <rect width="1600" height="1000" fill="#1D5875"/>
+  <path d="M-80 870 470-80h430L250 1080Z" fill="#E5DAC2"/>
+  <path d="M520 1080 1160-80h520L970 1080Z" fill="#5C6B3C"/>
+  <path d="m820 1080 620-1160h250L1110 1080Z" fill="#C4402F"/>
+  <g fill="none" stroke="#211F1C" stroke-width="8" opacity=".45">
+    <path d="M0 230h1600M0 510h1600M0 780h1600"/>
+    <path d="M330 0 130 1000M730 0 510 1000M1210 0 990 1000"/>
+  </g>
+  <rect x="24" y="928" width="1552" height="48" fill="#211F1C"/>
+  <text x="800" y="962" fill="#F2EDE3" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="3">PLACEHOLDER — REPLACE WITH SURFACE DETAIL</text>
+</svg>

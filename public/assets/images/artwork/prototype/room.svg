@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Artwork in a room placeholder</title>
+  <desc id="desc">A simple room-scale composition guide showing where an installation photograph will appear.</desc>
+  <rect width="1600" height="1000" fill="#E5DAC2"/>
+  <path d="M0 760h1600v240H0Z" fill="#6A8D9B"/>
+  <path d="M0 760h1600" stroke="#211F1C" stroke-width="8"/>
+  <rect x="560" y="140" width="480" height="540" fill="#211F1C"/>
+  <rect x="580" y="160" width="440" height="500" fill="#F2EDE3"/>
+  <path d="M580 160h440v255L790 660H580Z" fill="#1D5875"/>
+  <path d="m1020 350-280 310h280Z" fill="#C4402F"/>
+  <path d="M580 515 760 355l260 185v120H580Z" fill="#D79A24"/>
+  <path d="M220 790h1160v26H220Z" fill="#211F1C" opacity=".22"/>
+  <rect x="24" y="928" width="1552" height="48" fill="#211F1C"/>
+  <text x="800" y="962" fill="#F2EDE3" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="3">PLACEHOLDER — REPLACE WITH ROOM / SCALE PHOTOGRAPH</text>
+</svg>
