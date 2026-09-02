@@ -15,8 +15,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@supabase/supabase-js": "2.110.8",
-    "astro": "7.2.4",
+    "@supabase/supabase-js": "2.112.4",
+    "astro": "7.2.9",
     "jspdf": "4.2.1"
   },
   "devDependencies": {
